@@ -1,0 +1,12 @@
+{
+  "name"        : "PPT",
+  "description" : "Political Promise Tracker",
+  "url"         : "https://github.com/g0v/ppt",
+  "email"       : "navyblueshellingford@gmail.com",
+  "repository"  : {
+    "type"      : "git",
+    "url"       : "git@github.com:g0v/ppt.git"
+  },
+  "dependencies": {
+  }
+}
