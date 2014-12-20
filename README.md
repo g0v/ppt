@@ -23,4 +23,4 @@ Then the server will be running on `http://localhost:5000`, and the API explorer
 
 If the Heroku toolbelt is not installed (so that `forman` command doesn't exist), the server can be started using `slc run` as well.
 
-For more information of Loopback please refer to [Loopback documentation](http://docs.strongloop.com/display/public/LB/LoopBack).
+For more information of Loopback please refer to [Loopback documentation](http://docs.strongloop.com/display/public/LB/LoopBack). However, Loopback is currently under heavy development. Expect inconsistencies between the doc and the actual code!
