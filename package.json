@@ -3,7 +3,18 @@
   "version": "0.0.0",
   "main": "server/server.js",
   "scripts": {
-    "pretest": "jshint ."
+    "pretest": "jshint .",
+    "webpack": "webpack --config client/config/webpack.js --json > tmp/stats.json",
+
+    "jade": "jade $npm_package_config_jade_in --out $npm_package_config_jade_out",
+    "jade:watch": "jade --obj '{\"hash\":\"index\"}' -w --pretty $npm_package_config_jade_in --out $npm_package_config_jade_out",
+
+    "watch": "npm run jade:watch",
+    "build": "npm run webpack && npm run jade --obj tmp/stats.json"
+  },
+  "config": {
+    "jade_in": "client/jade/*.jade",
+    "jade_out": "client/build"
   },
   "dependencies": {
     "compression": "^1.0.3",
@@ -17,7 +28,17 @@
     "loopback-explorer": "^1.1.0"
   },
   "devDependencies": {
-    "jshint": "^2.5.6"
+    "css-loader": "^0.9.0",
+    "extract-text-webpack-plugin": "^0.3.5",
+    "file-loader": "^0.8.1",
+    "jade": "^1.8.2",
+    "jshint": "^2.5.6",
+    "nib": "^1.0.4",
+    "parallelshell": "^1.0.0",
+    "stylus": "^0.49.3",
+    "stylus-loader": "^0.5.0",
+    "webpack": "^1.4.13",
+    "webpack-dev-middleware": "^1.0.11"
   },
   "engines": {
     "node": "0.10.x"

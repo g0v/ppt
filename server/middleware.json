@@ -13,7 +13,10 @@
   },
   "routes": {
     "loopback#status": {
-      "paths": "/"
+      "paths": "/status"
+    },
+    "loopback#static": {
+      "params": "$!../client/build"
     }
   },
   "files": {
