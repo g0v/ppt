@@ -11,13 +11,15 @@
   },
   "scripts": {
     "pretest": "jshint .",
+
+    "clean": "rm client/build/*",
     "webpack": "webpack --config client/config/webpack.js --json > tmp/stats.json",
 
     "jade": "jade $npm_package_config_jade_in --out $npm_package_config_jade_out",
     "jade:watch": "jade --obj '{\"hash\":\"index\"}' -w --pretty $npm_package_config_jade_in --out $npm_package_config_jade_out",
 
     "watch": "npm run jade:watch",
-    "build": "npm run webpack && npm run jade --obj tmp/stats.json"
+    "build": "npm run clean && NODE_ENV=production npm run webpack && jade --obj 'tmp/stats.json' $npm_package_config_jade_in --out $npm_package_config_jade_out"
   },
   "config": {
     "jade_in": "client/jade/*.jade",

@@ -10,7 +10,8 @@ var webpackCfg = {
     'index': './client/js/index.js',
   },
   output: {
-    path: (isProduction ? '../client/' : __dirname + '/../') + 'build',
+    // __dirname is the path of webpack.js
+    path: __dirname + '/../build',
     filename: ( isProduction ? '[hash].js' : 'index.js')
   },
   module: {
