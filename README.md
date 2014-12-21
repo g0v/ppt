@@ -45,6 +45,22 @@ For more information of Loopback please refer to [Loopback documentation](http:/
 
 ### Deploy
 
+Deploying to a production server like heroku involves:
+
+1. Build JS, CSS and HTML files with hash names (`npm run build`)
+2. Commit the compiled files into repository.
+3. Push to Heroku.
+
+These steps are wired inside `package.json` in commands starting with `deploy`.
+To deploy to Heroku, just run:
+
 ```
-$ npm build
+$ npm run deploy
+```
+
+If you would like to inspect the compiled website without pushing to Heroku, you may:
+
+```
+$ npm run build # Generates hashed assets inside client/build
+$ NODE_ENV=production forman start  # Start server in production mode
 ```

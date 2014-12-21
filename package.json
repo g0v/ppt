@@ -19,7 +19,13 @@
     "jade:watch": "jade --obj '{\"hash\":\"index\"}' -w --pretty $npm_package_config_jade_in --out $npm_package_config_jade_out",
 
     "watch": "npm run jade:watch",
-    "build": "npm run clean && NODE_ENV=production npm run webpack && jade --obj 'tmp/stats.json' $npm_package_config_jade_in --out $npm_package_config_jade_out"
+
+    "build": "npm run clean && NODE_ENV=production npm run webpack && jade --obj 'tmp/stats.json' $npm_package_config_jade_in --out $npm_package_config_jade_out",
+    "deploy:init": "git checkout -b _deploy && echo '!client/build' >> .gitignore",
+    "deploy:commit": "_COMMIT_MSG=$(git log -n 1 --pretty=format:'%h - %s') && git add .gitignore client/build && git commit -m \"$_COMMIT_MSG\"",
+    "deploy:push": "git push heroku _deploy:master",
+    "deploy:cleanup": "git checkout - && git branch -D _deploy",
+    "deploy": "npm run deploy:init && npm run build && npm run deploy:commit && npm run deploy:push && npm run deploy:cleanup"
   },
   "config": {
     "jade_in": "client/jade/*.jade",
