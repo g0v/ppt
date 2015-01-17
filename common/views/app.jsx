@@ -2,8 +2,8 @@ var React = require('react');
 
 var App = React.createClass({
   render: function(){
-    var cssName = '/static/' + this.props.hash + '.css',
-        jsName = '/static/' + this.props.hash + '.js';
+    var cssName = '/build/' + this.props.hash + '.css',
+        jsName = '/build/' + this.props.hash + '.js';
 
     return (
       <html lang="zh-TW">
@@ -14,6 +14,7 @@ var App = React.createClass({
           <link href={cssName} rel="stylesheet"/>
         </head>
         <h1>Hello world!</h1>
+        <img src="/static/images/s.png"/>
         <script src={jsName}/>
       </html>
     )
