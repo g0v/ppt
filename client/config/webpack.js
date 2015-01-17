@@ -30,20 +30,6 @@ var webpackCfg = {
   debug: !isProduction
 };
 
-// Extra plugin definitions
-
-// Watch files that is not required with webpack
-// https://github.com/webpack/webpack-dev-server/issues/34
-//
-function WatchExternalFilesPlugin() {}
-WatchExternalFilesPlugin.prototype.apply = function(compiler) {
-  compiler.plugin("after-compile", function(compilation, callback) {
-    compilation.fileDependencies.push("./client/build/index.html");
-    callback();
-  });
-};
-
-
 // Other env-based configs
 //
 if( isProduction ){
@@ -51,7 +37,6 @@ if( isProduction ){
     sourceMap: false
   }));
 }else{
-  webpackCfg.plugins.push(new WatchExternalFilesPlugin());
   webpackCfg.devtool = '#source-map'
 }
 
