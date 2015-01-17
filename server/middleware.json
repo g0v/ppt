@@ -16,7 +16,15 @@
       "paths": "/status"
     },
     "loopback#static": {
+      "paths": "/build",
       "params": "$!../client/build"
+    },
+    "loopback#static": {
+      "paths": "/static",
+      "params": "$!../client/static"
+    },
+    "./middleware/isomorphic-app": {
+      "paths": "/*"
     }
   },
   "files": {

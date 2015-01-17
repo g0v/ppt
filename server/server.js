@@ -9,8 +9,7 @@ if(process.env.NODE_ENV !== 'production') {
   var webpackDevMiddleware = require("webpack-dev-middleware"),
       webpackCfg = require("../client/config/webpack"),
       webpack = require("webpack");
-  webpackCfg.output.path = '/';
-  app.use(webpackDevMiddleware(webpack(webpackCfg), {publicPath: "/"}));
+  app.use(webpackDevMiddleware(webpack(webpackCfg), {publicPath: "/build"}));
 }
 
 // Bootstrap the application, configure models, datasources and middleware.
