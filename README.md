@@ -10,6 +10,18 @@
 作為公民評估此執政者 / 團隊之執行力的工具。
 
 
+Solution Stack
+--------------
+For frontend dependencies please refer to `bower.json`
+As for back-end please refer to `package.json`.
+
+* Front-end
+  - Semantic UI
+  - React JS ([integration example](https://github.com/facebook/react/blob/master/examples/jquery-bootstrap/js/app.js))
+  - Stylus
+  - Webpack
+
+
 Development
 -----------
 
@@ -25,20 +37,28 @@ After cloning the repo,
 
 ```
 $ cd promisetw
+$ npm watch
+```
+
+to watch all other assets, such as jade files inside `client/jade`.
+This command generates `client/build/index.html`, which is the only page that
+is served to the browser.
+
+To start a web server in development mode, open up another terminal
+and do:
+
+```
 $ foreman start
 ```
 
 Then the server will be running on `http://localhost:5000`, and the API explorer is in `http://localhost:5000/explorer`.
 
-If the Heroku toolbelt is not installed (so that `forman` command doesn't exist), the server can be started using `slc run` as well. Files in `cilent/styl` and `client/js` are automatically compiled, and the browser window should be automatically refreshed by webpack.
+If the Heroku toolbelt is not installed (for the command `forman` command), the server can be started using `slc run` as well. Files in `cilent/styl` and `client/js` are automatically compiled, and the browser window should be automatically refreshed by webpack.
 
-Open another shell and type:
 
-```
-$ npm watch
-```
-
-to watch all other assets, such as jade files inside `client/jade`.
+Notice that if the server starts without `client/build/index.html`'s presence,
+the development web server will go crazy because it tends to watch a file that
+does not exist.
 
 For more information of Loopback please refer to [Loopback documentation](http://docs.strongloop.com/display/public/LB/LoopBack). However, Loopback is currently under heavy development. Expect inconsistencies between the doc and the actual code!
 

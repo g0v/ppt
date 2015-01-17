@@ -11,12 +11,12 @@
   },
   "scripts": {
     "pretest": "jshint .",
-    "clean": "rm client/build/*",
+    "clean": "rm -f client/build/*",
     "webpack": "webpack --config client/config/webpack.js --json > tmp/webpack-stats.json",
     "build": "npm run clean && NODE_ENV=production npm run webpack",
     "deploy:init": "git checkout -b _deploy && echo '!client/build' >> .gitignore && echo '!tmp/webpack-stats.json' >> .gitignore",
     "deploy:commit": "_COMMIT_MSG=$(git log -n 1 --pretty=format:'%h - %s') && git add .gitignore client/build tmp/webpack-stats.json && git commit -m \"$_COMMIT_MSG\"",
-    "deploy:push": "git push heroku _deploy:master",
+    "deploy:push": "git push --force heroku _deploy:master",
     "deploy:cleanup": "git checkout - && git branch -D _deploy",
     "deploy": "npm run deploy:init && npm run build && npm run deploy:commit && npm run deploy:push && npm run deploy:cleanup"
   },

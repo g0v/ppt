@@ -3,4 +3,4 @@
 node_modules
 client/build
 *.log
-tmp/
+tmp/*
