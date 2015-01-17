@@ -20,11 +20,11 @@
     "deploy:cleanup": "git checkout - && git branch -D _deploy",
     "deploy": "npm run deploy:init && npm run build && npm run deploy:commit && npm run deploy:push && npm run deploy:cleanup"
   },
-  "config": {
-  },
+  "config": {},
   "dependencies": {
     "compression": "^1.0.3",
     "errorhandler": "^1.1.1",
+    "jsx-loader": "^0.12.2",
     "loopback": "^2.8.0",
     "loopback-boot": "^2.4.0",
     "loopback-datasource-juggler": "^2.7.0",

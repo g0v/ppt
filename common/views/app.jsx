@@ -10,6 +10,7 @@ var App = React.createClass({
         <head>
           <meta charSet="UTF-8"/>
           <meta name="viewport" content="width=device-width, initial-scale=1"/>
+          <meta name="webpack-hash" content={this.props.hash}/>
           <title>PPT</title>
           <link href={cssName} rel="stylesheet"/>
         </head>
