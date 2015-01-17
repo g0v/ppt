@@ -14,7 +14,7 @@ var App = React.createClass({
           <link href={cssName} rel="stylesheet"/>
         </head>
         <h1>Hello world!</h1>
-        <img src="/static/images/s.png"/>
+        <img src="/images/s.png"/>
         <script src={jsName}/>
       </html>
     )
