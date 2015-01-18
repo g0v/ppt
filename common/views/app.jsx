@@ -32,7 +32,9 @@ var App = React.createClass({
         <body>
           <Sidebar isOpen={this.state.isMenuOpen} />
           <TopBar onMenuButtonClick={this.onMenuButtonClick} />
-          <MainContainer />
+          <div className="pusher">
+            <MainContainer />
+          </div>
           <script src="/vendor/bower_components/jquery/dist/jquery.min.js"/>
           <script src={jsName}/>
         </body>

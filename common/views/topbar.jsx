@@ -3,7 +3,7 @@ var React = require('react');
 var TopBar = React.createClass({
   render: function(){
     return (
-      <div className="ui fixed main menu">
+      <div className="ui top fixed main menu">
         <div className="container">
           <a href="#" className="launch item button" onClick={this.props.onMenuButtonClick}><i className="content icon"></i></a>
           <div className="title item">
