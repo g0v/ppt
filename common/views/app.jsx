@@ -4,6 +4,15 @@ var React = require('react'),
     MainContainer = require('./main-container.jsx');
 
 var App = React.createClass({
+  getInitialState: function(){
+    return {
+      isMenuOpen: false
+    }
+  },
+  onMenuButtonClick: function(){
+    console.log('menuButton!');
+    this.setState({isMenuOpen: !this.state.isMenuOpen});
+  },
   render: function(){
     var assetHost = this.props.assetHost || '/',
         cssName = assetHost + 'build/' + this.props.hash + '.css',
@@ -21,10 +30,9 @@ var App = React.createClass({
           <link href={cssName} rel="stylesheet"/>
         </head>
         <body>
-          <Sidebar />
-          <TopBar />
+          <Sidebar isOpen={this.state.isMenuOpen} />
+          <TopBar onMenuButtonClick={this.onMenuButtonClick} />
           <MainContainer />
-
           <script src="/vendor/bower_components/jquery/dist/jquery.min.js"/>
           <script src={jsName}/>
         </body>

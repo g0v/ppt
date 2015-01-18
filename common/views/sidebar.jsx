@@ -1,6 +1,9 @@
 var React = require('react');
 
 var Sidebar = React.createClass({
+  componentWillReceiveProps: function(nextProps){
+    $(".ui.sidebar").sidebar("toggle");
+  },
   render: function(){
     return (
       <div className="ui large green inverted vertical sidebar menu">
