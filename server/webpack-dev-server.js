@@ -7,8 +7,14 @@ if(process.env.NODE_ENV !== 'production') {
       webpack = require("webpack");
   (new WebpackDevServer(webpack(webpackCfg), {
     publicPath: "/build/",
+    contentBase: __dirname + '/../client/',
     hot: true,
-    watchDelay: 2000 // Wait for nodemon to restart server
+    watchDelay: 2000, // Wait for nodemon to restart server
+    headers: {
+      // http://gaearon.github.io/react-hot-loader/#porting-your-project-to-webpack
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Headers': 'X-Requested-With'
+    }
   })).listen(9527, '0.0.0.0', function(){
     console.log('Webpack-dev-server listening at http://0.0.0.0:9527');
   });

@@ -21,11 +21,12 @@ var webpackCfg = {
         loader: ExtractText.extract("css?sourceMap!stylus")
       },
       {
-        test: /\.css$/,
+        test: /semantic\.css$/,
         loader: ExtractText.extract("raw")
       },
       {
-        test: /\.(?:jpg)|(?:png)|(?:gif)$/, loader: "file-loader"
+        test: /\.(?:jpg)|(?:png)|(?:gif)|(?:eot)|(?:svg)|(?:ttf)|(?:woff)|(?:otf)$/,
+        loader: "file-loader"
       },
       {
         test: /\.jsx$/, loader: "jsx-loader"

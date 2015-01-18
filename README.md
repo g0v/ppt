@@ -74,7 +74,7 @@ $ gulp    # watches source files
 ```
 
 Modification to Semantic UI conforms to Semantic-UI [customization guide](http://learnsemantic.com/developing/customizing.html#setting-global-variables). Relevant files are inside `client/semantic-ui/src/site` directory.
-Make sure `gulp` is running in directory `client/semantic-ui` while modifying `.variables` or `.overrides` files, so that the Semantic-UI bundle updates accordingly.
+Make sure to specifically run `gulp build` in directory `client/semantic-ui` after modifying`.variables` files, since `gulp` watching somehow does not get the variables through.
 
 Deploy
 ------
