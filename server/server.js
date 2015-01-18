@@ -2,16 +2,6 @@ var loopback = require('loopback'),
     boot = require('loopback-boot'),
     app = module.exports = loopback();
 
-// Webpack development middleware.
-// Hot module replacement is NOT enabled. (I think it's not needed)
-//
-if(process.env.NODE_ENV !== 'production') {
-  var webpackDevMiddleware = require("webpack-dev-middleware"),
-      webpackCfg = require("../client/config/webpack"),
-      webpack = require("webpack");
-  app.use(webpackDevMiddleware(webpack(webpackCfg), {publicPath: "/build"}));
-}
-
 // Bootstrap the application, configure models, datasources and middleware.
 // Sub-apps like REST API are mounted via boot scripts./
 //
@@ -31,4 +21,19 @@ app.start = function() {
 // start the server if `$ node server.js`
 if (require.main === module) {
   app.start();
+}
+
+// Webpack development server with hot module replacement enabled
+// Ref: http://webpack.github.io/docs/webpack-dev-server.html#combining-with-an-existing-server
+//
+if(process.env.NODE_ENV !== 'production') {
+  var WebpackDevServer = require("webpack-dev-server"),
+      webpackCfg = require("../client/config/webpack"),
+      webpack = require("webpack");
+  (new WebpackDevServer(webpack(webpackCfg), {
+    publicPath: "/build",
+    hot: true
+  })).listen(9527, '0.0.0.0', function(){
+    console.log('Webpack-dev-server listening at http://0.0.0.0:9527');
+  });
 }

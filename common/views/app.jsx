@@ -2,8 +2,9 @@ var React = require('react');
 
 var App = React.createClass({
   render: function(){
-    var cssName = '/build/' + this.props.hash + '.css',
-        jsName = '/build/' + this.props.hash + '.js';
+    var assetHost = this.props.assetHost || '/',
+        cssName = assetHost + 'build/' + this.props.hash + '.css',
+        jsName = assetHost + 'build/' + this.props.hash + '.js';
 
     return (
       <html lang="zh-TW">
@@ -11,10 +12,11 @@ var App = React.createClass({
           <meta charSet="UTF-8"/>
           <meta name="viewport" content="width=device-width, initial-scale=1"/>
           <meta name="webpack-hash" content={this.props.hash}/>
+          <meta name="webpack-asset-host" content={assetHost}/>
           <title>PPT</title>
           <link href={cssName} rel="stylesheet"/>
         </head>
-        <h1>Hello world!</h1>
+        <h1>Hello world w/ Hot module replacement!</h1>
         <img src="/images/s.png"/>
         <script src={jsName}/>
       </html>

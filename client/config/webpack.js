@@ -41,7 +41,20 @@ if( isProduction ){
     sourceMap: false
   }));
 }else{
-  webpackCfg.devtool = '#source-map'
+  webpackCfg.devtool = '#source-map';
+
+  // Hot module replacement setup
+  // Ref:
+  // http://webpack.github.io/docs/webpack-dev-server.html#combining-with-an-existing-server
+  // http://gaearon.github.io/react-hot-loader/#enabling-hot-module-replacement
+  //
+  webpackCfg.entry.index = [
+    'webpack-dev-server/client?http://127.0.0.1:9527',
+    'webpack/hot/dev-server',
+    webpackCfg.entry.index
+  ];
+  webpackCfg.plugins.push(new webpack.HotModuleReplacementPlugin());
+  webpackCfg.output.publicPath = 'http://127.0.0.1:9527/build/'
 }
 
 module.exports = webpackCfg;
