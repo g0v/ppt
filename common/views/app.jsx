@@ -16,7 +16,7 @@ var App = React.createClass({
           <title>PPT</title>
           <link href={cssName} rel="stylesheet"/>
         </head>
-        <h1>Hello world w/ Hot module replacement!</h1>
+        <h1>Hello world~10</h1>
         <img src="/images/s.png"/>
         <script src={jsName}/>
       </html>

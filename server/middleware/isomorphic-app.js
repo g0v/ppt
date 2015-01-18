@@ -19,6 +19,15 @@ module.exports = function(options) {
       hash: hash,
       assetHost: assetHost
     });
+
+    // Accept hot update json files from assetHost.
+    // Ref: http://gaearon.github.io/react-hot-loader/#porting-your-project-to-webpack
+    //
+    if(!isProduction){
+      res.header('Access-Control-Allow-Origin', assetHost);
+      res.header('Access-Control-Allow-Headers', 'X-Requested-With');
+    }
+
     res.send('<!DOCTYPE html>' + React.renderToString(app));
   };
 }

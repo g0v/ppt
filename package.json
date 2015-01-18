@@ -12,8 +12,14 @@
   "scripts": {
     "pretest": "jshint .",
     "clean": "rm -f client/build/*",
+
+    "//": "Use nodemon to monitor JS changes, and start an webpack-dev asset server in parallel.",
+    "start": "PORT=5000 nodemon -e js,jsx server/server.js & node server/webpack-dev-server.js",
+
     "webpack": "webpack --config client/config/webpack.js --json > tmp/webpack-stats.json",
     "build": "npm run clean && NODE_ENV=production npm run webpack",
+
+    "//": "Depoly steps, which creates a branch named _deploy, builds and commits compiled project, and pushes to Heroku.",
     "deploy:init": "git checkout -b _deploy && echo '!client/build' >> .gitignore && echo '!tmp/webpack-stats.json' >> .gitignore",
     "deploy:commit": "_COMMIT_MSG=$(git log -n 1 --pretty=format:'%h - %s') && git add .gitignore client/build tmp/webpack-stats.json && git commit -m \"$_COMMIT_MSG\"",
     "deploy:push": "git push --force heroku _deploy:master",
