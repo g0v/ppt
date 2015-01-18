@@ -18,6 +18,7 @@ var App = React.createClass({
         </head>
         <h1>Hello world~10</h1>
         <img src="/images/s.png"/>
+        <script src="/vendor/bower_components/jquery/dist/jquery.min.js"/>
         <script src={jsName}/>
       </html>
     )

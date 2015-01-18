@@ -1,10 +1,12 @@
 // Trigger CSS compilation & CSS text extraction.
+require('../semantic-ui/dist/semantic.css');
 require('../styl/index.styl');
 
 var React = require('react'),
     App = require('../../common/views/app.jsx');
 
-console.log('Yooo!');
+var $ = require('jquery');
+console.log('Yooo!', $);
 
 if(typeof window !== 'undefined'){
   // Read hash and asset host from the server and initialize client-side React app

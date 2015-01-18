@@ -21,17 +21,26 @@ var webpackCfg = {
         loader: ExtractText.extract("css?sourceMap!stylus")
       },
       {
-        test: /\.(?:jpg)|(?:png)$/, loader: "file-loader"
+        test: /\.css$/,
+        loader: ExtractText.extract("raw")
+      },
+      {
+        test: /\.(?:jpg)|(?:png)|(?:gif)$/, loader: "file-loader"
       },
       {
         test: /\.jsx$/, loader: "jsx-loader"
       }
-    ],
+    ]
   },
   plugins: [
     new ExtractText( isProduction ? "[hash].css" : "index.css" )
   ],
-  debug: !isProduction
+  debug: !isProduction,
+  externals: {
+    // require("jquery") is external and available
+    //  on the global var jQuery
+    "jquery": "jQuery"
+  }
 };
 
 // Other env-based configs

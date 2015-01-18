@@ -17,7 +17,7 @@ As for back-end please refer to `package.json`.
 
 * Frontend
   - React JS
-  - Semantic UI ([Example on integrating ReactJS with jQuery plugins](https://github.com/facebook/react/blob/master/examples/jquery-bootstrap/js/app.js))
+  - Semantic UI ([Example on integrating ReactJS with jQuery plugins](https://github.com/facebook/react/blob/master/examples/jquery-bootstrap/js/app.js). )
   - Stylus
   - Webpack
 
@@ -56,6 +56,25 @@ After `npm start`, open `http://127.0.0.1:5000` to see the website running.
 * `server/middleware/isomorphic-app.js`: An middleware that loads `common/view/app.jsx` and serve the rendered result. It reacts to all URLs, as specified in `server/middleware.json`.
 * `client/js/index.js`: Front-end javascript starting point, also loads `common/view/app.jsx` and initializes React front-end app.
 * `client/styl/index.styl`: Starting point of all styles of the app.
+
+
+### Styling with Semantic UI
+
+PPT uses custom Semantic UI themes.
+Currently Semantic UI project is located in `client/semantic-ui`.
+Its content is extracted from the zip file from the official semantic-ui website.
+This is probably the best we can do [before Semantic UI come up with a better tool](https://github.com/Semantic-Org/Semantic-UI/issues/1385).
+
+To develop with custom Semantic UI themes, follow the [instructions in Semantic UI documentation](http://learnsemantic.com/guide/expert.html#project-dependencies):
+
+```
+$ cd client/semantic-ui
+$ npm i   # installs semantic-ui deps
+$ gulp    # watches source files
+```
+
+Modification to Semantic UI conforms to Semantic-UI [customization guide](http://learnsemantic.com/developing/customizing.html#setting-global-variables). Relevant files are inside `client/semantic-ui/src/site` directory.
+Make sure `gulp` is running in directory `client/semantic-ui` while modifying `.variables` or `.overrides` files, so that the Semantic-UI bundle updates accordingly.
 
 Deploy
 ------

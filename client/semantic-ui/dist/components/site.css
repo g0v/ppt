@@ -1,0 +1,466 @@
+ /*
+ * # Semantic UI
+ * https://github.com/Semantic-Org/Semantic-UI
+ * http://www.semantic-ui.com/
+ *
+ * Copyright 2014 Contributors
+ * Released under the MIT license
+ * http://opensource.org/licenses/MIT
+ *
+ */
+@import '//fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic';
+/*
+ * # Semantic - Site
+ * http://github.com/semantic-org/semantic-ui/
+ *
+ *
+ * Copyright 2014 Contributor
+ * Released under the MIT license
+ * http://opensource.org/licenses/MIT
+ *
+ */
+
+
+/*******************************
+            Theme
+*******************************/
+
+/*
+
+███████╗███████╗███╗   ███╗ █████╗ ███╗   ██╗████████╗██╗ ██████╗    ██╗   ██╗██╗
+██╔════╝██╔════╝████╗ ████║██╔══██╗████╗  ██║╚══██╔══╝██║██╔════╝    ██║   ██║██║
+███████╗█████╗  ██╔████╔██║███████║██╔██╗ ██║   ██║   ██║██║         ██║   ██║██║
+╚════██║██╔══╝  ██║╚██╔╝██║██╔══██║██║╚██╗██║   ██║   ██║██║         ██║   ██║██║
+███████║███████╗██║ ╚═╝ ██║██║  ██║██║ ╚████║   ██║   ██║╚██████╗    ╚██████╔╝██║
+╚══════╝╚══════╝╚═╝     ╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝   ╚═╝   ╚═╝ ╚═════╝     ╚═════╝ ╚═╝
+
+*/
+
+
+/*******************************
+            Folders
+*******************************/
+
+
+/* Path to theme packages */
+
+/* Path to site override folder */
+
+
+/*******************************
+        Theme Selection
+*******************************/
+
+
+/* To override a theme for an individual element
+   specify theme name below
+
+   Be sure to update the user folder name (see README)
+*/
+/* Global */
+
+/* Elements */
+
+/* Collections */
+
+/* Modules */
+
+/* Views */
+
+
+/*******************************
+         Import Theme
+*******************************/
+
+
+
+/*******************************
+        Import Directives
+*******************************/
+
+
+/*------------------
+    Default Theme
+-------------------*/
+
+
+
+/*******************************
+         Site Settings
+*******************************/
+
+
+/*-------------------
+       Fonts
+--------------------*/
+
+
+/*-------------------
+      Base Sizes
+--------------------*/
+
+
+/*--------------
+  Page Heading
+---------------*/
+
+
+/*-------------------
+      Site Colors
+--------------------*/
+
+
+/*---  Colors  ---*/
+
+
+/*---  Light Colors  ---*/
+
+
+/*---   Neutrals  ---*/
+
+
+/*-------------------
+    Brand Colors
+--------------------*/
+
+
+/*-------------------
+        Sizes
+--------------------*/
+
+
+/*-------------------
+        Page
+--------------------*/
+
+
+/*-------------------
+      Paragraph
+--------------------*/
+
+
+/*-------------------
+       Links
+--------------------*/
+
+
+/*-------------------
+  Highlighted Text
+--------------------*/
+
+
+/*-------------------
+       Loader
+--------------------*/
+
+
+/*-------------------
+        Grid
+--------------------*/
+
+
+/*-------------------
+     Breakpoints
+--------------------*/
+
+
+/*-------------------
+     Alpha Colors
+--------------------*/
+
+
+/*-------------------
+       Accents
+--------------------*/
+
+
+/* 4px @ default em */
+
+/* Differentiating Neutrals */
+
+/* Differentiating Layers */
+
+
+/*******************************
+           Power-User
+*******************************/
+
+
+/*-------------------
+        Paths
+--------------------*/
+
+
+/* For source, automatically modified in gulp for dist */
+
+/*-------------------
+       Em Sizes
+--------------------*/
+
+
+/* Exact pixel values expressed in em */
+
+/*-------------------
+       Icons
+--------------------*/
+
+
+/* Maximum Glyph Width of Icon */
+
+/*-------------------
+       Easing
+--------------------*/
+
+
+/*-------------------
+     All Colors
+--------------------*/
+
+
+/*--- Colored Backgrounds ---*/
+
+
+/*--- Colored Text ---*/
+
+
+/*--- Colored Headers ---*/
+
+
+/*-------------------
+    Emotive Colors
+--------------------*/
+
+
+/* Positive */
+
+/* Negative */
+
+/* Info */
+
+/* Warning */
+
+/*-------------------
+     Neutral Text
+--------------------*/
+
+
+/*-------------------
+     Brand Colors
+--------------------*/
+
+
+/*-------------------
+      Borders
+--------------------*/
+
+
+/*-------------------
+     Transitions
+--------------------*/
+
+
+/*-------------------
+    Derived Values
+--------------------*/
+
+
+/* Header Spacing */
+
+/* Makes sure padded grid can fit at 320px */
+
+/* Used to match floats with text */
+
+/* Positive / Negative Dupes */
+
+/* Responsive */
+
+/* Columns */
+
+
+/*******************************
+           States
+*******************************/
+
+
+/*-------------------
+      Disabled
+--------------------*/
+
+
+/*-------------------
+        Hover
+--------------------*/
+
+
+/*---  Colors  ---*/
+
+
+/*---  Emotive  ---*/
+
+
+/*---  Neutrals  ---*/
+
+
+/*-------------------
+    Down (:active)
+--------------------*/
+
+
+/*---  Colors  ---*/
+
+
+/*---  Emotive  ---*/
+
+
+/*---  Neutrals  ---*/
+
+
+/*-------------------
+        Active
+--------------------*/
+
+
+/*---  Standard  ---*/
+
+
+/*---  Emotive  ---*/
+
+
+/*---  Neutrals  ---*/
+
+
+/*------------------
+   Packaged Theme
+-------------------*/
+
+
+/*------------------
+     Site Theme
+-------------------*/
+
+
+
+/*******************************
+        Import Mix-ins
+*******************************/
+
+
+/*------------------
+       Fonts
+-------------------*/
+
+
+/*------------------
+     Overrides
+-------------------*/
+
+
+
+/*******************************
+             Page
+*******************************/
+
+
+/* UI requires Border-Box */
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+html,
+body {
+  height: 100%;
+}
+html {
+  font-size: 14px;
+}
+body {
+  margin: 0px;
+  padding: 0px;
+  min-width: 278px;
+  background: #f7f7f7;
+  font-family: 'Lato', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  line-height: 1.33;
+  color: rgba(0, 0, 0, 0.8);
+  font-smoothing: antialiased;
+}
+
+
+/*******************************
+             Headers
+*******************************/
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  line-height: 1.33em;
+  margin: -webkit-calc(2rem -  0.165em ) 0em 1rem;
+  margin: calc(2rem -  0.165em ) 0em 1rem;
+  font-weight: bold;
+  padding: 0em;
+}
+h1 {
+  min-height: 1rem;
+  font-size: 2rem;
+}
+h2 {
+  font-size: 1.714rem;
+}
+h3 {
+  font-size: 1.28rem;
+}
+h4 {
+  font-size: 1.071rem;
+}
+h5 {
+  font-size: 1rem;
+}
+
+
+/*******************************
+             Text
+*******************************/
+
+p {
+  margin: 0em 0em 1em;
+  line-height: 1.33;
+}
+p:first-child {
+  margin-top: 0em;
+}
+p:last-child {
+  margin-bottom: 0em;
+}
+
+/*-------------------
+        Links
+--------------------*/
+
+a {
+  color: #009fda;
+  text-decoration: none;
+}
+a:hover {
+  color: #00b2f3;
+}
+
+
+/*******************************
+          Highlighting
+*******************************/
+
+::-webkit-selection {
+  background-color: rgba(255, 255, 160, 0.4);
+  color: rgba(0, 0, 0, 0.8);
+}
+::-moz-selection {
+  background-color: rgba(255, 255, 160, 0.4);
+  color: rgba(0, 0, 0, 0.8);
+}
+::selection {
+  background-color: rgba(255, 255, 160, 0.4);
+  color: rgba(0, 0, 0, 0.8);
+}
