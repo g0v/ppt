@@ -1,6 +1,7 @@
 // Trigger CSS compilation & CSS text extraction.
 require('../semantic-ui/dist/semantic.css');
 require('../styl/index.styl');
+require('../semantic-ui/dist/semantic.js');
 
 var React = require('react'),
     App = require('../../common/views/app.jsx');
