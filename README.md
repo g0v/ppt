@@ -16,8 +16,8 @@ For frontend dependencies please refer to `bower.json`
 As for back-end please refer to `package.json`.
 
 * Frontend
-  - Semantic UI
-  - React JS ([integration example](https://github.com/facebook/react/blob/master/examples/jquery-bootstrap/js/app.js))
+  - React JS
+  - Semantic UI ([Example on integrating ReactJS with jQuery plugins](https://github.com/facebook/react/blob/master/examples/jquery-bootstrap/js/app.js))
   - Stylus
   - Webpack
 
