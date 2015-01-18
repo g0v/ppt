@@ -13,13 +13,15 @@
     "pretest": "jshint .",
     "clean": "rm -f client/build/*",
 
-    "//": "Use nodemon to monitor JS changes, and start an webpack-dev asset server in parallel.",
-    "start": "PORT=5000 nodemon -e js,jsx server/server.js & node server/webpack-dev-server.js",
-
     "webpack": "webpack --config client/config/webpack.js --json > tmp/webpack-stats.json",
+
+    "// build": "Generates production assets.",
     "build": "npm run clean && NODE_ENV=production npm run webpack",
 
-    "//": "Depoly steps, which creates a branch named _deploy, builds and commits compiled project, and pushes to Heroku.",
+    "// start": "Use nodemon to monitor JS changes, and start an webpack-dev asset server in parallel.",
+    "start": "PORT=5000 nodemon -e js,jsx server/server.js & node server/webpack-dev-server.js",
+
+    "// deploy": "Depoly steps, which creates a branch named _deploy, builds and commits compiled project, and pushes to Heroku.",
     "deploy:init": "git checkout -b _deploy && echo '!client/build' >> .gitignore && echo '!tmp/webpack-stats.json' >> .gitignore",
     "deploy:commit": "_COMMIT_MSG=$(git log -n 1 --pretty=format:'%h - %s') && git add .gitignore client/build tmp/webpack-stats.json && git commit -m \"$_COMMIT_MSG\"",
     "deploy:push": "git push --force heroku _deploy:master",
@@ -47,6 +49,7 @@
     "file-loader": "^0.8.1",
     "jshint": "^2.5.6",
     "nib": "^1.0.4",
+    "nodemon": "^1.2.1",
     "parallelshell": "^1.0.0",
     "stylus": "^0.49.3",
     "stylus-loader": "^0.5.0",

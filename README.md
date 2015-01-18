@@ -15,12 +15,14 @@ Solution Stack
 For frontend dependencies please refer to `bower.json`
 As for back-end please refer to `package.json`.
 
-* Front-end
+* Frontend
   - Semantic UI
   - React JS ([integration example](https://github.com/facebook/react/blob/master/examples/jquery-bootstrap/js/app.js))
   - Stylus
   - Webpack
 
+* Backend
+  - [Loopback](http://docs.strongloop.com/display/public/LB/LoopBack)
 
 Development
 -----------
@@ -37,33 +39,26 @@ After cloning the repo,
 
 ```
 $ cd promisetw
-$ npm watch
+$ npm start
 ```
 
-to watch all other assets, such as jade files inside `client/jade`.
-This command generates `client/build/index.html`, which is the only page that
-is served to the browser.
+It does two things:
 
-To start a web server in development mode, open up another terminal
-and do:
+1. Starts loopback server running on `http://127.0.0.1:5000`, which uses nodemon to watch both `js` and `jsx` files and reload server upon update.
+2. Starts another asset hosting server in `http://127.0.0.1:9527`, which triggers browser reload after webpack compilation.
 
-```
-$ foreman start
-```
-
-Then the server will be running on `http://localhost:5000`, and the API explorer is in `http://localhost:5000/explorer`.
-
-If the Heroku toolbelt is not installed (for the command `forman` command), the server can be started using `slc run` as well. Files in `cilent/styl` and `client/js` are automatically compiled, and the browser window should be automatically refreshed by webpack.
+After `npm start`, open `http://127.0.0.1:5000` to see the website running.
 
 
-Notice that if the server starts without `client/build/index.html`'s presence,
-the development web server will go crazy because it tends to watch a file that
-does not exist.
+### Starting Points
 
-For more information of Loopback please refer to [Loopback documentation](http://docs.strongloop.com/display/public/LB/LoopBack). However, Loopback is currently under heavy development. Expect inconsistencies between the doc and the actual code!
+* `common/views/app.jsx`: Isomorphic React component that creates the entire DOM tree.
+* `server/middleware/isomorphic-app.js`: An middleware that loads `common/view/app.jsx` and serve the rendered result. It reacts to all URLs, as specified in `server/middleware.json`.
+* `client/js/index.js`: Front-end javascript starting point, also loads `common/view/app.jsx` and initializes React front-end app.
+* `client/styl/index.styl`: Starting point of all styles of the app.
 
-
-### Deploy
+Deploy
+------
 
 Deploying to a production server like heroku involves:
 
