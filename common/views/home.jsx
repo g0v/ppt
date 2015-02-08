@@ -1,16 +1,16 @@
-var React = require('react');
+var React = require('react'),
+    styles = require('./styles.js');
 
-var MainContainer = React.createClass({
+var Home = React.createClass({
   render: function(){
     var noMarginTopStyle = {marginTop: 0},
-        mainContainerStyle = {paddingTop: 50, paddingBottom: 20, margin:"0 10px"},
         smallStyle = {color: 'rgba(255,255,255,0.6)', marginTop: 0},
         noBothMarginStyle = {marginTop: 0, marginBottom: 0},
         buttonStyle = {margin: '10px auto'};
 
 
     return (
-      <div className="full height main container" style={mainContainerStyle}>
+      <div className="full height main container" style={styles.mainContainer}>
         <div className="ui green inverted segment">
           <h1 style={noMarginTopStyle}>一起來監督施政吧</h1>
           <h4 style={noMarginTopStyle}>查詢政府首長施政進度</h4>
@@ -73,4 +73,4 @@ var MainContainer = React.createClass({
   }
 });
 
-module.exports = MainContainer;
+module.exports = Home;

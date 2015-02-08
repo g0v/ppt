@@ -6,11 +6,11 @@ var React = require('react'),
 
     App = require('./app.jsx'),
     About = require('./about.jsx'),
-    MainContainer = require('./main-container.jsx');
+    Home = require('./home.jsx');
 
 module.exports = (
-  <Route handler={App} path="/">
+  <Route name="app" handler={App} path="/">
     <Route name="about" handler={About} />
-    <DefaultRoute handler={MainContainer} />
+    <DefaultRoute handler={Home} />
   </Route>
 );

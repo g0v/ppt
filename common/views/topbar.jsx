@@ -1,4 +1,5 @@
-var React = require('react');
+var React = require('react'),
+    Link = require('react-router').Link;
 
 var TopBar = React.createClass({
   render: function(){
@@ -6,9 +7,9 @@ var TopBar = React.createClass({
       <div className="ui top fixed main menu">
         <div className="container">
           <a href="#" className="launch item button" onClick={this.props.onMenuButtonClick}><i className="content icon"></i></a>
-          <div className="title item">
+          <Link to="app" className="title item">
             政治承諾追蹤網
-          </div>
+          </Link>
           <div className="right menu">
             <div className="title item">
               <i className="plus icon"></i>

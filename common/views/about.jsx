@@ -1,9 +1,10 @@
-var React = require('react');
+var React = require('react'),
+    styles = require('./styles.js');
 
 var About = React.createClass({
   render: function(){
     return (
-      <div className="full height main container">
+      <div className="full height main container" style={styles.mainContainer}>
         <h1>關於政治承諾追蹤網</h1>
         <p>Hello world!</p>
       </div>
