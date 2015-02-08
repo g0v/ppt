@@ -1,4 +1,5 @@
-var React = require('react');
+var React = require('react'),
+    Link = require('react-router').Link;
 
 var Sidebar = React.createClass({
   componentWillReceiveProps: function(nextProps){
@@ -83,12 +84,12 @@ var Sidebar = React.createClass({
                 </div>
               </a>
 
-              <a className="item" style={listItemStyle}>
+              <Link to="about" className="item" style={listItemStyle}>
                 <img className="ui top avatar image" src="http://semantic-ui.com/images/avatar/small/daniel.jpg"/>
                 <div className="content">
                   <div className="header" style={headerStyle}>關於政治承諾追蹤網</div>
                 </div>
-              </a>
+              </Link>
             </div>
           </section>
         </div>

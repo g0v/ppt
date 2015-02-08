@@ -1,4 +1,6 @@
 var React = require('react'),
+    Router = require('react-router'),
+    RouteHandler = Router.RouteHandler,
     Sidebar = require('./sidebar.jsx'),
     TopBar = require('./topbar.jsx'),
     MainContainer = require('./main-container.jsx');
@@ -33,7 +35,7 @@ var App = React.createClass({
           <Sidebar isOpen={this.state.isMenuOpen} />
           <TopBar onMenuButtonClick={this.onMenuButtonClick} />
           <div className="pusher">
-            <MainContainer />
+            <RouteHandler />
           </div>
           <script src="/vendor/bower_components/jquery/dist/jquery.min.js"/>
           <script src={jsName}/>
