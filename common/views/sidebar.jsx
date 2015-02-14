@@ -1,9 +1,33 @@
 var React = require('react'),
+    Router = require('react-router'),
     Link = require('react-router').Link;
 
 var Sidebar = React.createClass({
-  componentWillReceiveProps: function(nextProps){
-    $(".ui.sidebar").sidebar("toggle");
+  mixins: [Router.State],
+  getInitialState: function(){
+    return {
+      governers: [
+        {
+          name: "林佳龍",
+          avatar: "http://semantic-ui.com/images/avatar/small/daniel.jpg",
+          title: '台中市長',
+          promiseCount: 53
+        },
+        {
+          name: "柯文哲",
+          avatar: "http://semantic-ui.com/images/avatar/small/daniel.jpg",
+          title: '台北市長',
+          promiseCount: 62
+        }
+      ]
+    }
+  },
+  componentDidMount: function(){
+    $('.ui.sidebar').sidebar('attach events', '#menu-button');
+  },
+  componentWillReceiveProps: function(){
+    // console.log('Sidebar ReceiveParam', this.getParams());
+    $('.ui.sidebar').sidebar('hide');
   },
   render: function(){
 
@@ -29,49 +53,26 @@ var Sidebar = React.createClass({
     descriptionStyle = {
       fontSize: 12,
       color: sidebarTextColor
-    }
+    };
+
+    var governerElems = this.state.governers.map(function(governer, idx){
+      return (
+        <Link to="governer" params={governer} className="item" style={listItemStyle} key={idx}>
+          <img className="ui avatar image" src="http://semantic-ui.com/images/avatar/small/daniel.jpg"/>
+          <div className="content">
+            <div className="header" style={headerStyle}>{governer.name}</div>
+            <div className="description" style={descriptionStyle}>{governer.title}・2014-2018・{governer.promiseCount} 承諾</div>
+          </div>
+        </Link>
+      );
+    });
 
     return (
       <div className="ui large green inverted vertical sidebar menu">
         <div className="ui segment" style={segmentContainerStyle}>
           <section className="ui vertical segment" style={segmentStyle}>
             <div className="ui list" style={listStyle}>
-              <a className="item" style={listItemStyle}>
-                <img className="ui avatar image" src="http://semantic-ui.com/images/avatar/small/daniel.jpg"/>
-                <div className="content">
-                  <div className="header" style={headerStyle}>胡自強</div>
-                  <div className="description" style={descriptionStyle}>台中市長・2010-2014・43 承諾</div>
-                </div>
-              </a>
-
-              <a className="item" style={listItemStyle}>
-                <img className="ui avatar image" src="http://semantic-ui.com/images/avatar/small/daniel.jpg"/>
-                <div className="content">
-                  <div className="header" style={headerStyle}>胡自強</div>
-                  <div className="description" style={descriptionStyle}>台中市長・2010-2014・43 承諾</div>
-                </div>
-              </a>
-            </div>
-          </section>
-
-          <section className="ui vertical segment" style={segmentStyle}>
-            <h5 style={listItemStyle}>縣市長・2014 - 2018</h5>
-            <div className="ui list" style={listStyle}>
-              <a className="item" style={listItemStyle}>
-                <img className="ui avatar image" src="http://semantic-ui.com/images/avatar/small/daniel.jpg"/>
-                <div className="content">
-                  <div className="header" style={headerStyle}>胡自強</div>
-                  <div className="description" style={descriptionStyle}>台中市長・2010-2014・43 承諾</div>
-                </div>
-              </a>
-
-              <a className="item" style={listItemStyle}>
-                <img className="ui avatar image" src="http://semantic-ui.com/images/avatar/small/daniel.jpg"/>
-                <div className="content">
-                  <div className="header" style={headerStyle}>胡自強</div>
-                  <div className="description" style={descriptionStyle}>台中市長・2010-2014・43 承諾</div>
-                </div>
-              </a>
+              {governerElems}
             </div>
           </section>
 
