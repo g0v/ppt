@@ -6,7 +6,7 @@ var TopBar = React.createClass({
     return (
       <div className="ui top fixed main menu">
         <div className="container">
-          <a href="#" className="launch item button" onClick={this.props.onMenuButtonClick}><i className="content icon"></i></a>
+          <a href="#" className="launch item button" id="menu-button"><i className="content icon"></i></a>
           <Link to="app" className="title item">
             政治承諾追蹤網
           </Link>
