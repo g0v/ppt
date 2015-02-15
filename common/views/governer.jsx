@@ -1,7 +1,8 @@
 var React = require('react'),
     Router = require('react-router'),
     Link = Router.Link,
-    styles = require('./styles.js');
+    styles = require('./styles.js'),
+    ProgressIcon = require('./progress-icon.jsx');
 
 var Governer = React.createClass({
   mixins: [Router.State],
@@ -70,9 +71,12 @@ var Governer = React.createClass({
           var promiseElems = policy.promises.map(function(promise){
             return (
               <Link to="promise" params={{id: promise.id}} className="ui item">
-                <h4>{promise.brief}</h4>
-                <p>{promise.content}</p>
-                <p>{promise.progressRating.count}</p>
+                <ProgressIcon progress={promise.progressRating.progress} className="ui top aligned avatar image"/>
+                <div className="content">
+                  <div className="header">{promise.brief}</div>
+                  <div className="description">{promise.content}</div>
+                  <p>{promise.progressRating.count} 人評進度</p>
+                </div>
               </Link>
             )
           });
