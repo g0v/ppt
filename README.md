@@ -101,5 +101,5 @@ If you would like to inspect the compiled website without pushing to Heroku, you
 
 ```
 $ npm run build # Generates hashed assets inside client/build
-$ NODE_ENV=production forman start  # Start server in production mode
+$ NODE_ENV=production foreman start  # Start server in production mode
 ```
