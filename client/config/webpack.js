@@ -1,5 +1,6 @@
 var webpack = require('webpack'),
-    ExtractText = require('extract-text-webpack-plugin');
+    ExtractText = require('extract-text-webpack-plugin'),
+    packageJson = require('../../package.json');
 
 var isProduction = process.env.NODE_ENV === 'production';
 
@@ -65,12 +66,24 @@ if( isProduction ){
   // http://gaearon.github.io/react-hot-loader/#enabling-hot-module-replacement
   //
   webpackCfg.entry.index = [
-    'webpack-dev-server/client?http://127.0.0.1:9527',
+    // Instruct socket.io in weboack-dev-server to connect to hostname-agnostic '/'
+    'webpack-dev-server/client?/',
     'webpack/hot/dev-server',
     webpackCfg.entry.index
   ];
+
+  webpackCfg.devServer = {
+    host: '0.0.0.0',
+    port: packageJson.config.webpackDevServerPort,
+    proxy: {
+      "*": "http://127.0.0.1:" + packageJson.config.apiServerPort
+    },
+    hot: true,
+    watchDelay: 2000 // Wait until nodemon restarts
+  };
+
   webpackCfg.plugins.push(new webpack.HotModuleReplacementPlugin());
-  webpackCfg.output.publicPath = 'http://127.0.0.1:9527/build/'
+  webpackCfg.output.publicPath = '/build/'
 }
 
 module.exports = webpackCfg;

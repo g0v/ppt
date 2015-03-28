@@ -17,7 +17,7 @@
     "build:semantic-ui": "cd client/semantic-ui && gulp build",
     "build": "npm run clean && npm run build:semantic-ui && NODE_ENV=production npm run build:webpack",
     "// start": "Use nodemon to monitor JS changes, and start an webpack-dev asset server in parallel.",
-    "start": "PORT=5000 DEBUG=ppt:* nodemon -w client -w server -w common -e js,jsx server/server.js & node server/webpack-dev-server.js",
+    "start": "PORT=$npm_package_config_apiServerPort DEBUG=ppt:* nodemon -w client -w server -w common -e js,jsx server/server.js & webpack-dev-server --config client/config/webpack.js",
     "// deploy": "Depoly steps, which creates a branch named _deploy, builds and commits compiled project, and pushes to Heroku.",
     "deploy:init": "git checkout -b _deploy && echo '!client/build' >> .gitignore && echo '!tmp/webpack-stats.json' >> .gitignore",
     "deploy:commit": "_COMMIT_MSG=$(git log -n 1 --pretty=format:'%h - %s') && git add .gitignore client/build tmp/webpack-stats.json && git commit -m \"$_COMMIT_MSG\"",
@@ -25,7 +25,10 @@
     "deploy:cleanup": "git checkout - && git branch -D _deploy",
     "deploy": "npm run deploy:init && npm run build && npm run deploy:commit && npm run deploy:push && npm run deploy:cleanup"
   },
-  "config": {},
+  "config": {
+    "webpackDevServerPort": 5000,
+    "apiServerPort": 9527
+  },
   "dependencies": {
     "babel": "^4.7.16",
     "babel-core": "^4.7.16",

@@ -35,7 +35,6 @@ fluxibleApp.rehydrate(window.App, (err, fluxibleContext) => {
     function render(){
       React.render(React.createElement(Handler, {
         hash: document.querySelector('meta[name="webpack-hash"]').content,
-        assetHost: document.querySelector('meta[name="webpack-asset-host"]').content,
         context: fluxibleContext.getComponentContext()
       }), document);
     }

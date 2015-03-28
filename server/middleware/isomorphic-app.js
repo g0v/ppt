@@ -9,24 +9,15 @@ var React = require('react'),
     isProduction = process.env.NODE_ENV === 'production';
 
 module.exports = function(options) {
-  var hash, assetHost;
+  var hash;
 
   if(!isProduction) {
     hash = 'index';
-    assetHost = 'http://127.0.0.1:9527/'; // served by webpack-dev-server
   } else {
     hash = require('../../tmp/webpack-stats.json').hash;
-    assetHost = '/';
   }
 
   return function IsomorphicApp(req, res, next) {
-    // Accept hot update json files from assetHost.
-    // Ref: http://gaearon.github.io/react-hot-loader/#porting-your-project-to-webpack
-    //
-    // if(!isProduction){
-    //   res.header('Access-Control-Allow-Origin', assetHost);
-    //   res.header('Access-Control-Allow-Headers', 'X-Requested-With');
-    // }
     var fluxibleContext = fluxibleApp.createContext();
 
     Router.run(Route, req.path, (Handler, state) => {
@@ -42,7 +33,6 @@ module.exports = function(options) {
 
         var app = React.createElement(Handler, {
           hash, // cache-busting cache
-          assetHost,
           context: fluxibleContext.getComponentContext()
         }), dehydrated, html;
 

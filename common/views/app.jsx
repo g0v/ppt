@@ -28,9 +28,8 @@ var App = React.createClass({
   },
 
   render() {
-    var assetHost = this.props.assetHost || '/',
-        cssName = assetHost + 'build/' + this.props.hash + '.css',
-        jsName = assetHost + 'build/' + this.props.hash + '.js';
+    var cssName = '/build/' + this.props.hash + '.css',
+        jsName = '/build/' + this.props.hash + '.js';
 
     debug('Metadata', this.state.meta);
 
@@ -41,7 +40,6 @@ var App = React.createClass({
           <meta name="viewport" content="width=device-width, initial-scale=1"/>
           <meta httpEquiv="X-UA-Compatible" content="IE=edge,chrome=1" />
           <meta name="webpack-hash" content={this.props.hash}/>
-          <meta name="webpack-asset-host" content={assetHost}/>
           <title>{this.state.meta.title}</title>
           <meta name="description" content={this.state.meta.description} />
           <meta name="canonical" content={this.state.meta.canonical} />
@@ -51,7 +49,7 @@ var App = React.createClass({
           <Sidebar />
           <TopBar />
           <div className="pusher">
-            <RouteHandler asset-host={assetHost}/>
+            <RouteHandler />
           </div>
           <script src="/vendor/bower_components/jquery/dist/jquery.min.js"/>
           <script src={jsName}/>

@@ -44,8 +44,8 @@ $ npm start
 
 It does two things:
 
-1. Starts loopback server running on `http://127.0.0.1:5000`, which uses nodemon to watch both `js` and `jsx` files and reload server upon update.
-2. Starts another asset hosting server in `http://127.0.0.1:9527`, which triggers browser reload after webpack compilation.
+1. Starts loopback server running on `http://127.0.0.1:9527`, which uses nodemon to watch both `js` and `jsx` files and reload server upon update.
+2. Starts another asset hosting server in `http://127.0.0.1:5000`, which triggers browser reload after webpack compilation. It proxies all other requests (like `/api` connections) to `http://127.0.0.1:9527`.
 
 After `npm start`, open `http://127.0.0.1:5000` to see the website running.
 
