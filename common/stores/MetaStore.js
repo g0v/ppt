@@ -1,4 +1,5 @@
 var createStore = require('fluxible/utils/createStore'),
+    debug = require('debug')('MetaStore'),
     assign = require('object-assign');
 
 module.exports = createStore({
@@ -11,10 +12,12 @@ module.exports = createStore({
   handlers: {
     'META_SET': function(payload){
       this._set(payload.meta);
+      debug(this.dehydrate());
       this.emitChange();
     },
     'META_RESET': function(){
       this._setAsDefault();
+      debug(this.dehydrate());
       this.emitChange();
     }
   },
