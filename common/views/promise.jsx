@@ -25,7 +25,7 @@ var ProgressReport = React.createClass({
         ratingElements = [],
         mostVoteProgress;
 
-    this.props.ratings.forEach(function(rating){
+    this.props.ratings.forEach(function(rating, idx){
       var contentText, progressText, commentText;
 
       voteCount[rating.progress] += 1;
@@ -53,7 +53,7 @@ var ProgressReport = React.createClass({
 
 
       ratingElements.unshift(
-        <div className="item">
+        <div className="item" key={idx}>
           <img src={rating.avatar} className="ui middle aligned avatar image" />
           <div className="content">
             <a href={rating.fbprofile} target="_blank">{rating.name}</a>
@@ -100,9 +100,10 @@ var PromiseDetail = React.createClass({
       oldProgressReports = this.state.progressReports.slice(1);
     }
 
-    var oldProgressReportElems = oldProgressReports.map(function(report){
+    var oldProgressReportElems = oldProgressReports.map(function(report, idx){
       return (
-        <ProgressReport brief={report.brief}
+        <ProgressReport key={idx}
+                        brief={report.brief}
                         referenceText={report.referenceText}
                         referenceUrl={report.referenceUrl}
                         referenceTime={report.referenceTime}

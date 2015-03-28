@@ -16,10 +16,10 @@ var Governer = React.createClass({
     };
 
     var governer = this.state,
-        policyElems = governer.policies.map(function(policy){
-          var promiseElems = policy.promises.map(function(promise){
+        policyElems = governer.policies.map(function(policy, policyIdx){
+          var promiseElems = policy.promises.map(function(promise, promiseIdx){
             return (
-              <Link to="promise" params={{id: promise.id}} className="ui item">
+              <Link to="promise" params={{id: promise.id}} className="ui item" key={promiseIdx}>
                 <ProgressIcon progress={promise.progressRating.progress} className="ui top aligned avatar image"/>
                 <div className="content">
                   <div className="header">{promise.brief}</div>
@@ -31,7 +31,7 @@ var Governer = React.createClass({
           });
 
           return (
-            <div className="ui green segment">
+            <div className="ui green segment" key={policyIdx}>
               <h1 className="ui header green">
                 {policy.name}
               </h1>

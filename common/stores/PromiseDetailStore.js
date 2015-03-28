@@ -18,7 +18,7 @@ const MOCK = {
       brief: "台中市政府社會局申請生育津貼，金額為單胞胎新臺幣ㄧ萬元，雙胞胎新臺幣三萬⋯⋯",
       referenceUrl: "http://www.society.taichung.gov.tw/faq/index-1.asp?Parser=27,8,28,,,,809,15",
       referenceText: "社會局 FAQ",
-      referenceTime: "",
+      referenceTime: 1427534344837,
       ratings: [
         {
           avatar: 'http://graph.facebook.com/100002188898192/picture?type=square',
