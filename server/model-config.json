@@ -29,5 +29,33 @@
   "Governor": {
     "dataSource": "db",
     "public": true
+  },
+  "Term": {
+    "dataSource": "db",
+    "public": true
+  },
+  "Policy": {
+    "dataSource": "db",
+    "public": true
+  },
+  "Grouping": {
+    "dataSource": "db",
+    "public": true
+  },
+  "Promise": {
+    "dataSource": "db",
+    "public": true
+  },
+  "ProgressReport": {
+    "dataSource": "db",
+    "public": true
+  },
+  "ProgressReportHistory": {
+    "dataSource": "db",
+    "public": true
+  },
+  "ProgressRating": {
+    "dataSource": "db",
+    "public": true
   }
 }

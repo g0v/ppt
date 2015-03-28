@@ -1,29 +1,32 @@
 {
-  "name": "Governor",
+  "name": "Promise",
   "base": "PersistedModel",
   "idInjection": true,
   "properties": {
-    "name": {
-      "type": "string",
-      "required": true
-    },
-    "avatar": {
+    "brief": {
       "type": "string"
     },
-    "coverPhoto": {
+    "content": {
       "type": "string"
+    },
+    "reference": {
+      "type": "string"
+    },
+    "startDate": {
+      "type": "date"
     }
   },
   "validations": [],
   "relations": {
-    "terms": {
-      "type": "hasMany",
-      "model": "Term",
-      "foreignKey": ""
-    },
     "policies": {
       "type": "hasMany",
       "model": "Policy",
+      "foreignKey": "",
+      "through": "Grouping"
+    },
+    "progressReports": {
+      "type": "hasMany",
+      "model": "ProgressReport",
       "foreignKey": ""
     }
   },

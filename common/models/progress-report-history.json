@@ -1,0 +1,24 @@
+{
+  "name": "ProgressReportHistory",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "properties": {
+    "brief": {
+      "type": "string"
+    },
+    "reference": {
+      "type": "string",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {
+    "progressReport": {
+      "type": "belongsTo",
+      "model": "ProgressReport",
+      "foreignKey": ""
+    }
+  },
+  "acls": [],
+  "methods": []
+}

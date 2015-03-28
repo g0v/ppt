@@ -1,0 +1,21 @@
+{
+  "name": "Grouping",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "properties": {},
+  "validations": [],
+  "relations": {
+    "policy": {
+      "type": "belongsTo",
+      "model": "Policy",
+      "foreignKey": ""
+    },
+    "promise": {
+      "type": "belongsTo",
+      "model": "Promise",
+      "foreignKey": ""
+    }
+  },
+  "acls": [],
+  "methods": []
+}

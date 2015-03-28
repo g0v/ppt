@@ -1,5 +1,5 @@
 {
-  "name": "Governor",
+  "name": "Policy",
   "base": "PersistedModel",
   "idInjection": true,
   "properties": {
@@ -7,23 +7,21 @@
       "type": "string",
       "required": true
     },
-    "avatar": {
-      "type": "string"
-    },
-    "coverPhoto": {
-      "type": "string"
+    "startDate": {
+      "type": "date"
     }
   },
   "validations": [],
   "relations": {
-    "terms": {
+    "promises": {
       "type": "hasMany",
-      "model": "Term",
-      "foreignKey": ""
+      "model": "Promise",
+      "foreignKey": "",
+      "through": "Grouping"
     },
-    "policies": {
-      "type": "hasMany",
-      "model": "Policy",
+    "governor": {
+      "type": "belongsTo",
+      "model": "Governor",
       "foreignKey": ""
     }
   },

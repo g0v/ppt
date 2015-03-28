@@ -1,29 +1,21 @@
 {
-  "name": "Governor",
+  "name": "ProgressRating",
   "base": "PersistedModel",
   "idInjection": true,
   "properties": {
-    "name": {
+    "progress": {
       "type": "string",
       "required": true
     },
-    "avatar": {
-      "type": "string"
-    },
-    "coverPhoto": {
+    "comment": {
       "type": "string"
     }
   },
   "validations": [],
   "relations": {
-    "terms": {
-      "type": "hasMany",
-      "model": "Term",
-      "foreignKey": ""
-    },
-    "policies": {
-      "type": "hasMany",
-      "model": "Policy",
+    "progressReport": {
+      "type": "belongsTo",
+      "model": "ProgressReport",
       "foreignKey": ""
     }
   },
