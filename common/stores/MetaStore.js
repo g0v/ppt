@@ -1,5 +1,5 @@
 var createStore = require('fluxible/utils/createStore'),
-    debug = require('debug')('MetaStore'),
+    debug = require('debug')('ppt:MetaStore'),
     assign = require('object-assign');
 
 module.exports = createStore({

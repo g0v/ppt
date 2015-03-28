@@ -1,5 +1,5 @@
 var assign = require('object-assign'),
-    debug = require('debug')('RouteStore'),
+    debug = require('debug')('ppt:RouteStore'),
     createStore = require('fluxible/utils/createStore');
 
 module.exports = createStore({

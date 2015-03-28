@@ -1,4 +1,4 @@
-var debug = require('debug')('metaAction');
+var debug = require('debug')('ppt:metaAction');
 
 module.exports = {
   set: function(actionContext, meta, done){

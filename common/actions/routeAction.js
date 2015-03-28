@@ -1,5 +1,5 @@
 var assign = require('object-assign'),
-    debug = require('debug')('routeAction'),
+    debug = require('debug')('ppt:routeAction'),
     metaAction = require('./metaAction');
 
 var routeAction = module.exports = {

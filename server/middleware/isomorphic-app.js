@@ -1,6 +1,6 @@
 var React = require('react'),
     Router = require('react-router'),
-    debug = require('debug')('IsomorphicApp'),
+    debug = require('debug')('ppt:IsomorphicApp'),
 
     fluxibleApp = require('../../common/fluxibleApp'),
     routeAction = require('../../common/actions/routeAction'),

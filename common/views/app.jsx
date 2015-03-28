@@ -1,7 +1,7 @@
 var React = require('react'),
     Router = require('react-router'),
     RouteHandler = Router.RouteHandler,
-    debug = require('debug')('App'),
+    debug = require('debug')('ppt:App'),
 
     MetaStore = require('../stores/MetaStore'),
 
