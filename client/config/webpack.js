@@ -25,7 +25,7 @@ var webpackCfg = {
         loader: ExtractText.extract("raw")
       },
       {
-        test: /\.(?:jpg)|(?:png)|(?:gif)|(?:eot)|(?:svg)|(?:ttf)|(?:woff)|(?:otf)$/,
+        test: /\.(?:jpg|png|gif|eot|svg|ttf|woff|otf)$/,
         loader: "file-loader"
       },
       {
