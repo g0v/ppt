@@ -1,19 +1,38 @@
 var React = require('react'),
     Router = require('react-router'),
     RouteHandler = Router.RouteHandler,
+    debug = require('debug')('App'),
+
+    MetaStore = require('../stores/MetaStore'),
+
     Sidebar = require('./Sidebar.jsx'),
     TopBar = require('./Topbar.jsx');
 
 var App = React.createClass({
-  getInitialState: function(){
-    return {
-      isMenuOpen: false
+
+  mixins: [require('fluxible').Mixin],
+
+  statics: {
+    storeListeners: {
+      onMetaChange: [MetaStore]
     }
   },
-  render: function(){
+
+  getInitialState() {
+    var metaStore = this.getStore(MetaStore);
+
+    return {
+      isMenuOpen: false,
+      meta: this._extractMetaFromStore()
+    }
+  },
+
+  render() {
     var assetHost = this.props.assetHost || '/',
         cssName = assetHost + 'build/' + this.props.hash + '.css',
         jsName = assetHost + 'build/' + this.props.hash + '.js';
+
+    debug('Metadata', this.state.meta);
 
     return (
       <html lang="zh-TW">
@@ -23,7 +42,9 @@ var App = React.createClass({
           <meta httpEquiv="X-UA-Compatible" content="IE=edge,chrome=1" />
           <meta name="webpack-hash" content={this.props.hash}/>
           <meta name="webpack-asset-host" content={assetHost}/>
-          <title>PPT</title>
+          <title>{this.state.meta.title}</title>
+          <meta name="description" content={this.state.meta.description} />
+          <meta name="canonical" content={this.state.meta.canonical} />
           <link href={cssName} rel="stylesheet"/>
         </head>
         <body>
@@ -37,7 +58,24 @@ var App = React.createClass({
         </body>
       </html>
     )
+  },
+
+  onMetaChange() {
+    this.setState({
+      meta: this._extractMetaFromStore()
+    });
+  },
+
+  _extractMetaFromStore(){
+    var metaStore = this.getStore(MetaStore);
+
+    return {
+      title: metaStore.title,
+      canonical: metaStore.canonical,
+      description: metaStore.description
+    };
   }
+
 });
 
 module.exports = App;
