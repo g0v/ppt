@@ -2,7 +2,7 @@ var React = require('react'),
     Router = require('react-router'),
     Link = Router.Link,
     styles = require('./styles.js'),
-    ProgressIcon = require('./progress-icon.jsx');
+    ProgressIcon = require('./ProgressIcon.jsx');
 
 var Governer = React.createClass({
   mixins: [Router.State],

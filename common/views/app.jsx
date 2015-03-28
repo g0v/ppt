@@ -1,8 +1,8 @@
 var React = require('react'),
     Router = require('react-router'),
     RouteHandler = Router.RouteHandler,
-    Sidebar = require('./sidebar.jsx'),
-    TopBar = require('./topbar.jsx');
+    Sidebar = require('./Sidebar.jsx'),
+    TopBar = require('./Topbar.jsx');
 
 var App = React.createClass({
   getInitialState: function(){

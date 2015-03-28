@@ -1,7 +1,7 @@
 var React = require('react'),
     Router = require('react-router'),
     styles = require('./styles.js'),
-    ProgressIcon = require('./progress-icon.jsx');
+    ProgressIcon = require('./ProgressIcon.jsx');
 
 
 var ProgressReport = React.createClass({

@@ -58,6 +58,11 @@ After `npm start`, open `http://127.0.0.1:5000` to see the website running.
 * `client/styl/index.styl`: Starting point of all styles of the app.
 
 
+### Naming Convention
+
+* Class files (stores, components, etc.) are CamelCase.
+* Object instance files (actions, fluxibleApp) are camelCase.
+
 ### Styling with Semantic UI
 
 PPT uses custom Semantic UI themes.

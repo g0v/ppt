@@ -4,11 +4,11 @@ var React = require('react'),
     DefaultRoute = Router.DefaultRoute,
     NotFoundRoute = Router.NotFoundRoute,
 
-    App = require('./app.jsx'),
-    About = require('./about.jsx'),
-    Governer = require('./governer.jsx'),
-    PromiseDetail = require('./promise.jsx'),
-    Home = require('./home.jsx');
+    App = require('./App.jsx'),
+    About = require('./About.jsx'),
+    Governer = require('./Governer.jsx'),
+    PromiseDetail = require('./Promise.jsx'),
+    Home = require('./Home.jsx');
 
 module.exports = (
   <Route name="app" handler={App} path="/">

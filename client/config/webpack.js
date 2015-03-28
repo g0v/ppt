@@ -29,7 +29,13 @@ var webpackCfg = {
         loader: "file-loader"
       },
       {
-        test: /\.jsx$/, loader: "jsx-loader"
+        test: /\.jsx$/, loader: "babel-loader"
+      },
+      {
+        test: /common\/.+\.js$/, loader: 'babel-loader'
+      },
+      {
+        test: /client\/js\/.+\.js$/, loader: 'babel-loader', exclude: /node_modules/
       }
     ]
   },
