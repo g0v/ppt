@@ -1,24 +1,37 @@
 var React = require('react'),
     Router = require('react-router'),
-    Link = require('react-router').Link;
+    Link = require('react-router').Link,
+
+    RouteStore = require('../stores/RouteStore');
 
 var TopBar = React.createClass({
-  mixins: [Router.State],
+  mixins: [require('fluxible').FluxibleMixin],
+  statics: {
+    storeListeners: {
+      onRouteChange: [RouteStore]
+    }
+  },
+
+  onRouteChange() {
+    this.setState({
+      title: this.getTitle()
+    });
+  },
+
   getInitialState: function(){
     return {
       title: this.getTitle()
     };
   },
-  componentWillReceiveProps: function(){
-    this.setState({title: this.getTitle()});
-  },
   getTitle: function(){
-    var activeRoutesNames = this.getRoutes().map(function(r){
-      return r.name;
+    var currentState = this.getStore(RouteStore).currentState;
+
+    var isGovernerRouteActive = currentState.routes.some(function(r){
+      return r.name === 'governer';
     });
 
-    if(activeRoutesNames.indexOf('governer') !== -1){
-      return decodeURIComponent(this.getParams().name);
+    if(isGovernerRouteActive){
+      return decodeURIComponent(currentState.params.name);
     }else{
       return '政治承諾追蹤網';
     }

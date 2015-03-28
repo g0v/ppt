@@ -3,7 +3,6 @@ var React = require('react'),
     Link = require('react-router').Link;
 
 var Sidebar = React.createClass({
-  mixins: [Router.State],
   getInitialState: function(){
     return {
       governers: [
@@ -26,7 +25,6 @@ var Sidebar = React.createClass({
     $('.ui.sidebar').sidebar('attach events', '#menu-button');
   },
   componentWillReceiveProps: function(){
-    // console.log('Sidebar ReceiveParam', this.getParams());
     $('.ui.sidebar').sidebar('hide');
   },
   render: function(){

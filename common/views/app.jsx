@@ -10,7 +10,7 @@ var React = require('react'),
 
 var App = React.createClass({
 
-  mixins: [require('fluxible').Mixin],
+  mixins: [require('fluxible').FluxibleMixin],
 
   statics: {
     storeListeners: {
