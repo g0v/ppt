@@ -17,6 +17,11 @@
       "type": "belongsTo",
       "model": "ProgressReport",
       "foreignKey": ""
+    },
+    "userModel": {
+      "type": "belongsTo",
+      "model": "UserModel",
+      "foreignKey": ""
     }
   },
   "acls": [],

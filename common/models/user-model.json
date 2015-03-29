@@ -1,0 +1,28 @@
+{
+  "name": "UserModel",
+  "base": "User",
+  "idInjection": true,
+  "properties": {
+    "fbid": {
+      "type": "string"
+    },
+    "avatar": {
+      "type": "string"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "progressReportHistories": {
+      "type": "hasMany",
+      "model": "ProgressReportHistory",
+      "foreignKey": ""
+    },
+    "progressRatings": {
+      "type": "hasMany",
+      "model": "ProgressRating",
+      "foreignKey": ""
+    }
+  },
+  "acls": [],
+  "methods": []
+}

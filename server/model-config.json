@@ -8,7 +8,8 @@
     ]
   },
   "User": {
-    "dataSource": "db"
+    "dataSource": "db",
+    "public": false
   },
   "AccessToken": {
     "dataSource": "db",
@@ -55,6 +56,10 @@
     "public": true
   },
   "ProgressRating": {
+    "dataSource": "db",
+    "public": true
+  },
+  "UserModel": {
     "dataSource": "db",
     "public": true
   }
