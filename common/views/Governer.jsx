@@ -9,31 +9,58 @@ var React = require('react'),
 var Governer = React.createClass({
   mixins: [require('fluxible').FluxibleMixin],
 
-  getInitialState: function(){
-    return this.getStore(require('../stores/GovernerStore')).data
-  },
-
   render: function(){
     var headerStyle = {
     };
 
-    var governer = this.state,
-        policyElems = governer.policies.map(function(policy, policyIdx){
-          var promiseElems = policy.promises.map(function(promise, promiseIdx){
+    var governorStats = {
+      notyet: 0,
+      doing: 0,
+      done: 0
+    };
+
+    var governer = this.props.governor,
+        policyElems = governer.policies.map(function(policy){
+          var promiseElems = policy.promises.map(function(promise){
+            var latestProgressReport = promise.progressReports[promise.progressReports.length - 1],
+                totalRateCount = latestProgressReport ? latestProgressReport.progressRatings.length : 0,
+                rating = 'notyet';
+
+            // Find the most-popular progress rating
+            //
+            if(latestProgressReport && latestProgressReport.progressRatings.length > 0){
+              let rateCounts = {
+                notyet: 0,
+                doing: 0,
+                done: 0
+              }, mostCount = 0;
+
+              latestProgressReport.progressRatings.forEach((rating) => {
+                rateCounts[rating.progress] += 1;
+
+                if(mostCount < rateCounts[rating.progress]){
+                  mostCount = rateCounts[rating.progress];
+                  rating = rating.progress;
+                }
+              });
+            }
+
+            governorStats[rating] += 1;
+
             return (
-              <Link to="promise" params={{id: promise.id}} className="ui item" key={promiseIdx}>
-                <ProgressIcon progress={promise.progressRating.progress} className="ui top aligned avatar image"/>
+              <Link to="promise" params={{id: promise.id}} className="ui item" key={promise.id}>
+                <ProgressIcon progress={rating} className="ui top aligned avatar image"/>
                 <div className="content">
                   <div className="header">{promise.brief}</div>
                   <div className="description">{promise.content}</div>
-                  <p>{promise.progressRating.count} 人評進度</p>
+                  <p>{totalRateCount} 人評進度</p>
                 </div>
               </Link>
             )
           });
 
           return (
-            <div className="ui green segment" key={policyIdx}>
+            <div className="ui green segment" key={policy.id}>
               <h1 className="ui header green">
                 {policy.name}
               </h1>
@@ -50,15 +77,15 @@ var Governer = React.createClass({
           <img src={governer.avatar} />
           <div className="ui three column grid">
             <div className="column">
-              <div>{governer.stats.notyet}</div>
+              <div>{governorStats.notyet}</div>
               <div>還沒做</div>
             </div>
             <div className="column">
-              <div>{governer.stats.doing}</div>
+              <div>{governorStats.doing}</div>
               <div>正在做</div>
             </div>
             <div className="column">
-              <div>{governer.stats.done}</div>
+              <div>{governorStats.done}</div>
               <div>已完成</div>
             </div>
           </div>
@@ -82,7 +109,7 @@ module.exports = Transmit.createContainer(Governer, {
             {
               policies: {
                 promises: {
-                  progressReports: 'progressReportHistories'
+                  progressReports: ['progressReportHistories', 'progressRatings']
                 }
               }
             },
