@@ -4,15 +4,26 @@ var React = require('react'),
     styles = require('./styles.js'),
     Transmit = require('react-transmit'),
     fetch = require('../utils/fetch'),
-    ProgressIcon = require('./ProgressIcon.jsx');
+    ProgressIcon = require('./ProgressIcon.jsx'),
+    RouteStore = require('../stores/RouteStore');
 
 var Governer = React.createClass({
-  mixins: [require('fluxible').FluxibleMixin],
+  mixins: [
+    require('fluxible').FluxibleMixin
+  ],
+
+  statics: {
+    storeListeners: {onRouteChange: [RouteStore]}
+  },
+
+  onRouteChange () {
+    this.props.setQueryParams({
+      name: this.getStore(RouteStore).currentState.params.name
+    });
+  },
 
   componentWillMount () {
-    this.props.setQueryParams({
-      name: this.getStore(require('../stores/RouteStore')).currentState.params.name
-    });
+    this.onRouteChange();
   },
 
   render: function(){
