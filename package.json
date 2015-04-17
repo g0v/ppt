@@ -67,7 +67,8 @@
     "stylus": "^0.50.0",
     "stylus-loader": "^1.0.0",
     "webpack": "^1.7.0",
-    "webpack-dev-server": "ruudk/webpack-dev-server#64c9aca6e8"
+    "socket.io-client": "MrOrz/socket.io-client",
+    "webpack-dev-server": "mrsharpoblunto/webpack-dev-server"
   },
   "engines": {
     "node": "0.10.x"
