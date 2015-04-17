@@ -7,13 +7,13 @@ var Sidebar = React.createClass({
     return {
       governers: [
         {
-          name: "林佳龍",
+          name: "台中市政府",
           avatar: "http://semantic-ui.com/images/avatar/small/daniel.jpg",
           title: '台中市長',
           promiseCount: 53
         },
         {
-          name: "柯文哲",
+          name: "台北市政府",
           avatar: "http://semantic-ui.com/images/avatar/small/daniel.jpg",
           title: '台北市長',
           promiseCount: 62
