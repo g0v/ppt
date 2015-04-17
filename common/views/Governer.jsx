@@ -9,9 +9,16 @@ var React = require('react'),
 var Governer = React.createClass({
   mixins: [require('fluxible').FluxibleMixin],
 
+  componentWillMount () {
+    this.props.setQueryParams({
+      name: this.getStore(require('../stores/RouteStore')).currentState.params.name
+    });
+  },
+
   render: function(){
-    var headerStyle = {
-    };
+    if(!this.props.governor.name){
+      return <p>Loading...</p>
+    }
 
     var governorStats = {
       notyet: 0,
@@ -73,7 +80,7 @@ var Governer = React.createClass({
 
     return (
       <div className="full height main container" style={styles.mainContainer}>
-        <section style={headerStyle}>
+        <section>
           <img src={governer.avatar} />
           <div className="ui three column grid">
             <div className="column">
@@ -100,10 +107,16 @@ var Governer = React.createClass({
 module.exports = Transmit.createContainer(Governer, {
   queries: {
     governor(queryParams) {
+
+      // Skip pre-mature request (name not retrieved from router yet)
+      if(!queryParams.name){
+        return Promise.resolve({});
+      }
+
       return fetch('/api/Governors/findOne', {
         filter: {
           where: {
-            name: '台中市政府'
+            name: queryParams.name
           },
           include: [
             {
@@ -118,9 +131,6 @@ module.exports = Transmit.createContainer(Governer, {
         }
       }).then(function(res){
         return res.json()
-      }).then(function(data){
-        console.log('Transmit got data', data)
-        return data;
       });
     }
   }
