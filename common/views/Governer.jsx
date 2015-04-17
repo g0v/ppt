@@ -27,8 +27,12 @@ var Governer = React.createClass({
   },
 
   render: function(){
-    if(!this.props.governor.name){
-      return <p>Loading...</p>
+    if(this.props.governor.isLoading){
+      return (
+        <div className="full height main container" style={styles.mainContainer}>
+          <p>Loading...</p>
+        </div>
+      );
     }
 
     var governorStats = {
@@ -119,9 +123,8 @@ module.exports = Transmit.createContainer(Governer, {
   queries: {
     governor(queryParams) {
 
-      // Skip pre-mature request (name not retrieved from router yet)
       if(!queryParams.name){
-        return Promise.resolve({});
+        return Promise.resolve({isLoading: true});
       }
 
       return fetch('/api/Governors/findOne', {
