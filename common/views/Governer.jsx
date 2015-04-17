@@ -2,6 +2,8 @@ var React = require('react'),
     Router = require('react-router'),
     Link = Router.Link,
     styles = require('./styles.js'),
+    Transmit = require('react-transmit'),
+    fetch = require('../utils/fetch'),
     ProgressIcon = require('./ProgressIcon.jsx');
 
 var Governer = React.createClass({
@@ -68,4 +70,31 @@ var Governer = React.createClass({
   }
 });
 
-module.exports = Governer;
+module.exports = Transmit.createContainer(Governer, {
+  queries: {
+    governor(queryParams) {
+      return fetch('/api/Governors/findOne', {
+        filter: {
+          where: {
+            name: '台中市政府'
+          },
+          include: [
+            {
+              policies: {
+                promises: {
+                  progressReports: 'progressReportHistories'
+                }
+              }
+            },
+            'terms'
+          ]
+        }
+      }).then(function(res){
+        return res.json()
+      }).then(function(data){
+        console.log('Transmit got data', data)
+        return data;
+      });
+    }
+  }
+});
