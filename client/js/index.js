@@ -4,6 +4,8 @@ require('../styl/index.styl');
 require('jquery');
 require('../semantic-ui/dist/semantic.js');
 
+window.myDebug = require('debug'); // debug browser support
+
 var React = require('react'),
     Router = require('react-router'),
     route = require('../../common/views/Route.jsx'),

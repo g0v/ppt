@@ -49,7 +49,6 @@ It does two things:
 
 After `npm start`, open `http://127.0.0.1:5000` to see the website running.
 
-
 ### Starting Points
 
 * `common/views/app.jsx`: Isomorphic React component that creates the entire DOM tree.
@@ -62,6 +61,12 @@ After `npm start`, open `http://127.0.0.1:5000` to see the website running.
 
 * Class files (stores, components, etc.) are CamelCase.
 * Object instance files (actions, fluxibleApp) are camelCase.
+
+### Debugging Messages
+
+Debug messages are inserted using [visionmedia/debug](https://www.npmjs.com/package/debug). All debug flags starts with `ppt:`, thus you may use `DEBUG=ppt:* npm start` to print all debug messages on node.js.
+
+The `debug` instance is exposed as `window.myDebug` in browsers, thus you may use `myDebug.enable("ppt:*")` in browser console as well.
 
 ### Styling with Semantic UI
 
