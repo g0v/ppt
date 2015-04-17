@@ -36,15 +36,9 @@ module.exports = function(options) {
           context: fluxibleContext.getComponentContext()
         }), dehydrated, html;
 
-        try {
-          html = React.renderToString(app);
-          res.expose(fluxibleApp.dehydrate(fluxibleContext), 'App');
-          res.send(`<!doctype html><script>${res.locals.state}</script>${html}`);
-        } catch (e) {
-          console.error(e);
-          throw e;
-        }
-
+        html = React.renderToString(app);
+        res.expose(fluxibleApp.dehydrate(fluxibleContext), 'App');
+        res.send(`<!doctype html><script>${res.locals.state}</script>${html}`);
 
       });
     });
