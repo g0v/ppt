@@ -4,15 +4,14 @@ var React = require('react'),
     ProgressIcon = require('./ProgressIcon.jsx'),
 
     Fluxible = require('fluxible'),
-    PromiseDetailStore = require('../stores/PromiseDetailStore');
+    Transmit = require('react-transmit'),
+    fetch = require('../utils/fetch'),
+    RouteStore = require('../stores/RouteStore');
 
 
 var ProgressReport = React.createClass({
   propTypes: {
-    brief: React.PropTypes.string.isRequired,
-    referenceText: React.PropTypes.string,
-    referenceUrl: React.PropTypes.string.isRequired,
-    referenceTime: React.PropTypes.number,
+    history: React.PropTypes.array.isRequired,
     ratings: React.PropTypes.array.isRequired,
     isExpanded: React.PropTypes.bool
   },
@@ -54,22 +53,25 @@ var ProgressReport = React.createClass({
 
       ratingElements.unshift(
         <div className="item" key={idx}>
-          <img src={rating.avatar} className="ui middle aligned avatar image" />
+          <img src={rating.userModel.avatar} className="ui middle aligned avatar image" />
           <div className="content">
-            <a href={rating.fbprofile} target="_blank">{rating.name}</a>
+            <a href={rating.userModel.fbprofile} target="_blank">{rating.userModel.username}</a>
             &nbsp;{contentText}{progressText}{commentText}
           </div>
         </div>
       )
     });
 
+    var latestFromHistory = this.props.history[this.props.history.length-1];
 
     return (
       <div className="item">
         <ProgressIcon progress={mostVoteProgress} className="ui top aligned avatar image" />
         <div className="content">
-          <div className="header">{this.props.brief}</div>
-          <div className="description">{this.props.referenceText || '佐證連結'}</div>
+          <div className="header">{latestFromHistory.brief}</div>
+          <div className="description">
+            <a href={latestFromHistory.reference}>佐證連結</a>
+          </div>
           <div className="ui list">
             {ratingElements}
           </div>
@@ -81,64 +83,64 @@ var ProgressReport = React.createClass({
 
 var PromiseDetail = React.createClass({
   mixins: [Fluxible.FluxibleMixin],
-  getInitialState: function(){
-    return this.getStore(PromiseDetailStore).data;
+
+  componentWillMount () {
+    this.props.setQueryParams({
+      id: this.getStore(RouteStore).currentState.params.id
+    });
   },
 
   render: function(){
+    if(this.props.promise.isLoading){
+      return (
+        <div className="full height main container" style={styles.mainContainer}>
+          <p>Loading</p>
+        </div>
+      );
+    }
+
     var headerStyle = {
 
     };
 
-    var governer = this.state.governer,
-        promise = this.state.promise,
+    var promise = this.props.promise,
+        progressReports = promise.progressReports,
         latestProgressReport, oldProgressReports = [];
 
-    if(this.state.progressReports.length > 0){
-      latestProgressReport = this.state.progressReports[0];
+    if(progressReports && progressReports.length > 0){
+      latestProgressReport = progressReports[0];
 
-      oldProgressReports = this.state.progressReports.slice(1);
+      oldProgressReports = progressReports.slice(1);
     }
 
     var oldProgressReportElems = oldProgressReports.map(function(report, idx){
       return (
         <ProgressReport key={idx}
-                        brief={report.brief}
-                        referenceText={report.referenceText}
-                        referenceUrl={report.referenceUrl}
-                        referenceTime={report.referenceTime}
-                        ratings={report.ratings}
+                        history={report.progressReportHistories}
+                        ratings={report.progressRatings}
                         isExpanded={false}/>
       );
     });
 
-    return (
-      <div className="full height main container" style={styles.mainContainer}>
-        <header>
-          <blockquote>{promise.brief}</blockquote>
-          <p>
-            <a href="{promise.referenceUrl}">承諾出處：{promise.referenceText}</a>
-          </p>
+    var progressReportElems = []
 
-          <div>
-            {promise.content}
-          </div>
-        </header>
-
-        <section className="ui vertical segment">
+    if(latestProgressReport) {
+      progressReportElems.push(
+        <section className="ui vertical segment" key="latest">
 
           <h4>最新進展</h4>
 
           <div className="ui list">
-            <ProgressReport brief={latestProgressReport.brief}
-                            referenceText={latestProgressReport.referenceText}
-                            referenceUrl={latestProgressReport.referenceUrl}
-                            referenceTime={latestProgressReport.referenceTime}
-                            ratings={latestProgressReport.ratings}
+            <ProgressReport history={latestProgressReport.progressReportHistories}
+                            ratings={latestProgressReport.progressRatings}
                             isExpanded={true}/>
           </div>
         </section>
+      )
+    }
 
+    if(oldProgressReportElems && oldProgressReportElems.length) {
+      progressReportElems.push(
         <section className="ui vertical segment">
           <h4>進度歷程</h4>
 
@@ -146,9 +148,51 @@ var PromiseDetail = React.createClass({
             {oldProgressReportElems}
           </section>
         </section>
+      );
+    }
+
+    return (
+      <div className="full height main container" style={styles.mainContainer}>
+        <header>
+          <blockquote>{promise.brief}</blockquote>
+          <p>
+            <a href="{promise.reference}">承諾出處：{promise.reference}</a>
+          </p>
+
+          <div>
+            {promise.content}
+          </div>
+        </header>
+
+        {progressReportElems}
       </div>
     );
   }
 });
 
-module.exports = PromiseDetail;
+module.exports = Transmit.createContainer(PromiseDetail, {
+  queries: {
+    promise(queryParams) {
+      if(!queryParams.id){
+        return Promise.resolve({isLoading: true});
+      }
+
+      return fetch('/api/Promises/findOne', {
+        filter: {
+          where: {
+            id: queryParams.id
+          },
+          include: [
+            {
+              progressReports: ['progressReportHistories', {
+                progressRatings: ['userModel']
+              }]
+            }
+          ]
+        }
+      }).then(function(res){
+        return res.json();
+      });
+    }
+  }
+});
