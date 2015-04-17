@@ -49,6 +49,10 @@ It does two things:
 
 After `npm start`, open `http://127.0.0.1:5000` to see the website running.
 
+### In-memory database
+
+Currently we did not use any persistant database. All data is re-populated by `server/boot/seed-mock-data.js` at server startup.
+
 ### Starting Points
 
 * `common/views/app.jsx`: Isomorphic React component that creates the entire DOM tree.

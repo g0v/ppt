@@ -139,7 +139,7 @@ module.exports = function(server) {
     return fillTable('ProgressReport', [
       {
         "isRetracted": false,
-        "promiseId": promises[0]
+        "promiseId": promises[0].id
       }
     ]);
 
