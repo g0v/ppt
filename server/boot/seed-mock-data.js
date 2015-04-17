@@ -1,3 +1,4 @@
+var debug = require('debug')('ppt:seed-mock-data');
 
 module.exports = function(server) {
   var dataSource = server.dataSources.db,
@@ -190,7 +191,7 @@ module.exports = function(server) {
           return new Promise(function(resolveModel){
             Model.create(datum, function(err, model) {
               if (err) return;
-              console.log(tableName, 'record created:', model);
+              debug(tableName, 'record created:', model);
               resolveModel(model);
             });
           });
