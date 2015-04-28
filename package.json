@@ -43,13 +43,15 @@
     "jsx-loader": "^0.12.2",
     "loopback": "^2.8.0",
     "loopback-boot": "^2.4.0",
+    "loopback-connector-postgresql": "^1.7.0",
     "loopback-datasource-juggler": "^2.7.0",
     "object-assign": "^2.0.0",
     "qs": "^2.4.1",
     "react": "^0.13.1",
     "react-router": "^0.13.2",
     "react-transmit": "^2.5.4",
-    "serve-favicon": "^2.0.1"
+    "serve-favicon": "^2.0.1",
+    "shelljs": "^0.4.0"
   },
   "optionalDependencies": {
     "loopback-explorer": "^1.1.0"
@@ -68,7 +70,7 @@
     "stylus-loader": "^1.0.0",
     "webpack": "^1.7.0",
     "socket.io-client": "MrOrz/socket.io-client",
-    "webpack-dev-server": "mrsharpoblunto/webpack-dev-server"
+    "webpack-dev-server": "webpack/webpack-dev-server"
   },
   "engines": {
     "node": "0.10.x"
