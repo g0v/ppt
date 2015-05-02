@@ -1,7 +1,10 @@
 var debug = require('debug')('ppt:seed-mock-data');
 
+/*if you are unfamiliar with what's going on here, please check
+http://docs.strongloop.com/display/public/LB/Connect+your+API+to+a+data+source*/
+
 module.exports = function(server) {
-  var dataSource = server.dataSources.db,
+  var dataSource = server.dataSources.pg,
 
       // Created instances
       governors, users, terms, policies, promises, groupings, progressReports,

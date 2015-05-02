@@ -8,59 +8,59 @@
     ]
   },
   "User": {
-    "dataSource": "db",
+    "dataSource": "pg",
     "public": false
   },
   "AccessToken": {
-    "dataSource": "db",
+    "dataSource": "pg",
     "public": false
   },
   "ACL": {
-    "dataSource": "db",
+    "dataSource": "pg",
     "public": false
   },
   "RoleMapping": {
-    "dataSource": "db",
+    "dataSource": "pg",
     "public": false
   },
   "Role": {
-    "dataSource": "db",
+    "dataSource": "pg",
     "public": false
   },
   "Governor": {
-    "dataSource": "db",
+    "dataSource": "pg",
     "public": true
   },
   "Term": {
-    "dataSource": "db",
+    "dataSource": "pg",
     "public": true
   },
   "Policy": {
-    "dataSource": "db",
+    "dataSource": "pg",
     "public": true
   },
   "Grouping": {
-    "dataSource": "db",
+    "dataSource": "pg",
     "public": true
   },
   "Promise": {
-    "dataSource": "db",
+    "dataSource": "pg",
     "public": true
   },
   "ProgressReport": {
-    "dataSource": "db",
+    "dataSource": "pg",
     "public": true
   },
   "ProgressReportHistory": {
-    "dataSource": "db",
+    "dataSource": "pg",
     "public": true
   },
   "ProgressRating": {
-    "dataSource": "db",
+    "dataSource": "pg",
     "public": true
   },
   "UserModel": {
-    "dataSource": "db",
+    "dataSource": "pg",
     "public": true
   }
 }
