@@ -1,7 +1,7 @@
 政治承諾追蹤網 Political Promise Tracker
 =========================
 
-[Hackpad](https://g0v.hackpad.com/-Political-Promise-Tracker-4a31UkdBItq)
+[Hackfoldr](http://beta.hackfoldr.org/ppt)(any contribution and disscussion are welcome)
 
 ## 專案簡介
 
@@ -49,9 +49,9 @@ It does two things:
 
 After `npm start`, open `http://127.0.0.1:5000` to see the website running.
 
-### In-memory database
+### Database: postgresSql
 
-Currently we did not use any persistant database. All data is re-populated by `server/boot/seed-mock-data.js` at server startup.
+Currently we use pg(both on heroku and localhost). All data is re-populated by `server/boot/seed-mock-data.js` at server startup.
 
 ### Starting Points
 
