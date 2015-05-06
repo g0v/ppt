@@ -3,7 +3,8 @@
 
 [Hackfoldr](http://beta.hackfoldr.org/ppt)(any contribution and disscussion are welcome)
 
-## 專案簡介
+專案簡介
+--------------
 
 一個列出特定當選人 or 團隊之公開承諾的網頁。
 在任期間由公民朋友自發提供新聞連結、更新承諾進度，
