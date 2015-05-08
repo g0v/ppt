@@ -62,5 +62,17 @@
   "UserModel": {
     "dataSource": "pg",
     "public": true
+  },
+  "accessToken": {
+    "dataSource": "pg",
+    "public": true
+  },
+  "userCredential": {
+    "dataSource": "pg",
+    "public": true
+  },
+  "userIdentity": {
+    "dataSource": "pg",
+    "public": true
   }
 }

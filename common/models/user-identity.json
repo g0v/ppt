@@ -1,0 +1,20 @@
+{
+  "name": "userIdentity",
+  "plural": "userIdentities",
+  "base": "UserIdentity",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {},
+  "validations": [],
+  "relations": {
+    "userModel": {
+      "type": "belongsTo",
+      "model": "UserModel",
+      "foreignKey": "userId"
+    }
+  },
+  "acls": [],
+  "methods": []
+}
