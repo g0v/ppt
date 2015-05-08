@@ -5,6 +5,11 @@ var loopback = require('loopback'),
     expressState = require('express-state'),
     app = module.exports = loopback();
 
+// Passport configurators..
+var loopbackPassport = require('loopback-component-passport');
+var PassportConfigurator = loopbackPassport.PassportConfigurator;
+var passportConfigurator = new PassportConfigurator(app);
+
 // Catch all unhandled promise rejections and print error.
 // Ref: https://iojs.org/api/process.html#process_event_unhandledrejection
 //
