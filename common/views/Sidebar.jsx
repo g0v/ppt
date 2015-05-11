@@ -89,6 +89,13 @@ var Sidebar = React.createClass({
                   <div className="header" style={headerStyle}>關於政治承諾追蹤網</div>
                 </div>
               </Link>
+
+              <Link to="/" className="item" style={listItemStyle}>
+                <img className="ui top avatar image" src="http://semantic-ui.com/images/avatar/small/daniel.jpg"/>
+                <div className="content">
+                  <div className="header" style={headerStyle}>回到首頁</div>
+                </div>
+              </Link>
             </div>
           </section>
         </div>
