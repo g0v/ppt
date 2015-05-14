@@ -7,38 +7,24 @@ require('../semantic-ui/dist/semantic.js');
 window.myDebug = require('debug'); // debug browser support
 
 var React = require('react'),
-    Router = require('react-router'),
-    route = require('../../common/views/Route.jsx'),
-    fluxibleApp = require('../../common/fluxibleApp'),
-    routeAction = require('../../common/actions/routeAction'),
+    fluxibleApp = require('../../common/fluxibleApp');
 
-    isInitialRender = true;
+const bootstrapDebug = myDebug('ppt:clientBootstrap');
+const dehydratedState = window.App;
 
 // Read hash and asset host from the server and initialize client-side React app
 //
 
 // `App` is setted by isomorphic-app middleware
-fluxibleApp.rehydrate(window.App, (err, fluxibleContext) => {
-  Router.run(route, Router.HistoryLocation, function(Handler, state){
-    // Handler should be the React class App.
-
-    if(isInitialRender){
-      // All stores should be populated by rehydration.
-      // Just set route (not serialized) and render.
-      //
-      fluxibleContext.executeAction( routeAction.setRouteStore, state, render );
-      isInitialRender = false;
-
-    }else{
-      // Triggers changeTo action and then calls render.
-      fluxibleContext.executeAction( routeAction.changeTo, state, render );
+fluxibleApp.rehydrate(dehydratedState, (err, context) => {
+  if (err) {
+        throw err;
     }
+  window.context = context;
+  const mountNode = document.getElementById('app');
 
-    function render(){
-      React.render(React.createElement(Handler, {
-        hash: document.querySelector('meta[name="webpack-hash"]').content,
-        context: fluxibleContext.getComponentContext()
-      }), document);
-    }
+  bootstrapDebug('React Rendering');
+  React.render(context.createElement(), mountNode, () => {
+      bootstrapDebug('React Rendered');
   });
 });

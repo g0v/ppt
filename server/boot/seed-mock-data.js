@@ -186,7 +186,7 @@ module.exports = function(server) {
 
   function fillTable(tableName, data) {
     return new Promise(function(resolve){
-      dataSource.automigrate(tableName, function(err) {
+      dataSource.autoupdate(tableName, function(err) {
         if (err) throw err;
         var Model = server.models[tableName];
 

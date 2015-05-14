@@ -18,7 +18,7 @@ var Governer = React.createClass({
 
   onRouteChange () {
     this.props.setQueryParams({
-      name: this.getStore(RouteStore).currentState.params.name
+      name: this.getStore(RouteStore).getCurrentRoute().get('params').get('name')
     });
   },
 

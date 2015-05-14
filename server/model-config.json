@@ -11,10 +11,6 @@
     "dataSource": "db",
     "public": false
   },
-  "AccessToken": {
-    "dataSource": "db",
-    "public": false
-  },
   "ACL": {
     "dataSource": "db",
     "public": false

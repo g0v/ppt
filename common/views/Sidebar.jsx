@@ -1,6 +1,5 @@
-var React = require('react'),
-    Router = require('react-router'),
-    Link = require('react-router').Link;
+import React from 'react';
+import {NavLink} from 'fluxible-router';
 
 var Sidebar = React.createClass({
   getInitialState: function(){
@@ -55,13 +54,13 @@ var Sidebar = React.createClass({
 
     var governerElems = this.state.governers.map(function(governer, idx){
       return (
-        <Link to="governer" params={governer} className="item" style={listItemStyle} key={idx}>
+        <NavLink routeName="governer" navParams={governer} className="item" style={listItemStyle} key={idx}>
           <img className="ui avatar image" src="http://semantic-ui.com/images/avatar/small/daniel.jpg"/>
           <div className="content">
             <div className="header" style={headerStyle}>{governer.name}</div>
             <div className="description" style={descriptionStyle}>{governer.title}・2014-2018・{governer.promiseCount} 承諾</div>
           </div>
-        </Link>
+        </NavLink>
       );
     });
 
@@ -83,19 +82,19 @@ var Sidebar = React.createClass({
                 </div>
               </a>
 
-              <Link to="about" className="item" style={listItemStyle}>
+              <NavLink routeName="about" className="item" style={listItemStyle}>
                 <img className="ui top avatar image" src="http://semantic-ui.com/images/avatar/small/daniel.jpg"/>
                 <div className="content">
                   <div className="header" style={headerStyle}>關於政治承諾追蹤網</div>
                 </div>
-              </Link>
+              </NavLink>
 
-              <Link to="/" className="item" style={listItemStyle}>
+              <NavLink routeName="home" className="item" style={listItemStyle}>
                 <img className="ui top avatar image" src="http://semantic-ui.com/images/avatar/small/daniel.jpg"/>
                 <div className="content">
                   <div className="header" style={headerStyle}>回到首頁</div>
                 </div>
-              </Link>
+              </NavLink>
             </div>
           </section>
         </div>

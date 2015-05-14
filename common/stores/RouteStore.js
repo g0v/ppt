@@ -1,26 +1,4 @@
-var assign = require('object-assign'),
-    debug = require('debug')('ppt:RouteStore'),
-    createStore = require('fluxible/addons/createStore');
+import {RouteStore} from 'fluxible-router';
+import routes from '../config/routes';
 
-module.exports = createStore({
-  storeName: 'RouteStore',
-
-  initialize() {
-    this.lastState = null
-    this.currentState = null
-  },
-
-  handlers: {
-    'ROUTE_CHANGE': function(payload){
-      this._setCurrentState(payload.to);
-    }
-  },
-
-  _setCurrentState(toState) {
-    debug('setCurrentState', toState);
-    this.lastState = this.currentState;
-    this.currentState = toState;
-
-    this.emitChange();
-  }
-});
+export default RouteStore.withStaticRoutes(routes);
