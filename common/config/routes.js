@@ -19,15 +19,15 @@ export default {
           done();
       }
   },
-  governer: {
-      path: '/governer/:name',
+  governor: {
+      path: '/governor/:name',
       method: 'get',
-      handler: require('../views/Governer.jsx'),
-      label: 'Governer',
+      handler: require('../views/Governor.jsx'),
+      label: 'Governor',
       action: (context, payload, done) => {
-          var governerName = payload.get('params').get('name');
-          context.dispatch('LOAD_PAGE', { name: governerName });
-          context.dispatch('UPDATE_PAGE_TITLE', { pageTitle: '政治承諾追蹤網 :: ' + governerName });
+          var governorName = payload.get('params').get('name');
+          context.dispatch('LOAD_PAGE', { name: governorName });
+          context.dispatch('UPDATE_PAGE_TITLE', { pageTitle: '政治承諾追蹤網 :: ' + governorName });
           done();
       }
   },

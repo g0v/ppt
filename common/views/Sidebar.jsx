@@ -4,7 +4,7 @@ import {NavLink} from 'fluxible-router';
 var Sidebar = React.createClass({
   getInitialState: function(){
     return {
-      governers: [
+      governors: [
         {
           name: "台中市政府",
           avatar: "http://semantic-ui.com/images/avatar/small/daniel.jpg",
@@ -52,13 +52,13 @@ var Sidebar = React.createClass({
       color: sidebarTextColor
     };
 
-    var governerElems = this.state.governers.map(function(governer, idx){
+    var governorElems = this.state.governors.map(function(governor, idx){
       return (
-        <NavLink routeName="governer" navParams={governer} className="item" style={listItemStyle} key={idx}>
+        <NavLink routeName="governor" navParams={governor} className="item" style={listItemStyle} key={idx}>
           <img className="ui avatar image" src="http://semantic-ui.com/images/avatar/small/daniel.jpg"/>
           <div className="content">
-            <div className="header" style={headerStyle}>{governer.name}</div>
-            <div className="description" style={descriptionStyle}>{governer.title}・2014-2018・{governer.promiseCount} 承諾</div>
+            <div className="header" style={headerStyle}>{governor.name}</div>
+            <div className="description" style={descriptionStyle}>{governor.title}・2014-2018・{governor.promiseCount} 承諾</div>
           </div>
         </NavLink>
       );
@@ -69,7 +69,7 @@ var Sidebar = React.createClass({
         <div className="ui segment" style={segmentContainerStyle}>
           <section className="ui vertical segment" style={segmentStyle}>
             <div className="ui list" style={listStyle}>
-              {governerElems}
+              {governorElems}
             </div>
           </section>
 

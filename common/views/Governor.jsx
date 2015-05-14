@@ -7,7 +7,7 @@ var React = require('react'),
     ProgressIcon = require('./ProgressIcon.jsx'),
     RouteStore = require('../stores/RouteStore');
 
-var Governer = React.createClass({
+var Governor = React.createClass({
   mixins: [
     require('fluxible').FluxibleMixin
   ],
@@ -41,8 +41,8 @@ var Governer = React.createClass({
       done: 0
     };
 
-    var governer = this.props.governor,
-        policyElems = governer.policies.map(function(policy){
+    var governor = this.props.governor,
+        policyElems = governor.policies.map(function(policy){
           var promiseElems = policy.promises.map(function(promise){
             var latestProgressReport = promise.progressReports[promise.progressReports.length - 1],
                 totalRateCount = latestProgressReport ? latestProgressReport.progressRatings.length : 0,
@@ -96,7 +96,7 @@ var Governer = React.createClass({
     return (
       <div className="full height main container" style={styles.mainContainer}>
         <section>
-          <img src={governer.avatar} />
+          <img src={governor.avatar} />
           <div className="ui three column grid">
             <div className="column">
               <div>{governorStats.notyet}</div>
@@ -119,7 +119,7 @@ var Governer = React.createClass({
   }
 });
 
-module.exports = Transmit.createContainer(Governer, {
+module.exports = Transmit.createContainer(Governor, {
   queries: {
     governor(queryParams) {
 
