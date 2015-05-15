@@ -14,7 +14,7 @@ var Governor = React.createClass({
     debugGovernor('props params name', this.props.currentRoute.get('params').get('name'));
 
     this.props.setQueryParams({
-      name: this.props.currentRoute.get('params').get('name')
+      name: decodeURIComponent(this.props.currentRoute.get('params').get('name'))
     });
   },
 
