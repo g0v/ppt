@@ -1,5 +1,7 @@
 import React from 'react';
 import {NavLink} from 'fluxible-router';
+import debug from 'debug';
+const debugSideBar = debug('ppt:sidebar');
 
 var Sidebar = React.createClass({
   getInitialState: function(){
@@ -53,8 +55,9 @@ var Sidebar = React.createClass({
     };
 
     var governorElems = this.state.governors.map(function(governor, idx){
+      debugSideBar('governor name', governor.name);
       return (
-        <NavLink routeName='governor' navParams={{name:governor}} className="item" style={listItemStyle} key={idx}>
+        <NavLink href={"/governor/" + governor.name} className="item" style={listItemStyle} key={idx}>
           <img className="ui avatar image" src="http://semantic-ui.com/images/avatar/small/daniel.jpg"/>
           <div className="content">
             <div className="header" style={headerStyle}>{governor.name}</div>

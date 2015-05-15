@@ -5,10 +5,14 @@ var React = require('react'),
     ProgressIcon = require('./ProgressIcon.jsx');
 
 import {handleRoute, NavLink} from 'fluxible-router';
+import debug from 'debug';
+const debugGovernor = debug('ppt:governor');
 
 var Governor = React.createClass({
 
   onRouteChange () {
+    debugGovernor('props params name', this.props.currentRoute.get('params').get('name'));
+
     this.props.setQueryParams({
       name: this.props.currentRoute.get('params').get('name')
     });
@@ -19,6 +23,8 @@ var Governor = React.createClass({
   },
 
   render: function(){
+    debugGovernor('governor', this.props.governor);
+
     if(this.props.governor.isLoading){
       return (
         <div className="full height main container" style={styles.mainContainer}>
