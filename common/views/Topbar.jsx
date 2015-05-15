@@ -8,7 +8,7 @@ var TopBar = React.createClass({
       <div className="ui top fixed main menu">
         <div className="container">
           <a href="#" className="launch item button" id="menu-button"><i className="content icon"></i></a>
-          <NavLink routeName="home" className="title item">
+          <NavLink href="/" className="title item">
             政治承諾追蹤網
           </NavLink>
           <div className="right menu">

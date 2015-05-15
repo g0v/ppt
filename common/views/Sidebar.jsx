@@ -54,7 +54,7 @@ var Sidebar = React.createClass({
 
     var governorElems = this.state.governors.map(function(governor, idx){
       return (
-        <NavLink routeName="governor" navParams={governor} className="item" style={listItemStyle} key={idx}>
+        <NavLink routeName='governor' navParams={{name:governor}} className="item" style={listItemStyle} key={idx}>
           <img className="ui avatar image" src="http://semantic-ui.com/images/avatar/small/daniel.jpg"/>
           <div className="content">
             <div className="header" style={headerStyle}>{governor.name}</div>
@@ -82,14 +82,14 @@ var Sidebar = React.createClass({
                 </div>
               </a>
 
-              <NavLink routeName="about" className="item" style={listItemStyle}>
+              <NavLink href="/about" className="item" style={listItemStyle}>
                 <img className="ui top avatar image" src="http://semantic-ui.com/images/avatar/small/daniel.jpg"/>
                 <div className="content">
                   <div className="header" style={headerStyle}>關於政治承諾追蹤網</div>
                 </div>
               </NavLink>
 
-              <NavLink routeName="home" className="item" style={listItemStyle}>
+              <NavLink href="/" className="item" style={listItemStyle}>
                 <img className="ui top avatar image" src="http://semantic-ui.com/images/avatar/small/daniel.jpg"/>
                 <div className="content">
                   <div className="header" style={headerStyle}>回到首頁</div>

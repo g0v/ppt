@@ -1,24 +1,16 @@
 var React = require('react'),
-    Router = require('react-router'),
-    Link = Router.Link,
     styles = require('./styles.js'),
     Transmit = require('react-transmit'),
     fetch = require('../utils/fetch'),
-    ProgressIcon = require('./ProgressIcon.jsx'),
-    RouteStore = require('../stores/RouteStore');
+    ProgressIcon = require('./ProgressIcon.jsx');
+
+import {handleRoute, NavLink} from 'fluxible-router';
 
 var Governor = React.createClass({
-  mixins: [
-    require('fluxible').FluxibleMixin
-  ],
-
-  statics: {
-    storeListeners: {onRouteChange: [RouteStore]}
-  },
 
   onRouteChange () {
     this.props.setQueryParams({
-      name: this.getStore(RouteStore).getCurrentRoute().get('params').get('name')
+      name: this.props.currentRoute.get('params').get('name')
     });
   },
 
@@ -70,14 +62,14 @@ var Governor = React.createClass({
             governorStats[rating] += 1;
 
             return (
-              <Link to="promise" params={{id: promise.id}} className="ui item" key={promise.id}>
+              <NavLink routeName='promise' navParams={{id: promise.id}} className="ui item" key={promise.id}>
                 <ProgressIcon progress={rating} className="ui top aligned avatar image"/>
                 <div className="content">
                   <div className="header">{promise.brief}</div>
                   <div className="description">{promise.content}</div>
                   <p>{totalRateCount} 人評進度</p>
                 </div>
-              </Link>
+              </NavLink>
             )
           });
 
@@ -118,6 +110,13 @@ var Governor = React.createClass({
     );
   }
 });
+
+Governor.contextTypes = {
+    getStore: React.PropTypes.func,
+    executeAction: React.PropTypes.func
+};
+
+Governor = handleRoute(Governor);
 
 module.exports = Transmit.createContainer(Governor, {
   queries: {

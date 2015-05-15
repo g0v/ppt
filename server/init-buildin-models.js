@@ -1,5 +1,5 @@
 module.exports = function mountBuildInModels(server){
-  var dataSource = server.dataSources.pg;
+  var dataSource = server.dataSources.db;
   var buildInModels = ['ACL', 'RoleMapping', 'Role',
     'accessToken', 'userCredential', 'userIdentity'];
   dataSource.autoupdate(buildInModels, function(er) {
