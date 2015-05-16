@@ -27,7 +27,7 @@ export default {
       action: (context, payload, done) => {
           var governorName = payload.get('params').get('name');
           context.dispatch('LOAD_PAGE', { name: governorName });
-          context.dispatch('UPDATE_PAGE_TITLE', { pageTitle: '政治承諾追蹤網 :: ' + governorName });
+          context.dispatch('UPDATE_PAGE_TITLE', { pageTitle: '政治承諾追蹤網 :: ' + decodeURIComponent(governorName) });
           done();
       }
   },

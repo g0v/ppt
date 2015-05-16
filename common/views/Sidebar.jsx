@@ -22,12 +22,7 @@ var Sidebar = React.createClass({
       ]
     }
   },
-  componentDidMount: function(){
-    $('.ui.sidebar').sidebar('attach events', '#menu-button');
-  },
-  componentWillReceiveProps: function(){
-    $('.ui.sidebar').sidebar('hide');
-  },
+  
   render: function(){
 
     var sidebarTextColor = 'rgba(255, 255, 255, .82)';

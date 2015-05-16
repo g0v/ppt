@@ -11,8 +11,6 @@ const debugGovernor = debug('ppt:governor');
 var Governor = React.createClass({
 
   onRouteChange () {
-    debugGovernor('props params name', this.props.currentRoute.get('params').get('name'));
-
     this.props.setQueryParams({
       name: decodeURIComponent(this.props.currentRoute.get('params').get('name'))
     });
@@ -23,7 +21,6 @@ var Governor = React.createClass({
   },
 
   render: function(){
-    debugGovernor('governor', this.props.governor);
 
     if(this.props.governor.isLoading){
       return (
@@ -41,10 +38,15 @@ var Governor = React.createClass({
 
     var governor = this.props.governor,
         policyElems = governor.policies.map(function(policy){
-          var promiseElems = policy.promises.map(function(promise){
-            var latestProgressReport = promise.progressReports[promise.progressReports.length - 1],
-                totalRateCount = latestProgressReport ? latestProgressReport.progressRatings.length : 0,
-                rating = 'notyet';
+
+          if(policy.promises){
+            var promiseElems = policy.promises.map(function(promise){
+            //make sure progressReports exists
+            if (promise.progressReports) {
+              var latestProgressReport = promise.progressReports[promise.progressReports.length - 1],
+                  totalRateCount = latestProgressReport ? latestProgressReport.progressRatings.length : 0,
+                  rating = 'notyet';
+            }
 
             // Find the most-popular progress rating
             //
@@ -78,6 +80,7 @@ var Governor = React.createClass({
               </NavLink>
             )
           });
+        }
 
           return (
             <div className="ui green segment" key={policy.id}>
@@ -116,11 +119,6 @@ var Governor = React.createClass({
     );
   }
 });
-
-Governor.contextTypes = {
-    getStore: React.PropTypes.func,
-    executeAction: React.PropTypes.func
-};
 
 Governor = handleRoute(Governor);
 
