@@ -80,7 +80,7 @@
     "stylus-loader": "^1.0.0",
     "webpack": "^1.7.0",
     "socket.io-client": "MrOrz/socket.io-client",
-    "webpack-dev-server": "webpack/webpack-dev-server"
+    "webpack-dev-server": "^1.8.2"
   },
   "engines": {
     "node": "0.10.x"
