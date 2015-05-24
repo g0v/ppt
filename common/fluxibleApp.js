@@ -1,10 +1,16 @@
 // Fluxible app instance
 
-var Fluxible = require('fluxible');
+import Fluxible from 'fluxible';
+import App from './views/App.jsx';
+import MetaStore from './stores/MetaStore';
+import RouteStore from './stores/RouteStore';
 
-var fluxibleApp = new Fluxible();
-
-fluxibleApp.registerStore(require('./stores/MetaStore'));
-fluxibleApp.registerStore(require('./stores/RouteStore'));
+let fluxibleApp = new Fluxible({
+    component: App,
+    stores: [
+        RouteStore,
+        MetaStore
+    ]
+});
 
 module.exports = fluxibleApp;

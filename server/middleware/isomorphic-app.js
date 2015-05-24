@@ -1,10 +1,11 @@
 var React = require('react'),
     Router = require('react-router'),
+    serialize = require('serialize-javascript'),
     debug = require('debug')('ppt:IsomorphicApp'),
 
     fluxibleApp = require('../../common/fluxibleApp'),
-    routeAction = require('../../common/actions/routeAction'),
-    Route = require('../../common/views/Route.jsx'),
+    navigateAction = require('fluxible-router').navigateAction,
+    HtmlComponent = React.createFactory(require('../../common/views/Html.jsx')),
 
     isProduction = process.env.NODE_ENV === 'production';
 
@@ -20,27 +21,34 @@ module.exports = function(options) {
   return function IsomorphicApp(req, res, next) {
     var fluxibleContext = fluxibleApp.createContext();
 
-    Router.run(Route, req.path, (Handler, state) => {
-      // Handler should be the React class App.
-
       debug('Middleware catched route', req.path);
 
-      // Populate stores by executing routeAction
-      //
-      fluxibleContext.executeAction(routeAction.changeTo, state, () => {
+      debug('Executing navigate action');
+      fluxibleContext.executeAction(navigateAction, {url: req.url}, (err) => {
+        if (err) {
+            if (err.statusCode && err.statusCode === 404) {
+                next();
+            } else {
+                next(err);
+            }
+            return;
+        }
 
-        debug('routeAction done, rendering');
+        debug('Exposing context state');
+        var exposed = 'window.App=' + serialize(fluxibleApp.dehydrate(fluxibleContext)) + ';';
 
-        var app = React.createElement(Handler, {
-          hash, // cache-busting cache
-          context: fluxibleContext.getComponentContext()
-        }), dehydrated, html;
+        debug('Rendering Application component into html');
+        var Component = fluxibleApp.getComponent();
 
-        html = React.renderToString(app);
-        res.expose(fluxibleApp.dehydrate(fluxibleContext), 'App');
-        res.send(`<!doctype html><script>${res.locals.state}</script>${html}`);
+        var html = React.renderToStaticMarkup(HtmlComponent({
+            hash,
+            state: exposed,
+            markup: React.renderToString(fluxibleContext.createElement()),
+            context: fluxibleContext.getComponentContext()
+        }));
 
+        debug('Sending markup');
+        res.send(html);
       });
-    });
   };
 }

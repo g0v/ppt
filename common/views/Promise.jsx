@@ -1,13 +1,12 @@
 var React = require('react'),
-    Router = require('react-router'),
     styles = require('./styles.js'),
     ProgressIcon = require('./ProgressIcon.jsx'),
 
     Fluxible = require('fluxible'),
     Transmit = require('react-transmit'),
-    fetch = require('../utils/fetch'),
-    RouteStore = require('../stores/RouteStore');
+    fetch = require('../utils/fetch');
 
+import {handleRoute, Nav} from 'fluxible-router';
 
 var ProgressReport = React.createClass({
   propTypes: {
@@ -82,11 +81,10 @@ var ProgressReport = React.createClass({
 })
 
 var PromiseDetail = React.createClass({
-  mixins: [Fluxible.FluxibleMixin],
 
   componentWillMount () {
     this.props.setQueryParams({
-      id: this.getStore(RouteStore).currentState.params.id
+      id: this.props.currentRoute.get('params').get('id')
     });
   },
 
@@ -156,7 +154,7 @@ var PromiseDetail = React.createClass({
         <header>
           <blockquote>{promise.brief}</blockquote>
           <p>
-            <a href="{promise.reference}">承諾出處：{promise.reference}</a>
+            <a href={promise.reference}>承諾出處：{promise.reference}</a>
           </p>
 
           <div>
@@ -169,6 +167,8 @@ var PromiseDetail = React.createClass({
     );
   }
 });
+
+PromiseDetail = handleRoute(PromiseDetail);
 
 module.exports = Transmit.createContainer(PromiseDetail, {
   queries: {

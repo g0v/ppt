@@ -1,11 +1,12 @@
-var React = require('react'),
-    Router = require('react-router'),
-    Link = require('react-router').Link;
+import React from 'react';
+import {NavLink} from 'fluxible-router';
+import debug from 'debug';
+const debugSideBar = debug('ppt:sidebar');
 
 var Sidebar = React.createClass({
   getInitialState: function(){
     return {
-      governers: [
+      governors: [
         {
           name: "台中市政府",
           avatar: "http://semantic-ui.com/images/avatar/small/daniel.jpg",
@@ -21,12 +22,7 @@ var Sidebar = React.createClass({
       ]
     }
   },
-  componentDidMount: function(){
-    $('.ui.sidebar').sidebar('attach events', '#menu-button');
-  },
-  componentWillReceiveProps: function(){
-    $('.ui.sidebar').sidebar('hide');
-  },
+  
   render: function(){
 
     var sidebarTextColor = 'rgba(255, 255, 255, .82)';
@@ -53,15 +49,16 @@ var Sidebar = React.createClass({
       color: sidebarTextColor
     };
 
-    var governerElems = this.state.governers.map(function(governer, idx){
+    var governorElems = this.state.governors.map(function(governor, idx){
+      debugSideBar('governor name', governor.name);
       return (
-        <Link to="governer" params={governer} className="item" style={listItemStyle} key={idx}>
+        <NavLink href={"/governor/" + governor.name} className="item" style={listItemStyle} key={idx}>
           <img className="ui avatar image" src="http://semantic-ui.com/images/avatar/small/daniel.jpg"/>
           <div className="content">
-            <div className="header" style={headerStyle}>{governer.name}</div>
-            <div className="description" style={descriptionStyle}>{governer.title}・2014-2018・{governer.promiseCount} 承諾</div>
+            <div className="header" style={headerStyle}>{governor.name}</div>
+            <div className="description" style={descriptionStyle}>{governor.title}・2014-2018・{governor.promiseCount} 承諾</div>
           </div>
-        </Link>
+        </NavLink>
       );
     });
 
@@ -70,7 +67,7 @@ var Sidebar = React.createClass({
         <div className="ui segment" style={segmentContainerStyle}>
           <section className="ui vertical segment" style={segmentStyle}>
             <div className="ui list" style={listStyle}>
-              {governerElems}
+              {governorElems}
             </div>
           </section>
 
@@ -83,12 +80,19 @@ var Sidebar = React.createClass({
                 </div>
               </a>
 
-              <Link to="about" className="item" style={listItemStyle}>
+              <NavLink href="/about" className="item" style={listItemStyle}>
                 <img className="ui top avatar image" src="http://semantic-ui.com/images/avatar/small/daniel.jpg"/>
                 <div className="content">
                   <div className="header" style={headerStyle}>關於政治承諾追蹤網</div>
                 </div>
-              </Link>
+              </NavLink>
+
+              <NavLink href="/" className="item" style={listItemStyle}>
+                <img className="ui top avatar image" src="http://semantic-ui.com/images/avatar/small/daniel.jpg"/>
+                <div className="content">
+                  <div className="header" style={headerStyle}>回到首頁</div>
+                </div>
+              </NavLink>
             </div>
           </section>
         </div>

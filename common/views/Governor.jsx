@@ -1,24 +1,18 @@
 var React = require('react'),
-    Router = require('react-router'),
-    Link = Router.Link,
     styles = require('./styles.js'),
     Transmit = require('react-transmit'),
     fetch = require('../utils/fetch'),
-    ProgressIcon = require('./ProgressIcon.jsx'),
-    RouteStore = require('../stores/RouteStore');
+    ProgressIcon = require('./ProgressIcon.jsx');
 
-var Governer = React.createClass({
-  mixins: [
-    require('fluxible').FluxibleMixin
-  ],
+import {handleRoute, NavLink} from 'fluxible-router';
+import debug from 'debug';
+const debugGovernor = debug('ppt:governor');
 
-  statics: {
-    storeListeners: {onRouteChange: [RouteStore]}
-  },
+var Governor = React.createClass({
 
   onRouteChange () {
     this.props.setQueryParams({
-      name: this.getStore(RouteStore).currentState.params.name
+      name: decodeURIComponent(this.props.currentRoute.get('params').get('name'))
     });
   },
 
@@ -27,6 +21,7 @@ var Governer = React.createClass({
   },
 
   render: function(){
+
     if(this.props.governor.isLoading){
       return (
         <div className="full height main container" style={styles.mainContainer}>
@@ -41,12 +36,17 @@ var Governer = React.createClass({
       done: 0
     };
 
-    var governer = this.props.governor,
-        policyElems = governer.policies.map(function(policy){
-          var promiseElems = policy.promises.map(function(promise){
-            var latestProgressReport = promise.progressReports[promise.progressReports.length - 1],
-                totalRateCount = latestProgressReport ? latestProgressReport.progressRatings.length : 0,
-                rating = 'notyet';
+    var governor = this.props.governor,
+        policyElems = governor.policies.map(function(policy){
+
+          if(policy.promises){
+            var promiseElems = policy.promises.map(function(promise){
+            //make sure progressReports exists
+            if (promise.progressReports) {
+              var latestProgressReport = promise.progressReports[promise.progressReports.length - 1],
+                  totalRateCount = latestProgressReport ? latestProgressReport.progressRatings.length : 0,
+                  rating = 'notyet';
+            }
 
             // Find the most-popular progress rating
             //
@@ -70,16 +70,17 @@ var Governer = React.createClass({
             governorStats[rating] += 1;
 
             return (
-              <Link to="promise" params={{id: promise.id}} className="ui item" key={promise.id}>
+              <NavLink routeName='promise' navParams={{id: promise.id}} className="ui item" key={promise.id}>
                 <ProgressIcon progress={rating} className="ui top aligned avatar image"/>
                 <div className="content">
                   <div className="header">{promise.brief}</div>
                   <div className="description">{promise.content}</div>
                   <p>{totalRateCount} 人評進度</p>
                 </div>
-              </Link>
+              </NavLink>
             )
           });
+        }
 
           return (
             <div className="ui green segment" key={policy.id}>
@@ -96,7 +97,7 @@ var Governer = React.createClass({
     return (
       <div className="full height main container" style={styles.mainContainer}>
         <section>
-          <img src={governer.avatar} />
+          <img src={governor.avatar} />
           <div className="ui three column grid">
             <div className="column">
               <div>{governorStats.notyet}</div>
@@ -119,7 +120,9 @@ var Governer = React.createClass({
   }
 });
 
-module.exports = Transmit.createContainer(Governer, {
+Governor = handleRoute(Governor);
+
+module.exports = Transmit.createContainer(Governor, {
   queries: {
     governor(queryParams) {
 

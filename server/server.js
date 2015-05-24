@@ -2,7 +2,6 @@ require('babel/register');
 
 var loopback = require('loopback'),
     boot = require('loopback-boot'),
-    expressState = require('express-state'),
     app = module.exports = loopback();
 
 // Passport configurators..
@@ -49,7 +48,6 @@ try {
 // Docs: https://gist.github.com/bajtos/e7eaba736ff096916b71
 //
 boot(app, __dirname);
-expressState.extend(app);
 
 // The access token is only available after boot
 app.use(loopback.token({

@@ -24,7 +24,7 @@
     },
     "accessTokens": {
       "type": "hasMany",
-      "model": "AccessToken",
+      "model": "accessToken",
       "foreignKey": "userId"
     },
     "identities": {

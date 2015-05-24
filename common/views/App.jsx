@@ -1,79 +1,52 @@
-var React = require('react'),
-    Router = require('react-router'),
-    RouteHandler = Router.RouteHandler,
-    debug = require('debug')('ppt:App'),
+import React from 'react';
+import debug from 'debug';
+import MetaStore from '../stores/MetaStore.js';
+import Sidebar from './Sidebar.jsx';
+import TopBar from './Topbar.jsx';
+import {connectToStores, provideContext} from 'fluxible/addons';
+import {handleHistory} from 'fluxible-router';
 
-    MetaStore = require('../stores/MetaStore'),
+const debugApp = debug('ppt:App');
 
-    Sidebar = require('./Sidebar.jsx'),
-    TopBar = require('./Topbar.jsx');
-
-var App = React.createClass({
-
-  mixins: [require('fluxible').FluxibleMixin],
-
-  statics: {
-    storeListeners: {
-      onMetaChange: [MetaStore]
+class App extends React.Component {
+    constructor(props, context) {
+        super(props, context);
     }
-  },
-
-  getInitialState() {
-    var metaStore = this.getStore(MetaStore);
-
-    return {
-      isMenuOpen: false,
-      meta: this._extractMetaFromStore()
+    componentDidUpdate(prevProps) {
+        let newProps = this.props;
+        if (newProps.MetaStore.pageTitle === prevProps.MetaStore.pageTitle) {
+            return;
+        }
+        document.title = newProps.MetaStore.pageTitle;
     }
-  },
+    render() {
+      var Handler = this.props.currentRoute.get('handler');
 
-  render() {
-    var cssName = '/build/' + this.props.hash + '.css',
-        jsName = '/build/' + this.props.hash + '.js';
-
-    debug('Metadata', this.state.meta);
-
-    return (
-      <html lang="zh-TW">
-        <head>
-          <meta charSet="utf-8"/>
-          <meta name="viewport" content="width=device-width, initial-scale=1"/>
-          <meta httpEquiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-          <meta name="webpack-hash" content={this.props.hash}/>
-          <title>{this.state.meta.title}</title>
-          <meta name="description" content={this.state.meta.description} />
-          <meta name="canonical" content={this.state.meta.canonical} />
-          <link href={cssName} rel="stylesheet"/>
-        </head>
-        <body>
+      debugApp('MetaStore', this.props.MetaStore);
+      //render content
+      return (
+        <div>
           <Sidebar />
           <TopBar />
-          <div className="pusher">
-            <RouteHandler />
-          </div>
-          <script src="/vendor/bower_components/jquery/dist/jquery.min.js"/>
-          <script src={jsName}/>
-        </body>
-      </html>
-    )
-  },
+          <Handler />
+        </div>
+      );
+    }
+}
 
-  onMetaChange() {
-    this.setState({
-      meta: this._extractMetaFromStore()
-    });
-  },
+App.contextTypes = {
+    getStore: React.PropTypes.func,
+    executeAction: React.PropTypes.func
+};
 
-  _extractMetaFromStore(){
-    var metaStore = this.getStore(MetaStore);
-
-    return {
-      title: metaStore.title,
-      canonical: metaStore.canonical,
-      description: metaStore.description
-    };
-  }
-
+App = connectToStores(App, [MetaStore], function (stores, props) {
+  return {
+    MetaStore: stores.MetaStore.getState()
+  };
 });
 
-module.exports = App;
+App = handleHistory(App);
+
+App = provideContext(App);
+
+export default App;
