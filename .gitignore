@@ -5,5 +5,4 @@ client/build
 *.log
 tmp/*
 .env
-providers.json
 server/boot/init-buildin-models.js
