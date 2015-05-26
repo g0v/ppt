@@ -20,6 +20,7 @@ class Sidebar extends React.Component {
   }
 
   toggle() {
+    debugSideBar('toggle called');
     this.refs.leftNav.toggle();
   }
 
@@ -34,7 +35,8 @@ class Sidebar extends React.Component {
         docked={false}
         isInitiallyOpen={false}
         menuItems={menuItems}
-        onChange={this._onLeftNavChange} />
+        onChange={this._onLeftNavChange}
+        style={{zDepth: 1}}/>
     );
   }
 }
