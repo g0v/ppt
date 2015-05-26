@@ -35,7 +35,7 @@ class App extends React.Component {
       debugApp('toggle calling');
       this.refs.sideBar.toggle();
     }
-    
+
     render() {
       var Handler = this.props.currentRoute.get('handler');
 
