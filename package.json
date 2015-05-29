@@ -1,0 +1,71 @@
+{
+  "name": "PPT",
+  "version": "0.0.1",
+  "description": "Political Promise Tracker",
+  "url": "https://github.com/g0v/ppt",
+  "email": "navyblueshellingford@gmail.com",
+  "main": "server/server.js",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:g0v/ppt.git"
+  },
+  "scripts": {
+    "clean": "rm -f client/build/*",
+    "// build": "Generates production assets.",
+    "build:webpack": "webpack --config client/config/webpack.js --json > tmp/webpack-stats.json",
+    "build": "npm run clean && NODE_ENV=production npm run build:webpack",
+    "// start": "Start development server",
+    "start": "npm run start:server & npm run start:client",
+    "start:server": "PORT=$npm_package_config_apiServerPort nodemon -w client -w server -w common -e js,jsx server/server.js",
+    "start:client": "webpack-dev-server --config client/config/webpack.js",
+    "// deploy": "Depoly steps, which creates a branch named _deploy, builds and commits compiled project, and pushes to Heroku.",
+    "deploy:init": "git checkout -b _deploy && echo '!client/build' >> .gitignore && echo '!tmp/webpack-stats.json' >> .gitignore",
+    "deploy:commit": "_COMMIT_MSG=$(git log -n 1 --pretty=format:'%h - %s') && git add .gitignore client/build tmp/webpack-stats.json && git commit -m \"$_COMMIT_MSG\"",
+    "deploy:push": "git push --force heroku _deploy:master",
+    "deploy:cleanup": "git checkout - && git branch -D _deploy",
+    "deploy": "npm run deploy:init && npm run build && npm run deploy:commit && npm run deploy:push && npm run deploy:cleanup"
+  },
+  "config": {
+    "webpackDevServerPort": 5000,
+    "apiServerPort": 9527
+  },
+  "dependencies": {
+    "babel": "^4.7.16",
+    "babel-core": "^4.7.16",
+    "babel-loader": "^4.2.0",
+    "cookie-parser": "^1.3.4",
+    "debug": "^2.1.3",
+    "express": "^4.12.3",
+    "express-flash": "0.0.2",
+    "express-session": "^1.11.1",
+    "express-state": "^1.2.0",
+    "fluxible": "^0.4.7",
+    "fluxible-router": "^0.1.4",
+    "isomorphic-fetch": "^2.0.2",
+    "object-assign": "^2.0.0",
+    "passport-facebook": "^2.0.0",
+    "passport-google-oauth": "^0.2.0",
+    "passport-local": "^1.0.0",
+    "react": "^0.13.1",
+    "react-transmit": "^2.5.4",
+    "sequelize-cli": "^1.7.0",
+    "serve-favicon": "^2.0.1",
+    "shelljs": "^0.4.0"
+  },
+  "devDependencies": {
+    "jsx-loader": "^0.12.2",
+    "css-loader": "^0.9.0",
+    "extract-text-webpack-plugin": "^0.3.8",
+    "file-loader": "^0.8.1",
+    "nib": "^1.1.0",
+    "nodemon": "^1.2.1",
+    "stylus": "^0.50.0",
+    "stylus-loader": "^1.0.0",
+    "webpack": "^1.7.0",
+    "socket.io-client": "MrOrz/socket.io-client",
+    "webpack-dev-server": "^1.8.2"
+  },
+  "engines": {
+    "node": "0.10.x"
+  }
+}
