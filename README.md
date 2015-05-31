@@ -41,9 +41,10 @@ $ npm install
 Create a PostgreSQL database table called `promisetw` with user `ppt` and empty password. Then run:
 
 ```
-$ npm run migrate
 $ npm run seed
 ```
+
+To run database migration and seed the mock data into database.
 
 ### Start Server
 
@@ -63,8 +64,17 @@ After `npm start`, open `http://127.0.0.1:5000` to see the website running.
 ### Database
 
 Currently we use pg (both on heroku and localhost).
-The database structure is managed by migration scripts in `server/migration`, which is invoked by `sequalize-cli`.
-All data is re-populated by `data/seed-mock-data.js` at server startup.
+The database structure is managed by migration scripts in `server/migration`, which is invoked by [`sequelize-cli`](https://github.com/sequelize/cli).
+
+General steps to alter the database structure (i.e. add/remove tables or add/remove columns) are given below:
+
+1. Generate migration scripts using `node_modules/.bin/sequelize migration:create`
+2. Edit the generated script under the directory 'server/migration'
+3. Run `npm run migrate` (a shortcut for `node_modules/.bin/sequelize db:migrate`)
+
+If you want to create a *new model*, please refer to `node_modules/.bin/sequelize help:model:create` for more information.
+
+All data is re-populated by `server/seed-mock-data.js` at server startup.
 
 ### Starting Points
 
