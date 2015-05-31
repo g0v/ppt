@@ -1,4 +1,5 @@
-{
-  "config": "server/config/database.json",
-  "migrations-path": "server/migrations"
-}
+module.exports = {
+  config: "server/config/database.json",
+  "migrations-path": "server/migrations",
+  "models-path": "server/models"
+};
