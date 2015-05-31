@@ -46,11 +46,12 @@ router.get('/findAll/:modelName', function(req, res) {
 module.exports = router;
 
 // Parses "options.include" for /findAll.
-// Note that "through" option is omitted deliberately because the option makes
-// no sense, since all relations should be already declared by schema.
+// Note that "model", "as" and "through" options are omitted deliberately,
+// because all relations should be already declared by schema, so "association"
+// should be the only valid option.
 //
 const INCLUDE_KEYS_WHITELIST = [
-  'model', 'association', 'as', 'where', 'attributes', 'required'
+  'association', 'where', 'attributes', 'required'
 ];
 
 function parseIncludes(sourceModel, includes) {
@@ -70,10 +71,6 @@ function parseIncludes(sourceModel, includes) {
       }
     });
 
-    if(typeof opt.model === 'string') {
-      opt.model = model = models[includeOpt.model]
-    }
-
     if(typeof opt.association === 'string') {
       opt.association = sourceModel.associations[includeOpt.association];
       model = opt.association.target;
@@ -84,7 +81,7 @@ function parseIncludes(sourceModel, includes) {
       if(model){
         opt.include = parseIncludes(model, includeOpt.include);
       }else{
-        throw "options.include[] should include either 'model' or 'association'.";
+        throw "options.include[] should include 'association'.";
       }
     }
 
