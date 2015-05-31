@@ -1,91 +1,88 @@
 var express = require('express'),
-    Product = require('../models/product'),
+    models = require('../models'),
+    Sequelize = require('Sequelize'),
+    debug = require('debug')('ppt:api'),
     router = express.Router();
 
-router.get('/products', function(req, res) {
-  Product.find({
-    // Only return product name and thumbnail to save bandwidth.
-    //
-    attributes: ['id', 'name', 'thumbnail']
-  }).then(function(records) {
-    res.json(records);
-  });
-});
+const FINDALL_OPTION_WHITELIST = [
+  'limit', 'offset', 'having', 'include', 'where', 'attributes'
+];
 
-router.get('/products/:id', function(req, res) {
-  Product.find(req.params.id).then(function(product) {
-    if (product) {
-      res.json(product);
-    } else {
-      res.sendStatus(404);
+router.get('/findAll/:modelName', function(req, res) {
+  var model = models[req.params.modelName],
+      rawOptions = (req.query.q && JSON.parse(req.query.q)) || {},
+      options = {};
+
+  FINDALL_OPTION_WHITELIST.forEach(key => {
+    if(typeof rawOptions[key] !== 'undefined'){
+      options[key] = rawOptions[key];
     }
   });
-});
 
-router.get('/cart', function(req, res) {
-  fetchProductsByIds(req.user.cart).then(function(records) {
-    res.json(records);
-  });
-});
-
-router.post('/cart', function(req, res) {
-  var cart = req.user.cart,
-      productId = req.body.productId,
-      idx = cart.indexOf(productId);
-
-  if (!productId) {
-    res.status(400);
-  }else {
-    // Do not push to cart twice
-    //
-    if (idx === -1) {
-      // Push to cart only if product id is valid.
-      //
-      Product.find(productId).then(function(product) {
-        if (product) {
-          cart.push(productId);
-        } else {
-          res.status(422); // Unprocessible Entity
-        }
-      }).then(function() {
-        return fetchProductsByIds(cart);
-      }).then(function(records) {
-        res.json(records);
-      });
-      return;
-    }else {
-      res.status(422); // Unprocessible Entity
+  if ( model ) {
+    if(options.include){
+      debug("INCLUDE before", options.include);
+      options.include = parseIncludes(model, options.include);
+      debug("INCLUDE after", options.include);
     }
+
+
+    model.findAll(options).then( data => {
+      res.json(data);
+    }).catch( reason => {
+      debug('Model fetch rejected', reason);
+      res.status('Unprocessable Entity').end();
+    } );
+  } else {
+    res.status('Bad Request').end();
   }
-
-  fetchProductsByIds(cart).then(function(records) {
-    res.json(records);
-  });
-
 });
-
-router.delete('/cart/:productId', function(req, res) {
-  var cart = req.user.cart,
-      idx = cart.indexOf(req.params.productId);
-
-  if (idx === -1) { // Not found
-    res.status(422); // Unprocessible Entity
-  }else {
-    cart.splice(idx, 1);
-  }
-
-  fetchProductsByIds(cart).then(function(records) {
-    res.json(records);
-  });
-});
-
-function fetchProductsByIds(ids) {
-  // Fetch product as a list and include its price for calculation.
-  //
-  return Product.find({
-    where: {id: ids},
-    attributes: ['id', 'name', 'thumbnail', 'price']
-  });
-}
 
 module.exports = router;
+
+// Parses "options.include" for /findAll.
+// Note that "through" option is omitted deliberately because the option makes
+// no sense, since all relations should be already declared by schema.
+//
+const INCLUDE_KEYS_WHITELIST = [
+  'model', 'association', 'as', 'where', 'attributes', 'required'
+];
+
+function parseIncludes(sourceModel, includes) {
+  return includes.map( includeOpt => {
+
+    // If includeOpt is already an Sequelize.Model instance,
+    // no need for parsing this item.
+    if (includeOpt instanceof Sequelize.Model) {
+      return includeOpt;
+    }
+
+    var opt = {}, model;
+
+    INCLUDE_KEYS_WHITELIST.forEach( key => {
+      if( typeof includeOpt[key] !== 'undefined' ) {
+        opt[key] = includeOpt[key];
+      }
+    });
+
+    if(typeof opt.model === 'string') {
+      opt.model = model = models[includeOpt.model]
+    }
+
+    if(typeof opt.association === 'string') {
+      opt.association = sourceModel.associations[includeOpt.association];
+      model = opt.association.target;
+    }
+
+    // Parse nested include
+    if (includeOpt.include) {
+      if(model){
+        opt.include = parseIncludes(model, includeOpt.include);
+      }else{
+        throw "options.include[] should include either 'model' or 'association'.";
+      }
+    }
+
+    return opt;
+  });
+}
