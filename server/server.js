@@ -3,6 +3,7 @@
 
 // Babel takes care of jsx parsing & requiring.
 require('babel/register');
+require('../server/utils/catchUnhandledPromiseRejections');
 
 var express = require('express'),
     app = express(),
@@ -16,18 +17,7 @@ var express = require('express'),
     resolver = require('../common/utils/resolver'),
     fetch = require('../common/utils/fetch');
 
-// Catch all unhandled promise rejections and print error.
-// Ref: https://iojs.org/api/process.html#process_event_unhandledrejection
-//
-process.on('unhandledRejection', function(reason, promise) {
-  if (reason.stack) {
-    // Error object, has stack info
-    console.error('[Unhandled Rejection]', reason.stack);
-  } else {
-    console.error('[Unhandled Rejection] Reason:', reason);
-  }
-  console.error('[Unhandled Rejection] Promise:', promise);
-});
+
 
 // view engine setup
 app.set('views', __dirname + '/views');

@@ -24,8 +24,9 @@
     "deploy:push": "git push --force heroku _deploy:master",
     "deploy:cleanup": "git checkout - && git branch -D _deploy",
     "deploy": "npm run deploy:init && npm run build && npm run deploy:commit && npm run deploy:push && npm run deploy:cleanup",
-    "// migrate": "sequelize-cli related commands",
-    "migrate": "sequelize db:migrate"
+    "// database-related": "Database related commands",
+    "migrate": "sequelize db:migrate",
+    "seed": "sequelize db:migrate:undo:all && npm run migrate && babel-node -r ./server/seed-mock-data.js"
   },
   "config": {
     "webpackDevServerPort": 5000,
@@ -48,6 +49,8 @@
     "passport-facebook": "^2.0.0",
     "passport-google-oauth": "^0.2.0",
     "passport-local": "^1.0.0",
+    "pg": "^4.3.0",
+    "pg-hstore": "^2.3.2",
     "react": "^0.13.1",
     "react-transmit": "^2.5.4",
     "sequelize": "^3.1.1",
