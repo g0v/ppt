@@ -10,8 +10,16 @@ const FINDALL_OPTION_WHITELIST = [
 
 router.get('/findAll/:modelName', function(req, res) {
   var model = models[req.params.modelName],
-      rawOptions = (req.query.q && JSON.parse(req.query.q)) || {},
-      options = {};
+      options = {},
+      rawOptions;
+
+  try {
+    rawOptions = (req.query.q && JSON.parse(req.query.q)) || {}
+  } catch (e) {
+    debug('findAll q option parsing failed', e, e.stack);
+    res.status(422).send("" + e).end();
+    return;
+  }
 
   FINDALL_OPTION_WHITELIST.forEach(key => {
     if(typeof rawOptions[key] !== 'undefined'){
@@ -21,20 +29,17 @@ router.get('/findAll/:modelName', function(req, res) {
 
   if ( model ) {
     if(options.include){
-      debug("INCLUDE before", options.include);
       options.include = parseIncludes(model, options.include);
-      debug("INCLUDE after", options.include);
     }
-
 
     model.findAll(options).then( data => {
       res.json(data);
     }).catch( reason => {
       debug('Model fetch rejected', reason);
-      res.status('Unprocessable Entity').end();
+      res.status(422).end();
     } );
   } else {
-    res.status('Bad Request').end();
+    res.status(500).end();
   }
 });
 
