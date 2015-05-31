@@ -63,8 +63,8 @@ After `npm start`, open `http://127.0.0.1:5000` to see the website running.
 
 ### Database
 
-Currently we use pg (both on heroku and localhost).
-The database structure is managed by migration scripts in `server/migration`, which is invoked by [`sequelize-cli`](https://github.com/sequelize/cli).
+Currently we use PostgreSQL both on heroku and localhost.
+The database structure is managed by migration scripts in `server/migration`.
 
 General steps to alter the database structure (i.e. add/remove tables or add/remove columns) are given below:
 
@@ -73,8 +73,6 @@ General steps to alter the database structure (i.e. add/remove tables or add/rem
 3. Run `npm run migrate` (a shortcut for `node_modules/.bin/sequelize db:migrate`)
 
 If you want to create a *new model*, please refer to `node_modules/.bin/sequelize help:model:create` for more information.
-
-All data is re-populated by `server/seed-mock-data.js` at server startup.
 
 ### Starting Points
 
@@ -109,6 +107,12 @@ To deploy to Heroku, just run:
 
 ```
 $ npm run deploy
+```
+
+If the database structure should be updated, don't forget to run database migration on server as well:
+
+```
+$ heroku run npm run migrate
 ```
 
 If you would like to inspect the compiled website without pushing to Heroku, you may:
