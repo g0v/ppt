@@ -43,8 +43,6 @@ router.get('/findAll/:modelName', function(req, res) {
   }
 });
 
-module.exports = router;
-
 // Parses "options.include" for /findAll.
 // Note that "model", "as" and "through" options are omitted deliberately,
 // because all relations should be already declared by schema, so "association"
@@ -88,3 +86,5 @@ function parseIncludes(sourceModel, includes) {
     return opt;
   });
 }
+
+module.exports = router;
