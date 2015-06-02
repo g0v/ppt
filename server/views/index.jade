@@ -19,7 +19,7 @@ html(lang="zh-TW")
     <![endif]-->
 
   body
-    |!= html
+    != html
     script.
       var __dehydrated = !{fluxibleDataStr};
     script(src="/build/" + hash + ".js")

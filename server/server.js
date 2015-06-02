@@ -2,7 +2,10 @@
 //
 
 // Babel takes care of jsx parsing & requiring.
-require('babel/register');
+require('babel/register')({
+  optional: ['es7.asyncFunctions']
+});
+
 require('../server/utils/catchUnhandledPromiseRejections');
 
 var express = require('express'),
@@ -25,14 +28,12 @@ app.use(require('body-parser').json()); // Post requests in application/json
 //
 // API endpoints
 //
-app.use('/api', require('./routes/api.js'));
+app.use('/api', require('./routes/api'));
 
 //
-// Catch-all route
+// Top-level endpoints and catch-all route
 //
-app.get('*', function(req, res){
-  res.json({foo: 'bar'});
-});
+app.use(require('./routes/top-level.jsx'));
 
 var server = app.listen(packageJson.config.apiServerPort, function() {
   console.log('Server listening at http://%s:%s',
