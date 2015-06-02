@@ -37,7 +37,12 @@ var webpackCfg = {
     ]
   },
   plugins: [
-    new ExtractText( isProduction ? "[hash].css" : "client.css" )
+    new ExtractText( isProduction ? "[hash].css" : "client.css" ),
+    new webpack.DefinePlugin({
+      'process.env': {
+        IS_BROWSER: JSON.stringify(true),
+      }
+    })
   ],
   debug: !isProduction,
   externals: {
