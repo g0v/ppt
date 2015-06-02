@@ -10,6 +10,7 @@ var express = require('express'),
     packageJson = require('../package.json');;
 
 // view engine setup
+app.set('view engine', 'jade');
 app.set('views', __dirname + '/views');
 
 //
