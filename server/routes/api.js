@@ -13,6 +13,10 @@ router.get('/findAll/:modelName', function(req, res) {
       options = {},
       rawOptions;
 
+  if (!model) {
+    res.status(400).send(`invalid modelName ${req.params.modelName}`).end();
+  }
+
   try {
     rawOptions = (req.query.q && JSON.parse(req.query.q)) || {}
   } catch (e) {
@@ -27,20 +31,22 @@ router.get('/findAll/:modelName', function(req, res) {
     }
   });
 
-  if ( model ) {
-    if(options.include){
+  if(options.include){
+    try {
       options.include = parseIncludes(model, options.include);
+    } catch (e) {
+      debug('parsing incldue structure failed', e, e.stack);
+      res.status(422).send("" + e).end();
+      return;
     }
-
-    model.findAll(options).then( data => {
-      res.json(data);
-    }).catch( reason => {
-      debug('Model fetch rejected', reason);
-      res.status(422).end();
-    } );
-  } else {
-    res.status(500).end();
   }
+
+  model.findAll(options).then( data => {
+    res.json(data);
+  }).catch( reason => {
+    debug('Model fetch rejected', reason);
+    res.status(422).end();
+  } );
 });
 
 // Parses "options.include" for /findAll.
@@ -71,6 +77,9 @@ function parseIncludes(sourceModel, includes) {
 
     if(typeof opt.association === 'string') {
       opt.association = sourceModel.associations[includeOpt.association];
+      if(!opt.association){
+        throw `Association "${includeOpt.association}" does not exist in model "${sourceModel.name}"`;
+      }
       model = opt.association.target;
     }
 
