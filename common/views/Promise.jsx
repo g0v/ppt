@@ -184,6 +184,8 @@ PromiseDetail = Transmit.createContainer(PromiseDetail, {
   }
 });
 
+// Setup React-transmit via props
+//
 var PromiseDetailWrapper = React.createClass({
   render () {
     return (

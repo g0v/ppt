@@ -138,6 +138,8 @@ Governor = Transmit.createContainer(Governor, {
   }
 });
 
+// Setup React-transmit via props
+//
 var GovernorWrapper = React.createClass({
   render() {
     return (
