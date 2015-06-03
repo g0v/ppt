@@ -180,7 +180,7 @@ module.exports = Transmit.createContainer(PromiseDetail, {
         return Promise.resolve({isLoading: true});
       }
 
-      return findAll('Promises', {
+      return findAll('Promise', {
         where: {
           id: queryParams.id
         },
