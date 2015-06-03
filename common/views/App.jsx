@@ -23,13 +23,17 @@ class App extends React.Component {
 
       debug('MetaStore', this.props.MetaStore);
 
-      // render content.
-      // this.props.onQuery is passed in by Transmit.renderToString.
+      // Rendered content.
+      //
+      // this.props is passed to <Handler /> because
+      // React-transmit's Transmit.renderToString leverages props to pass
+      // queryResults around.
+      //
       return (
         <div>
           <Sidebar />
           <TopBar />
-          <Handler onQuery={this.props.onQuery}/>
+          <Handler {...this.props}/>
         </div>
       );
     }
