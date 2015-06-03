@@ -2,6 +2,7 @@ var React = require('react'),
     debug = require('debug')('ppt:promise'),
     styles = require('./styles.js'),
     ProgressIcon = require('./ProgressIcon.jsx'),
+    Loading = require('./Loading.jsx'),
 
     Fluxible = require('fluxible'),
     Transmit = require('react-transmit'),
@@ -53,9 +54,9 @@ var ProgressReport = React.createClass({
 
       ratingElements.unshift(
         <div className="item" key={idx}>
-          <img src={rating.userModel.avatar} className="ui middle aligned avatar image" />
+          <img src={rating.User.avatar} className="ui middle aligned avatar image" />
           <div className="content">
-            <a href={rating.userModel.fbprofile} target="_blank">{rating.userModel.username}</a>
+            <a href={rating.User.fbprofile} target="_blank">{rating.User.username}</a>
             &nbsp;{contentText}{progressText}{commentText}
           </div>
         </div>
@@ -83,29 +84,10 @@ var ProgressReport = React.createClass({
 
 var PromiseDetail = React.createClass({
 
-  componentWillMount () {
-    debug('componentWillMount');
-    this.props.setQueryParams({
-      id: this.props.currentRoute.get('params').get('id')
-    });
-  },
-
   render: function(){
-    debug('render');
-    if(this.props.promise.isLoading){
-      return (
-        <div className="full height main container" style={styles.mainContainer}>
-          <p>Loading</p>
-        </div>
-      );
-    }
 
-    var headerStyle = {
-
-    };
-
-    var promise = this.props.promise,
-        progressReports = promise.progressReports,
+    var promise = this.props.promises[0],
+        progressReports = promise.ProgressReports,
         latestProgressReport, oldProgressReports = [];
 
     if(progressReports && progressReports.length > 0){
@@ -117,8 +99,8 @@ var PromiseDetail = React.createClass({
     var oldProgressReportElems = oldProgressReports.map(function(report, idx){
       return (
         <ProgressReport key={idx}
-                        history={report.progressReportHistories}
-                        ratings={report.progressRatings}
+                        history={report.ProgressReportHistories}
+                        ratings={report.ProgressRatings}
                         isExpanded={false}/>
       );
     });
@@ -132,8 +114,8 @@ var PromiseDetail = React.createClass({
           <h4>最新進展</h4>
 
           <div className="ui list">
-            <ProgressReport history={latestProgressReport.progressReportHistories}
-                            ratings={latestProgressReport.progressRatings}
+            <ProgressReport history={latestProgressReport.ProgressReportHistories}
+                            ratings={latestProgressReport.ProgressRatings}
                             isExpanded={true}/>
           </div>
         </section>
@@ -171,15 +153,9 @@ var PromiseDetail = React.createClass({
   }
 });
 
-PromiseDetail = handleRoute(PromiseDetail);
-
-module.exports = Transmit.createContainer(PromiseDetail, {
+PromiseDetail = Transmit.createContainer(PromiseDetail, {
   queries: {
-    promise(queryParams) {
-      if(!queryParams.id){
-        return Promise.resolve({isLoading: true});
-      }
-
+    promises(queryParams) {
       return findAll('Promise', {
         where: {
           id: queryParams.id
@@ -191,12 +167,13 @@ module.exports = Transmit.createContainer(PromiseDetail, {
               {
                 association: 'ProgressReportHistories',
                 include: [
-                  {
-                    association: 'ProgressRatings',
-                    include: [
-                      { association: 'User' }
-                    ]
-                  }
+                  { association: 'User' }
+                ]
+              },
+              {
+                association: 'ProgressRatings',
+                include: [
+                  { association: 'User' }
                 ]
               }
             ]
@@ -206,3 +183,17 @@ module.exports = Transmit.createContainer(PromiseDetail, {
     }
   }
 });
+
+var PromiseDetailWrapper = React.createClass({
+  render () {
+    return (
+      <PromiseDetail queryParams={{
+          id: this.props.currentRoute.get('params').get('id')
+        }} emptyView={<Loading />}
+        {...this.props}
+      />
+    );
+  }
+});
+
+module.exports = handleRoute(PromiseDetailWrapper);
