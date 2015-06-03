@@ -15,6 +15,7 @@ router.get('/findAll/:modelName', function(req, res) {
 
   if (!model) {
     res.status(400).send(`invalid modelName ${req.params.modelName}`).end();
+    return;
   }
 
   try {
