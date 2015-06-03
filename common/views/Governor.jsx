@@ -3,58 +3,41 @@ var React = require('react'),
     styles = require('./styles.js'),
     Transmit = require('react-transmit'),
     findAll = require('../utils/findAll'),
-    ProgressIcon = require('./ProgressIcon.jsx');
+    ProgressIcon = require('./ProgressIcon.jsx'),
+    Loading = require('./Loading.jsx');
 
 import {handleRoute, NavLink} from 'fluxible-router';
 
 var Governor = React.createClass({
-
-  componentWillMount () {
-    console.log("componentWillMount", this.props.currentRoute.get('params').get('name'));
-    this.props.setQueryParams({
-      name: this.props.currentRoute.get('params').get('name')
-    });
-  },
-
   render () {
-    debug('render', this.props);
-
-    if(this.props.governor.isLoading){
-      return (
-        <div className="full height main container" style={styles.mainContainer}>
-          <p>Loading...</p>
-        </div>
-      );
-    }
-
     var governorStats = {
       notyet: 0,
       doing: 0,
       done: 0
     };
 
-    var governor = this.props.governor,
-        policyElems = governor.policies.map(function(policy){
+    var governor = this.props.governors[0],
+        policyElems = governor.Policies.map(function(policy){
 
-          if(policy.promises){
-            var promiseElems = policy.promises.map(function(promise){
+          if(policy.Promises){
+            var promiseElems = policy.Promises.map(function(promise){
               //make sure progressReports exists
-              if (promise.progressReports) {
-                var latestProgressReport = promise.progressReports[promise.progressReports.length - 1],
-                    totalRateCount = latestProgressReport ? latestProgressReport.progressRatings.length : 0,
+              if (promise.ProgressReports) {
+                var latestProgressReport = promise.ProgressReports[promise.ProgressReports.length - 1],
+                    totalRateCount = latestProgressReport ? latestProgressReport.ProgressRatings.length : 0,
                     rating = 'notyet';
               }
 
               // Find the most-popular progress rating
               //
-              if(latestProgressReport && latestProgressReport.progressRatings.length > 0){
+              if(latestProgressReport && latestProgressReport.ProgressRatings.length > 0){
                 let rateCounts = {
                   notyet: 0,
                   doing: 0,
                   done: 0
                 }, mostCount = 0;
 
-                latestProgressReport.progressRatings.forEach((rating) => {
+                latestProgressReport.ProgressRatings.forEach((rating) => {
                   rateCounts[rating.progress] += 1;
 
                   if(mostCount < rateCounts[rating.progress]){
@@ -117,11 +100,9 @@ var Governor = React.createClass({
   }
 });
 
-Governor = handleRoute(Governor);
-
-module.exports = Transmit.createContainer(Governor, {
+Governor = Transmit.createContainer(Governor, {
   queries: {
-    governor(queryParams) {
+    governors(queryParams) {
       debug("queryParams", queryParams);
 
       if(!queryParams.name){
@@ -156,3 +137,17 @@ module.exports = Transmit.createContainer(Governor, {
     }
   }
 });
+
+var GovernorWrapper = React.createClass({
+  render() {
+    return (
+      <Governor queryParams={{
+          name: this.props.currentRoute.get('params').get('name')
+        }} emptyView={<Loading />}
+        {...this.props}
+      />
+    );
+  }
+})
+
+module.exports = handleRoute(GovernorWrapper);
