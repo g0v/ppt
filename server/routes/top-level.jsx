@@ -27,7 +27,6 @@ router.get('*', async function(req, res, next) {
   // Ref: https://github.com/yahoo/fluxible-router/blob/master/docs/quick-start.md#call-the-navigate-action
   //
   try {
-
     await context.executeAction(navigateAction, {
       url: req.url
     });
@@ -43,10 +42,26 @@ router.get('*', async function(req, res, next) {
   meta = componentContext.getStore('MetaStore').getState();
   debug('Meta store', meta);
 
+  // Note: although fluxibleContext has "createElement()" method that generates
+  // <App /> and injects context for us, but Transmit.renderToString requires a
+  // React *class*, not a React *element*. Thus fluxibleContext.createElement()
+  // can't be used here.
+  //
   var {reactString, reactData} = await Transmit.renderToString(App, {context: componentContext}),
+
+      // Transmit.injectIntoMarkup: serializes reactData and add <script> tag.
+      //
       html = Transmit.injectIntoMarkup(`<div id="react-root">${reactString}</div>`, reactData),
+
+      // serialize-javascript is the serialization technique used in
+      // express-state. Instead of polluting express app with express-state, we
+      // use serialize-javascript directly, which is much more concise and
+      // trackable.
+      //
       fluxibleDataStr = serialize(context.dehydrate());
 
+  // renders index.jade
+  //
   res.render('index', {
     meta, html, fluxibleDataStr, hash: HASH
   });
