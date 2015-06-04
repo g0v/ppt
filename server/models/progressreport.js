@@ -10,7 +10,7 @@ module.exports = function(sequelize, DataTypes) {
     classMethods: {
       associate: function(models) {
         // associations can be defined here
-        this.belongsTo(models.Promise);
+        this.belongsTo(models.Commitment);
         this.hasMany(models.ProgressReportHistory);
         this.hasMany(models.ProgressRating);
       }

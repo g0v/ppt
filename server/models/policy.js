@@ -9,7 +9,7 @@ module.exports = function(sequelize, DataTypes) {
         // associations can be defined here
         this.belongsTo(models.Governor);
         this.hasMany(models.Grouping);
-        this.belongsToMany(models['Promise'], {through: models.Grouping});
+        this.belongsToMany(models.Commitment, {through: models.Grouping});
       }
     }
   });

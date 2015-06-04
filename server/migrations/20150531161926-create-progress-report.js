@@ -21,7 +21,7 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE
       },
-      PromiseId: {
+      CommitmentId: {
         type: Sequelize.INTEGER
       }
     });

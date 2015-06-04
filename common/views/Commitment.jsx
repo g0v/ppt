@@ -82,12 +82,12 @@ var ProgressReport = React.createClass({
   }
 })
 
-var PromiseDetail = React.createClass({
+var Commitment = React.createClass({
 
   render: function(){
 
-    var promise = this.props.promises[0],
-        progressReports = promise.ProgressReports,
+    var commitment = this.props.commitments[0],
+        progressReports = commitment.ProgressReports,
         latestProgressReport, oldProgressReports = [];
 
     if(progressReports && progressReports.length > 0){
@@ -137,13 +137,13 @@ var PromiseDetail = React.createClass({
     return (
       <div className="full height main container" style={styles.mainContainer}>
         <header>
-          <blockquote>{promise.brief}</blockquote>
+          <blockquote>{commitment.brief}</blockquote>
           <p>
-            <a href={promise.reference}>承諾出處：{promise.reference}</a>
+            <a href={commitment.reference}>承諾出處：{commitment.reference}</a>
           </p>
 
           <div>
-            {promise.content}
+            {commitment.content}
           </div>
         </header>
 
@@ -153,10 +153,10 @@ var PromiseDetail = React.createClass({
   }
 });
 
-PromiseDetail = Transmit.createContainer(PromiseDetail, {
+Commitment = Transmit.createContainer(Commitment, {
   queries: {
-    promises(queryParams) {
-      return findAll('Promise', {
+    commitments(queryParams) {
+      return findAll('Commitment', {
         where: {
           id: queryParams.id
         },
@@ -186,7 +186,7 @@ PromiseDetail = Transmit.createContainer(PromiseDetail, {
 
 // Setup React-transmit via props
 //
-var PromiseQuerySetter = React.createClass({
+var CommitmentQuerySetter = React.createClass({
   _makeQueryParams () {
     return {
       id: this.props.currentRoute.get('params').get('id')
@@ -195,8 +195,8 @@ var PromiseQuerySetter = React.createClass({
 
   render () {
     return (
-      <PromiseDetail queryParams={this._makeQueryParams()}
-        emptyView={<Loading />} ref="promiseDetail"
+      <Commitment queryParams={this._makeQueryParams()}
+        emptyView={<Loading />} ref="Commitment"
         {...this.props}
       />
     );
@@ -204,9 +204,9 @@ var PromiseQuerySetter = React.createClass({
 
   componentDidUpdate(prevProps) {
     if(prevProps.currentRoute !== this.props.currentRoute){
-      this.refs.promiseDetail.setQueryParams(this._makeQueryParams());
+      this.refs.Commitment.setQueryParams(this._makeQueryParams());
     }
   }
 });
 
-module.exports = handleRoute(PromiseQuerySetter);
+module.exports = handleRoute(CommitmentQuerySetter);

@@ -19,11 +19,11 @@ var Governor = React.createClass({
     var governor = this.props.governors[0],
         policyElems = governor.Policies.map(function(policy){
 
-          if(policy.Promises){
-            var promiseElems = policy.Promises.map(function(promise){
+          if(policy.Commitments){
+            var commitmentElems = policy.Commitments.map(function(commitment){
               //make sure progressReports exists
-              if (promise.ProgressReports) {
-                var latestProgressReport = promise.ProgressReports[promise.ProgressReports.length - 1],
+              if (commitment.ProgressReports) {
+                var latestProgressReport = commitment.ProgressReports[commitment.ProgressReports.length - 1],
                     totalRateCount = latestProgressReport ? latestProgressReport.ProgressRatings.length : 0,
                     rating = 'notyet';
               }
@@ -50,11 +50,11 @@ var Governor = React.createClass({
               governorStats[rating] += 1;
 
               return (
-                <NavLink routeName='promise' navParams={{id: promise.id}} className="ui item" key={promise.id}>
+                <NavLink routeName='commitment' navParams={{id: commitment.id}} className="ui item" key={commitment.id}>
                   <ProgressIcon progress={rating} className="ui top aligned avatar image"/>
                   <div className="content">
-                    <div className="header">{promise.brief}</div>
-                    <div className="description">{promise.content}</div>
+                    <div className="header">{commitment.brief}</div>
+                    <div className="description">{commitment.content}</div>
                     <p>{totalRateCount} 人評進度</p>
                   </div>
                 </NavLink>
@@ -68,7 +68,7 @@ var Governor = React.createClass({
                 {policy.name}
               </h1>
               <div className="ui list">
-                {promiseElems}
+                {commitmentElems}
               </div>
             </div>
           )
@@ -114,7 +114,7 @@ Governor = Transmit.createContainer(Governor, {
             association: 'Policies',
             include: [
               {
-                association: 'Promises',
+                association: 'Commitments',
                 include: [
                   {
                     association: 'ProgressReports',

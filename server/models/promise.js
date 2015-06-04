@@ -1,6 +1,6 @@
 'use strict';
 module.exports = function(sequelize, DataTypes) {
-  var Promise = sequelize.define('Promise', {
+  var Commitment = sequelize.define('Commitment', {
     brief: DataTypes.STRING,
     content: DataTypes.STRING,
     reference: DataTypes.STRING,
@@ -15,5 +15,5 @@ module.exports = function(sequelize, DataTypes) {
       }
     }
   });
-  return Promise;
+  return Commitment;
 };

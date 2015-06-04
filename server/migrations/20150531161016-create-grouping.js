@@ -19,7 +19,7 @@ module.exports = {
       PolicyId: {
         type: Sequelize.INTEGER
       },
-      PromiseId: {
+      CommitmentId: {
         type: Sequelize.INTEGER
       }
     });

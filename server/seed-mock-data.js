@@ -73,7 +73,7 @@ seed = async function() {
       "GovernorId": governors[1].id
     },
   ]),
-  promises = await fillTable('Promise', [
+  commitments = await fillTable('Commitment', [
     {
       "brief": "中縣、市婦女生育，每位新生兒補助一萬元",
       "content": "為了讓選民了解胡志強在當選後的大台中具體施政內容，推出「福利齊步走」九項福利政見。包括台中縣、市婦女生育每位新生兒補助一萬元。",
@@ -113,18 +113,18 @@ seed = async function() {
   ]),
 
   groupings = await fillTable('Grouping', [
-    {"PolicyId": policies[0].id, "PromiseId": promises[0].id },
-    {"PolicyId": policies[0].id, "PromiseId": promises[1].id },
-    {"PolicyId": policies[2].id, "PromiseId": promises[2].id },
-    {"PolicyId": policies[2].id, "PromiseId": promises[3].id },
-    {"PolicyId": policies[3].id, "PromiseId": promises[4].id },
-    {"PolicyId": policies[3].id, "PromiseId": promises[5].id },
+    {"PolicyId": policies[0].id, "CommitmentId": commitments[0].id },
+    {"PolicyId": policies[0].id, "CommitmentId": commitments[1].id },
+    {"PolicyId": policies[2].id, "CommitmentId": commitments[2].id },
+    {"PolicyId": policies[2].id, "CommitmentId": commitments[3].id },
+    {"PolicyId": policies[3].id, "CommitmentId": commitments[4].id },
+    {"PolicyId": policies[3].id, "CommitmentId": commitments[5].id },
   ]),
 
   progressReports = await fillTable('ProgressReport', [
     {
       "isRetracted": false,
-      "PromiseId": promises[0].id
+      "CommitmentId": commitments[0].id
     }
   ]),
 

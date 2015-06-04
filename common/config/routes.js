@@ -31,14 +31,14 @@ export default {
           done();
       }
   },
-  promise: {
-      path: '/promise/:id',
+  commitment: {
+      path: '/commitment/:id',
       method: 'get',
-      handler: require('../views/Promise.jsx'),
-      label: 'Promise',
+      handler: require('../views/Commitment.jsx'),
+      label: 'Commitment',
       action(context, payload, done) {
-          var promiseId = payload.get('params').get('id');
-          context.dispatch('UPDATE_PAGE_TITLE', { pageTitle: '政治承諾追蹤網 :: ' + promiseId });
+          var id = payload.get('params').get('id');
+          context.dispatch('UPDATE_PAGE_TITLE', { pageTitle: '政治承諾追蹤網 :: ' + id });
           done();
       }
   }
