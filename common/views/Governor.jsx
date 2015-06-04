@@ -104,11 +104,6 @@ Governor = Transmit.createContainer(Governor, {
   queries: {
     governors(queryParams) {
       debug("queryParams", queryParams);
-
-      if(!queryParams.name){
-        return Promise.resolve({isLoading: true});
-      }
-
       return findAll('Governor', {
         where: {
           name: queryParams.name
@@ -140,16 +135,27 @@ Governor = Transmit.createContainer(Governor, {
 
 // Setup React-transmit via props
 //
-var GovernorWrapper = React.createClass({
+var GovernorQuerySetter = React.createClass({
+  _makeQueryParams () {
+    return {
+      name: this.props.currentRoute.get('params').get('name')
+    }
+  },
+
   render() {
     return (
-      <Governor queryParams={{
-          name: this.props.currentRoute.get('params').get('name')
-        }} emptyView={<Loading />}
+      <Governor queryParams={this._makeQueryParams()} emptyView={<Loading />}
         {...this.props}
+        ref="governor"
       />
     );
+  },
+
+  componentDidUpdate(prevProps) {
+    if(prevProps.currentRoute !== this.props.currentRoute){
+      this.refs.governor.setQueryParams(this._makeQueryParams());
+    }
   }
 })
 
-module.exports = handleRoute(GovernorWrapper);
+module.exports = handleRoute(GovernorQuerySetter);

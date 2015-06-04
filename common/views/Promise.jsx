@@ -186,16 +186,27 @@ PromiseDetail = Transmit.createContainer(PromiseDetail, {
 
 // Setup React-transmit via props
 //
-var PromiseDetailWrapper = React.createClass({
+var PromiseQuerySetter = React.createClass({
+  _makeQueryParams () {
+    return {
+      id: this.props.currentRoute.get('params').get('id')
+    }
+  },
+
   render () {
     return (
-      <PromiseDetail queryParams={{
-          id: this.props.currentRoute.get('params').get('id')
-        }} emptyView={<Loading />}
+      <PromiseDetail queryParams={this._makeQueryParams()}
+        emptyView={<Loading />} ref="promiseDetail"
         {...this.props}
       />
     );
+  },
+
+  componentDidUpdate(prevProps) {
+    if(prevProps.currentRoute !== this.props.currentRoute){
+      this.refs.promiseDetail.setQueryParams(this._makeQueryParams());
+    }
   }
 });
 
-module.exports = handleRoute(PromiseDetailWrapper);
+module.exports = handleRoute(PromiseQuerySetter);
