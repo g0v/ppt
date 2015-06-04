@@ -11,7 +11,7 @@ import {navigateAction} from 'fluxible-router';
 
 var HASH;
 if(process.env.NODE_ENV !== 'production') {
-  HASH = 'index';
+  HASH = 'client';
 } else {
   HASH = require('../../tmp/webpack-stats.json').hash;
 }
@@ -58,7 +58,7 @@ router.get('*', async function(req, res, next) {
       // use serialize-javascript directly, which is much more concise and
       // trackable.
       //
-      fluxibleDataStr = serialize(context.dehydrate());
+      fluxibleDataStr = serialize(fluxibleApp.dehydrate(context));
 
   // renders index.jade
   //

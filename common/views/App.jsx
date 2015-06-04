@@ -1,16 +1,25 @@
 import React from 'react';
 import MetaStore from '../stores/MetaStore.js';
 import Sidebar from './Sidebar.jsx';
-import TopBar from './Topbar.jsx';
 import {connectToStores, provideContext} from 'fluxible/addons';
 import {handleHistory} from 'fluxible-router';
+import mui, {AppBar, AppCanvas} from 'material-ui';
 
-const debug = require('debug')('ppt:App');
+const debug = require('debug')('ppt:App'),
+      ThemeManager = new mui.Styles.ThemeManager();
 
 class App extends React.Component {
     constructor(props, context) {
         super(props, context);
+        this._onLeftIconButtonTouchTap = this._onLeftIconButtonTouchTap.bind(this);
     }
+
+    getChildContext() {
+      return {
+        muiTheme: ThemeManager.getCurrentTheme()
+      }
+    }
+
     componentDidUpdate(prevProps) {
         let newProps = this.props;
         if (newProps.MetaStore.pageTitle === prevProps.MetaStore.pageTitle) {
@@ -18,6 +27,12 @@ class App extends React.Component {
         }
         document.title = newProps.MetaStore.pageTitle;
     }
+
+    _onLeftIconButtonTouchTap() {
+      debug('toggle calling');
+      this.refs.sideBar.toggle();
+    }
+
     render() {
       var Handler = this.props.currentRoute.get('handler');
 
@@ -31,8 +46,8 @@ class App extends React.Component {
       //
       return (
         <div>
-          <Sidebar />
-          <TopBar />
+          <AppBar _onLeftIconButtonTouchTap={this._onLeftIconButtonTouchTap} />
+          <Sidebar ref="sideBar" />
           <Handler {...this.props}/>
         </div>
       );
@@ -42,6 +57,10 @@ class App extends React.Component {
 App.contextTypes = {
     getStore: React.PropTypes.func,
     executeAction: React.PropTypes.func
+};
+
+App.childContextTypes = {
+  muiTheme: React.PropTypes.object
 };
 
 App = connectToStores(App, [MetaStore], function (stores, props) {
