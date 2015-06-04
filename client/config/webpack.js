@@ -36,6 +36,9 @@ var webpackCfg = {
       }
     ]
   },
+  stylus: {
+    use: [(require('nib'))()]
+  },
   plugins: [
     new ExtractText( isProduction ? "[hash].css" : "client.css" ),
     new webpack.DefinePlugin({
