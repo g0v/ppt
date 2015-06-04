@@ -8,10 +8,19 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
+      name: {
+        type: Sequelize.STRING
+      },
       fbid: {
         type: Sequelize.STRING
       },
+      googleid: {
+        type: Sequelize.STRING
+      },
       avatar: {
+        type: Sequelize.STRING
+      },
+      email: {
         type: Sequelize.STRING
       },
       createdAt: {
