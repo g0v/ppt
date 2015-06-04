@@ -26,7 +26,7 @@
     "deploy": "npm run deploy:init && npm run build && npm run deploy:commit && npm run deploy:push && npm run deploy:cleanup",
     "// database-related": "Database related commands",
     "migrate": "sequelize db:migrate",
-    "seed": "sequelize db:migrate:undo:all && npm run migrate && babel-node -r ./server/seed-mock-data.js"
+    "seed": "sequelize db:migrate:undo:all && npm run migrate && babel-node --debug --stage 1 -- ./server/seed-mock-data.js"
   },
   "config": {
     "webpackDevServerPort": 5000,
