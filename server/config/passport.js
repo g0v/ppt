@@ -23,7 +23,7 @@ passport.use(new FacebookStrategy({
   clientSecret: process.env.PROVIDER_FB_SECRET,
   callbackURL: `${process.env.PROVIDER_CALLBACK_HOST}/auth/facebook/callback`,
   enableProof: false
-}, function verifyFacebook(accessToken, refreshToken, profile, done) {
+}, async function verifyFacebook(accessToken, refreshToken, profile, done) {
   debug('Verifying user profile', profile);
 
   var email = profile.emails[0] && profile.emails[0].value || '',
@@ -34,24 +34,35 @@ passport.use(new FacebookStrategy({
     matchConditions.push({email});
   }
 
-  User.findOrCreate({
-    where: { $or: matchConditions },
-    defaults: {
-      name: profile.displayName,
-      fbid: profile.id,
-      avatar: `https://graph.facebook.com/v2.3/${profile.id}/picture`,
-      email
+  try {
+    var [user, isCreated] = await User.findOrCreate({
+      where: { $or: matchConditions },
+      defaults: {
+        name: profile.displayName,
+        fbid: profile.id,
+        avatar: `https://graph.facebook.com/v2.3/${profile.id}/picture`,
+        email
+      }
+    })
+
+    // If user record already exists, but fbid is empty,
+    // fill in fbid.
+    //
+    if(!isCreated && !user.fbid) {
+      user = await user.update({fbid: profile.id});
     }
-  }).then(([user, isCreated]) => {
+
     done(null, user);
-  }).catch(done);
+  } catch (err) {
+    done(err);
+  }
 }));
 
 passport.use(new GoogleStrategy({
   clientID: process.env.PROVIDER_GOOGLE_ID,
   clientSecret: process.env.PROVIDER_GOOGLE_SECRET,
   callbackURL: `${process.env.PROVIDER_CALLBACK_HOST}/auth/google/callback`
-}, function verifyGoogle(accessToken, refreshToken, profile, done) {
+}, async function verifyGoogle(accessToken, refreshToken, profile, done) {
   debug('Verifying user profile', profile);
 
   var email = profile.emails[0] && profile.emails[0].value || '',
@@ -62,17 +73,29 @@ passport.use(new GoogleStrategy({
     matchConditions.push({email});
   }
 
-  User.findOrCreate({
-    where: { $or: matchConditions },
-    defaults: {
-      name: profile.displayName,
-      googleid: profile.id,
-      avatar: profile.photos[0] && profile.photos[0].value || '',
-      email
+  try{
+    var [user, isCreated] = await User.findOrCreate({
+      where: { $or: matchConditions },
+      defaults: {
+        name: profile.displayName,
+        googleid: profile.id,
+        avatar: profile.photos[0] && profile.photos[0].value || '',
+        email
+      }
+    });
+
+    // If user record already exists, but googleid is empty,
+    // fill in googleid.
+    //
+    if(!isCreated && !user.googleid) {
+      user = await user.update({googleid: profile.id});
     }
-  }).then(([user, isCreated]) => {
+
     done(null, user);
-  }).catch(done);
+
+  }catch(err){
+    done(err);
+  }
 }));
 
 //
