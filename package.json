@@ -15,7 +15,7 @@
     "build:webpack": "webpack --config client/config/webpack.js --json > tmp/webpack-stats.json",
     "build": "npm run clean && NODE_ENV=production npm run build:webpack",
     "// start": "Start development server",
-    "start": "parallelshell 'npm run start:server' 'npm run start:client'",
+    "start": "parallelshell 'DEBUG=ppt:* npm run start:server' 'npm run start:client'",
     "start:server": "PORT=$npm_package_config_apiServerPort nodemon -w client -w server -w common -e js,jsx server/server.js",
     "start:client": "webpack-dev-server --config client/config/webpack.js",
     "// deploy": "Depoly steps, which creates a branch named _deploy, builds and commits compiled project, and pushes to Heroku.",
