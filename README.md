@@ -46,6 +46,17 @@ $ npm run seed
 
 To run database migration and seed the mock data into database.
 
+Lastly, please create a file `.env` under the project directory in following manner:
+
+```
+PROVIDER_FB_ID=xxxxx # Facebook app id
+PROVIDER_FB_SECRET=xxxxxxxxx # Facebook app secret
+PROVIDER_GOOGLE_ID=xxxxxxxxxx # Google OAuth2 client ID
+PROVIDER_GOOGLE_SECRET=xxxxxxxxxx # Google OAuth2 client secret
+```
+
+Passport will load these files into `process.env` when running in development mode.
+
 ### Start Server
 
 We start the dev server using:
