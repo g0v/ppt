@@ -46,7 +46,7 @@ class App extends React.Component {
       //
       return (
         <div>
-          <AppBar _onLeftIconButtonTouchTap={this._onLeftIconButtonTouchTap} />
+          <AppBar onLeftIconButtonTouchTap={this._onLeftIconButtonTouchTap} />
           <Sidebar ref="sideBar" />
           <Handler {...this.props}/>
         </div>
