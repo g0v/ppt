@@ -47,6 +47,7 @@
     "jade": "^1.10.0",
     "material-ui": "^0.8.0",
     "morgan": "^1.5.3",
+    "newrelic": "^1.19.2",
     "object-assign": "^2.0.0",
     "passport": "^0.2.2",
     "passport-facebook": "^2.0.0",
