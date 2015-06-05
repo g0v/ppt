@@ -1,4 +1,5 @@
 var React = require('react');
+var Isvg = require('react-inlinesvg');
 
 var ProgressIcon = React.createClass({
   propTypes: {
@@ -15,7 +16,7 @@ var ProgressIcon = React.createClass({
     var urlString = "/images/" + this.props.progress + "-icon.svg";
 
     return (
-      <img src={urlString} {...this.props} />
+      <Isvg src={urlString} {...this.props} />
     )
   }
 });

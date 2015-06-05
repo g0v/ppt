@@ -20,7 +20,7 @@ class App extends React.Component {
     getChildContext() {
       return {
         muiTheme: ThemeManager.getCurrentTheme()
-      }
+      };
     }
 
     componentDidUpdate(prevProps) {
@@ -41,11 +41,12 @@ class App extends React.Component {
 
       debugApp('MetaStore', this.props.MetaStore);
       //render content
+      // can change to ToolBar if we need more versatility than AppBar
       return (
         <AppCanvas>
-          <AppBar onLeftIconButtonTouchTap={this._onLeftIconButtonTouchTap} />
+          <AppBar title={"政治承諾追蹤網"} onLeftIconButtonTouchTap={this._onLeftIconButtonTouchTap} />
           <Sidebar ref="sideBar" />
-          <Handler />
+          <Handler/>
         </AppCanvas>
       );
     }

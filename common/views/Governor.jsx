@@ -1,12 +1,15 @@
 var React = require('react'),
-    styles = require('./styles.js'),
+    mui = require('material-ui'),
+    {Tabs, Tab} = mui,
     Transmit = require('react-transmit'),
-    fetch = require('../utils/fetch'),
-    ProgressIcon = require('./ProgressIcon.jsx');
+    fetch = require('../utils/fetch');
 
-import {handleRoute, NavLink} from 'fluxible-router';
+import PolicySection from './PolicySection.jsx';
+import {handleRoute} from 'fluxible-router';
 import debug from 'debug';
 const debugGovernor = debug('ppt:governor');
+
+var Spacing = mui.Styles.Spacing;
 
 var Governor = React.createClass({
 
@@ -20,11 +23,21 @@ var Governor = React.createClass({
     this.onRouteChange();
   },
 
+  getStyles() {
+    return {
+      root: {
+        paddingTop: Spacing.desktopKeylineIncrement
+      }
+    };
+  },
+
   render: function(){
+
+    var styles = this.getStyles();
 
     if(this.props.governor.isLoading){
       return (
-        <div className="full height main container" style={styles.mainContainer}>
+        <div style={styles.root}>
           <p>Loading...</p>
         </div>
       );
@@ -36,66 +49,15 @@ var Governor = React.createClass({
       done: 0
     };
 
-    var governor = this.props.governor,
-        policyElems = governor.policies.map(function(policy){
-
-          if(policy.promises){
-            var promiseElems = policy.promises.map(function(promise){
-            //make sure progressReports exists
-            if (promise.progressReports) {
-              var latestProgressReport = promise.progressReports[promise.progressReports.length - 1],
-                  totalRateCount = latestProgressReport ? latestProgressReport.progressRatings.length : 0,
-                  rating = 'notyet';
-            }
-
-            // Find the most-popular progress rating
-            //
-            if(latestProgressReport && latestProgressReport.progressRatings.length > 0){
-              let rateCounts = {
-                notyet: 0,
-                doing: 0,
-                done: 0
-              }, mostCount = 0;
-
-              latestProgressReport.progressRatings.forEach((rating) => {
-                rateCounts[rating.progress] += 1;
-
-                if(mostCount < rateCounts[rating.progress]){
-                  mostCount = rateCounts[rating.progress];
-                  rating = rating.progress;
-                }
-              });
-            }
-
-            governorStats[rating] += 1;
-
-            return (
-              <NavLink routeName='promise' navParams={{id: promise.id}} className="ui item" key={promise.id}>
-                <ProgressIcon progress={rating} className="ui top aligned avatar image"/>
-                <div className="content">
-                  <div className="header">{promise.brief}</div>
-                  <div className="description">{promise.content}</div>
-                  <p>{totalRateCount} 人評進度</p>
-                </div>
-              </NavLink>
-            )
-          });
-        }
-
-          return (
-            <div className="ui green segment" key={policy.id}>
-              <h1 className="ui header green">
-                {policy.name}
-              </h1>
-              <div className="ui list">
-                {promiseElems}
-              </div>
-            </div>
-          )
-        });
+    var governor = this.props.governor;
+    var policyElems = governor.policies.map(function(policy){
+      return (
+        <PolicySection name={policy.name} promises={policy.promises} key={policy.id} />
+      );
+    });
 
     return (
-      <div className="full height main container" style={styles.mainContainer}>
+      <div style={styles.root}>
         <section>
           <img src={governor.avatar} />
           <div className="ui three column grid">
@@ -113,8 +75,12 @@ var Governor = React.createClass({
             </div>
           </div>
         </section>
-
-        {policyElems}
+        <Tabs>
+          <Tab label={"目前進展"}>
+            {policyElems}
+          </Tab>
+          <Tab label={"任期間更新"}/>
+        </Tabs>
       </div>
     );
   }
