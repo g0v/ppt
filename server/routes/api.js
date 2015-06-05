@@ -1,6 +1,6 @@
 var express = require('express'),
     models = require('../models'),
-    Sequelize = require('Sequelize'),
+    Sequelize = require('sequelize'),
     debug = require('debug')('ppt:api'),
     router = express.Router();
 
