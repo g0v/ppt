@@ -10,8 +10,7 @@ require('../server/utils/catchUnhandledPromiseRejections');
 
 var express = require('express'),
     app = express(),
-    passport = require('passport'),
-    packageJson = require('../package.json');
+    passport = require('passport');
 
 //
 // View engine setup
@@ -53,7 +52,7 @@ app.use(require('./routes/top-level.jsx'));
 //
 // Starts listening for requests
 //
-var server = app.listen(packageJson.config.apiServerPort, function() {
+var server = app.listen(process.env.PORT, function() {
   console.log('Server listening at http://%s:%s',
               server.address().address, server.address().port);
 });
