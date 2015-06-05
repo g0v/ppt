@@ -1,9 +1,39 @@
 import React from 'react';
 import {NavLink} from 'fluxible-router';
+import mui from 'material-ui';
 import ProgressIcon from './ProgressIcon.jsx';
 import debug from 'debug';
 
+const {Transitions} = mui.Styles;
 const debugPolicySection = debug('ppt:PolicySection');
+
+// fade out
+function fadeOut(el){
+  el.style.opacity = 1;
+
+  (function fade() {
+    if ((el.style.opacity -= .1) < 0) {
+      el.style.display = "none";
+    } else {
+      requestAnimationFrame(fade);
+    }
+  })();
+}
+
+// fade in
+
+function fadeIn(el, display){
+  el.style.opacity = 0;
+  el.style.display = display || "block";
+
+  (function fade() {
+    var val = parseFloat(el.style.opacity);
+    if (!((val += .1) > 1)) {
+      el.style.opacity = val;
+      requestAnimationFrame(fade);
+    }
+  })();
+}
 
 class PolicySection extends React.Component {
 
@@ -14,6 +44,10 @@ class PolicySection extends React.Component {
     this._handleToggle = this._handleToggle.bind(this);
   }
 
+  componentDidUpdate(){
+    this._determineHeight();
+  }
+
   _handleToggle() {
     this.setState({
       open: !(this.state.open)
@@ -21,11 +55,11 @@ class PolicySection extends React.Component {
   }
 
   _determineHeight(){
-    return this.state.open ? this.refs.promiseWrpper.getDOMNode().style.height : 0;
+    React.findDOMNode(this.refs.promiseWrpper).style.height = this.state.open ?
+      React.findDOMNode(this.refs.ul).scrollHeight : 0;
   }
 
   render(){
-    debugPolicySection('props promise', this.props.promises);
 
     if(this.props.promises){
       var promiseElems = this.props.promises.map(function(promise){
@@ -71,10 +105,11 @@ class PolicySection extends React.Component {
       <h1 className="ui header green" style={{cursor: 'pointer'}} onClick={this._handleToggle}>
         {this.props.name}
       </h1>
-      <div className="ui list" style={{
+      <div ref="promiseWrpper" className="ui list" style={{
         overflow: 'hidden',
-        height: this._determineHeight()}}>
-        <ul ref="promiseWrpper">
+        transition: Transitions.easeOut('300ms', 'height'),
+        height: 0}}>
+        <ul ref="ul">
           {promiseElems}
         </ul>
       </div>
