@@ -29,7 +29,7 @@ class PolicySection extends React.Component {
 
   _determineHeight(){
     React.findDOMNode(this.refs.commitmentWrapper).style.height = this.state.open ?
-      React.findDOMNode(this.refs.ul).scrollHeight : 0;
+      React.findDOMNode(this.refs.ul).scrollHeight + 'px' : 0;
   }
 
   render(){
