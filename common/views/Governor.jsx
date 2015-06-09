@@ -1,4 +1,6 @@
 var React = require('react'),
+    mui = require('material-ui'),
+    {Tabs, Tab} = mui,
     debug = require('debug')('ppt:governor'),
     styles = require('./styles.js'),
     Transmit = require('react-transmit'),
@@ -6,9 +8,19 @@ var React = require('react'),
     ProgressIcon = require('./ProgressIcon.jsx'),
     Loading = require('./Loading.jsx');
 
+import PolicySection from './PolicySection.jsx';
 import {handleRoute, NavLink} from 'fluxible-router';
+var Spacing = mui.Styles.Spacing;
 
 var Governor = React.createClass({
+  getStyles() {
+    return {
+      root: {
+        paddingTop: Spacing.desktopKeylineIncrement
+      }
+    };
+  },
+
   render () {
     var governorStats = {
       notyet: 0,
@@ -17,65 +29,14 @@ var Governor = React.createClass({
     };
 
     var governor = this.props.governors[0],
-        policyElems = governor.Policies.map(function(policy){
-
-          if(policy.Commitments){
-            var commitmentElems = policy.Commitments.map(function(commitment){
-              //make sure progressReports exists
-              if (commitment.ProgressReports) {
-                var latestProgressReport = commitment.ProgressReports[commitment.ProgressReports.length - 1],
-                    totalRateCount = latestProgressReport ? latestProgressReport.ProgressRatings.length : 0,
-                    rating = 'notyet';
-              }
-
-              // Find the most-popular progress rating
-              //
-              if(latestProgressReport && latestProgressReport.ProgressRatings.length > 0){
-                let rateCounts = {
-                  notyet: 0,
-                  doing: 0,
-                  done: 0
-                }, mostCount = 0;
-
-                latestProgressReport.ProgressRatings.forEach((rating) => {
-                  rateCounts[rating.progress] += 1;
-
-                  if(mostCount < rateCounts[rating.progress]){
-                    mostCount = rateCounts[rating.progress];
-                    rating = rating.progress;
-                  }
-                });
-              }
-
-              governorStats[rating] += 1;
-
-              return (
-                <NavLink routeName='commitment' navParams={{id: commitment.id}} className="ui item" key={commitment.id}>
-                  <ProgressIcon progress={rating} className="ui top aligned avatar image"/>
-                  <div className="content">
-                    <div className="header">{commitment.brief}</div>
-                    <div className="description">{commitment.content}</div>
-                    <p>{totalRateCount} 人評進度</p>
-                  </div>
-                </NavLink>
-              )
-            });
-          }
-
-          return (
-            <div className="ui green segment" key={policy.id}>
-              <h1 className="ui header green">
-                {policy.name}
-              </h1>
-              <div className="ui list">
-                {commitmentElems}
-              </div>
-            </div>
-          )
-        });
+        policyElems = governor.Policies.map(policy => (
+          <PolicySection name={policy.name}
+                         commitments={policy.Commitments}
+                         key={policy.id} />
+        ));
 
     return (
-      <div className="full height main container" style={styles.mainContainer}>
+      <div style={styles.root}>
         <section>
           <img src={governor.avatar} />
           <div className="ui three column grid">
@@ -93,8 +54,13 @@ var Governor = React.createClass({
             </div>
           </div>
         </section>
+        <Tabs>
+          <Tab label={"目前進展"}>
+            {policyElems}
+          </Tab>
+          <Tab label={"任期間更新"} />
+        </Tabs>
 
-        {policyElems}
       </div>
     );
   }

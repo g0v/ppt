@@ -23,7 +23,7 @@ var webpackCfg = {
       },
       {
         test: /\.(?:jpg|png|gif|eot|svg|ttf|woff|otf)$/,
-        loader: "file-loader"
+        loader: "url-loader?limit=10000"
       },
       {
         test: /\.jsx$/, loader: "babel-loader"

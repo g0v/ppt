@@ -1,4 +1,5 @@
-var React = require('react');
+var React = require('react'),
+    Isvg = require('react-inlinesvg');
 
 var ProgressIcon = React.createClass({
   propTypes: {
@@ -12,10 +13,12 @@ var ProgressIcon = React.createClass({
   },
 
   render: function(){
-    var urlString = "/images/" + this.props.progress + "-icon.svg";
+    // Cannot use Webpack dynamic require here because it's also used
+    // by server-side.
+    var urlString = `/images/${this.props.progress}-icon.svg`;
 
     return (
-      <img src={urlString} {...this.props} />
+      <Isvg src={urlString} {...this.props} />
     )
   }
 });

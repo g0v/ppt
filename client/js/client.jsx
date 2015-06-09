@@ -18,6 +18,7 @@ var React = require('react'),
 // https://github.com/zilverline/react-tap-event-plugin
 //
 injectTapEventPlugin();
+
 fluxibleApp.rehydrate(window.__dehydrated, (err, context) => {
   if (err) {
     throw err;

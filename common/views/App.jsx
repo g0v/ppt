@@ -17,7 +17,7 @@ class App extends React.Component {
     getChildContext() {
       return {
         muiTheme: ThemeManager.getCurrentTheme()
-      }
+      };
     }
 
     componentDidUpdate(prevProps) {
@@ -45,11 +45,11 @@ class App extends React.Component {
       // queryResults around.
       //
       return (
-        <div>
-          <AppBar onLeftIconButtonTouchTap={this._onLeftIconButtonTouchTap} />
+        <AppCanvas>
+          <AppBar title={"政治承諾追蹤網"} onLeftIconButtonTouchTap={this._onLeftIconButtonTouchTap} />
           <Sidebar ref="sideBar" />
           <Handler {...this.props}/>
-        </div>
+        </AppCanvas>
       );
     }
 }

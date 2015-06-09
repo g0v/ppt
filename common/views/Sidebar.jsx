@@ -1,12 +1,16 @@
 import React from 'react';
 import {navigateAction, NavLink} from 'fluxible-router';
-import {LeftNav} from 'material-ui';
+import mui, {MenuItem, LeftNav} from 'material-ui';
 import debug from 'debug';
 const debugSideBar = debug('ppt:sidebar');
 
+var {Colors, Spacing, Typography} = mui.Styles;
+
 var menuItems = [
+  {type: MenuItem.Types.SUBHEADER, text: '地方政府'},
   { url: {url: '/governor/台中市政府'}, text: '台中市政府'},
   { url: {url: '/governor/台北市政府'}, text: '台北市政府'},
+  {type: MenuItem.Types.SUBHEADER, text: '其他'},
   { url: {url: '/about'}, text: '關於政治承諾追蹤網' },
   { url: {url: '/'}, text: '回到首頁' }
 ];
@@ -19,6 +23,22 @@ class Sidebar extends React.Component {
     this._onLeftNavChange = this._onLeftNavChange.bind(this);
   }
 
+  getStyles() {
+    // copied from mui docs, we don't need their variables
+    return {
+      cursor: 'pointer',
+      //.mui-font-style-headline
+      fontSize: '24px',
+      color: Typography.textFullWhite,
+      lineHeight: Spacing.desktopKeylineIncrement + 'px',
+      fontWeight: Typography.fontWeightLight,
+      backgroundColor: Colors.cyan500,
+      paddingLeft: Spacing.desktopGutter,
+      paddingTop: '0px',
+      marginBottom: '8px'
+    };
+  }
+
   toggle() {
     debugSideBar('toggle called');
     this.refs.leftNav.toggle();
@@ -28,10 +48,23 @@ class Sidebar extends React.Component {
     this.context.executeAction(navigateAction, payload.url);
   }
 
+  _onHeaderClick() {
+    this.context.executeAction(navigateAction, '/');
+    this.refs.leftNav.close();
+  }
+
   render(){
+
+    var header = (
+      <div style={this.getStyles()} onClick={this._onHeaderClick}>
+        政治承諾追蹤網
+      </div>
+    );
+
     return (
       <LeftNav
         ref="leftNav"
+        header={header}
         docked={false}
         isInitiallyOpen={false}
         menuItems={menuItems}
