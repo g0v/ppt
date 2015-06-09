@@ -1,9 +1,10 @@
-'use strict';
+import {PROGRESS_OPTIONS} from '../../common/config/constants'
+
 module.exports = function(sequelize, DataTypes) {
   var ProgressRating = sequelize.define('ProgressRating', {
     progress: {
       type: DataTypes.ENUM,
-      values: ['notyet', 'doing', 'done']
+      values: PROGRESS_OPTIONS
     },
     comment: DataTypes.STRING
   }, {

@@ -3,6 +3,8 @@ import {NavLink} from 'fluxible-router';
 import mui from 'material-ui';
 import ProgressIcon from './ProgressIcon.jsx';
 import debug from 'debug';
+import {findLatestProgressReport, majority} from '../utils';
+import {PROGRESS_OPTIONS} from '../config/constants';
 
 const {Transitions} = mui.Styles;
 const debugPolicySection = debug('ppt:PolicySection');
@@ -35,36 +37,15 @@ class PolicySection extends React.Component {
   render(){
 
     if(this.props.commitments){
-      var commitmentElems = this.props.commitments.map(function(commitment){
-      //make sure progressReports exists
-      if (commitment.ProgressReports) {
-        var latestProgressReport = commitment.ProgressReports[commitment.ProgressReports.length - 1],
-            totalRateCount = latestProgressReport ? latestProgressReport.ProgressRatings.length : 0,
-            rating = 'notyet';
-      }
-
-      // Find the most-popular progress rating
-      //
-      if(latestProgressReport && latestProgressReport.ProgressRatings.length > 0){
-        let rateCounts = {
-          notyet: 0,
-          doing: 0,
-          done: 0
-        }, mostCount = 0;
-
-        latestProgressReport.ProgressRatings.forEach((rating) => {
-          rateCounts[rating.progress] += 1;
-
-          if(mostCount < rateCounts[rating.progress]){
-            mostCount = rateCounts[rating.progress];
-            rating = rating.progress;
-          }
-        });
-      }
+      var commitmentElems = this.props.commitments.map(commitment => {
+        var latestReport = findLatestProgressReport(commitment.ProgressReports),
+            totalRateCount = latestReport ? latestReport.ProgressRatings.length : 0,
+            progress = latestReport && majority(latestReport.ProgressRatings.map(rating => rating.progress))
+                       || PROGRESS_OPTIONS[0];
 
       return (
         <NavLink className="ui item" routeName='commitment' navParams={{id: commitment.id}} key={commitment.id}>
-          <ProgressIcon progress={rating} className="ui top aligned avatar image"/>
+          <ProgressIcon progress={progress} className="ui top aligned avatar image"/>
             <div className="header">{commitment.brief}</div>
             <div className="description">{commitment.content}</div>
             <p>{totalRateCount} 人評進度</p>

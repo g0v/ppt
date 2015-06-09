@@ -8,6 +8,8 @@ var React = require('react'),
     Loading = require('./Loading.jsx');
 
 import PolicySection from './PolicySection.jsx';
+import PROGRESS_OPTIONS from '../config/constants';
+import {majority, findLatestProgressReport} from '../utils';
 import {handleRoute, NavLink} from 'fluxible-router';
 var Spacing = mui.Styles.Spacing;
 
@@ -21,19 +23,27 @@ var Governor = React.createClass({
   },
 
   render () {
-    var governorStats = {
-      notyet: 0,
-      doing: 0,
-      done: 0
-    };
-
     var styles = this.getStyles(),
         governor = this.props.governors[0],
         policyElems = governor.Policies.map(policy => (
           <PolicySection name={policy.name}
                          commitments={policy.Commitments}
                          key={policy.id} />
-        ));
+        )),
+
+        governorStats = {};
+
+    // Gather commitment stats for the governor
+    //
+    governor.Policies.forEach((policy) => {
+      policy.Commitments.forEach(commitment => {
+        var latestReport = findLatestProgressReport(commitment.ProgressReports),
+            progress = latestReport && majority(latestReport.ProgressRatings.map(rating => rating.progress))
+                       || PROGRESS_OPTIONS[0];
+
+        governorStats[progress] = governorStats[progress] + 1 || 1;
+      });
+    });
 
     return (
       <div style={styles.root}>
