@@ -1,4 +1,3 @@
-import findAll from '../utils/findAll';
 export default {
   home: {
         path: '/',
