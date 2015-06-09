@@ -8,7 +8,7 @@ var React = require('react'),
     Loading = require('./Loading.jsx');
 
 import PolicySection from './PolicySection.jsx';
-import PROGRESS_OPTIONS from '../config/constants';
+import {PROGRESS_OPTIONS} from '../config/constants';
 import {majority, findLatestProgressReport} from '../utils';
 import {handleRoute, NavLink} from 'fluxible-router';
 var Spacing = mui.Styles.Spacing;
@@ -35,7 +35,7 @@ var Governor = React.createClass({
 
     // Gather commitment stats for the governor
     //
-    governor.Policies.forEach((policy) => {
+    governor.Policies.forEach(policy => {
       policy.Commitments.forEach(commitment => {
         var latestReport = findLatestProgressReport(commitment.ProgressReports),
             progress = latestReport && majority(latestReport.ProgressRatings.map(rating => rating.progress))
@@ -51,15 +51,15 @@ var Governor = React.createClass({
           <img src={governor.avatar} />
           <div className="ui three column grid">
             <div className="column">
-              <div>{governorStats.notyet}</div>
+              <div>{governorStats.notyet || 0}</div>
               <div>還沒做</div>
             </div>
             <div className="column">
-              <div>{governorStats.doing}</div>
+              <div>{governorStats.doing || 0}</div>
               <div>正在做</div>
             </div>
             <div className="column">
-              <div>{governorStats.done}</div>
+              <div>{governorStats.done || 0}</div>
               <div>已完成</div>
             </div>
           </div>
