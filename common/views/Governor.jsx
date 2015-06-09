@@ -2,7 +2,6 @@ var React = require('react'),
     mui = require('material-ui'),
     {Tabs, Tab} = mui,
     debug = require('debug')('ppt:governor'),
-    styles = require('./styles.js'),
     Transmit = require('react-transmit'),
     findAll = require('../utils/findAll'),
     ProgressIcon = require('./ProgressIcon.jsx'),
@@ -28,7 +27,8 @@ var Governor = React.createClass({
       done: 0
     };
 
-    var governor = this.props.governors[0],
+    var styles = this.getStyles(),
+        governor = this.props.governors[0],
         policyElems = governor.Policies.map(policy => (
           <PolicySection name={policy.name}
                          commitments={policy.Commitments}
