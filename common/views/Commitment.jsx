@@ -93,12 +93,19 @@ var Commitment = React.createClass({
   },
 
   render: function(){
-
     var styles = this.getStyles(),
-        commitment = this.props.commitments[0],
         oldProgressReports = [],
+        progressReports,
         latestProgressReport,
-        progressReports;
+        commitment;
+
+    if(!commitment){
+      return (
+        <div style={styles.root}>
+          沒有這個承諾喔！
+        </div>
+      )
+    }
 
     progressReports = commitment.ProgressReports;
 
