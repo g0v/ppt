@@ -45,7 +45,7 @@
     "fluxible-router": "^0.1.7",
     "isomorphic-fetch": "^2.0.2",
     "jade": "^1.10.0",
-    "material-ui": "^0.8.0",
+    "material-ui": "^0.9.1",
     "morgan": "^1.5.3",
     "newrelic": "^1.19.2",
     "object-assign": "^2.0.0",
