@@ -1,14 +1,14 @@
 var React = require('react'),
     debug = require('debug')('ppt:promise'),
-    styles = require('./styles.js'),
     ProgressIcon = require('./ProgressIcon.jsx'),
     Loading = require('./Loading.jsx'),
-
+    mui = require('material-ui'),
     Fluxible = require('fluxible'),
     Transmit = require('react-transmit'),
     findAll = require('../utils/findAll');
 
 import {handleRoute} from 'fluxible-router';
+const Spacing = mui.Styles.Spacing;
 
 var ProgressReport = React.createClass({
   propTypes: {
@@ -84,8 +84,17 @@ var ProgressReport = React.createClass({
 
 var Commitment = React.createClass({
 
+  getStyles() {
+    return {
+      root: {
+        paddingTop: Spacing.desktopKeylineIncrement
+      }
+    };
+  },
+
   render: function(){
-    var oldProgressReports = [],
+    var styles = this.getStyles(),
+        oldProgressReports = [],
         progressReports,
         latestProgressReport,
         commitment;
@@ -145,7 +154,7 @@ var Commitment = React.createClass({
     }
 
     return (
-      <div className="full height main container" style={styles.mainContainer}>
+      <div style={styles.root}>
         <header>
           <blockquote>{commitment.brief}</blockquote>
           <p>
