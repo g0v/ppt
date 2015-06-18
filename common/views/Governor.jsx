@@ -11,7 +11,7 @@ import PolicySection from './PolicySection.jsx';
 import {PROGRESS_OPTIONS} from '../config/constants';
 import {majority, findLatestProgressReport} from '../utils';
 import {handleRoute, NavLink} from 'fluxible-router';
-const Spacing = mui.Styles.Spacing;
+var Spacing = mui.Styles.Spacing;
 
 var Governor = React.createClass({
   getStyles() {
@@ -25,28 +25,13 @@ var Governor = React.createClass({
   render () {
     var styles = this.getStyles(),
         governor = this.props.governors[0],
-        governorStats = {},
-        policyElems;
+        policyElems = governor.Policies.map(policy => (
+          <PolicySection name={policy.name}
+                         commitments={policy.Commitments}
+                         key={policy.id} />
+        )),
 
-    if(!governor){
-      let governerName = decodeURIComponent(this.props.currentRoute.get('params').get('name'));
-      return (
-        <div style={styles.root}>
-          <section>
-            找不到執政者「{governerName}」 :(
-          </section>
-        </div>
-      )
-    }
-
-
-    governor.Policies = governor.Policies || [];
-
-    policyElems = governor.Policies.map(policy => (
-      <PolicySection name={policy.name}
-                     commitments={policy.Commitments}
-                     key={policy.id} />
-    ));
+        governorStats = {};
 
     // Gather commitment stats for the governor
     //
