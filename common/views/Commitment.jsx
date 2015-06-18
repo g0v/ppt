@@ -85,20 +85,10 @@ var ProgressReport = React.createClass({
 var Commitment = React.createClass({
 
   render: function(){
-    var oldProgressReports = [],
-        progressReports,
-        latestProgressReport,
-        commitment;
 
-    if(!commitment){
-      return (
-        <div style={styles.root}>
-          沒有這個承諾喔！
-        </div>
-      )
-    }
-
-    progressReports = commitment.ProgressReports;
+    var commitment = this.props.commitments[0],
+        progressReports = commitment.ProgressReports,
+        latestProgressReport, oldProgressReports = [];
 
     if(progressReports && progressReports.length > 0){
       latestProgressReport = progressReports[0];
