@@ -30,7 +30,9 @@ app.use(require('serve-favicon')(__dirname + '/../client/favicon.png'));
 app.use(require('morgan')('combined'));
 app.use(express.static('client'));
 app.use(require('body-parser').json()); // Post requests in application/json
-app.use(require('cookie-session')(process.env.COOKIE_SECRET || 'cookie secret'));
+app.use(require('cookie-session')({
+  secret: process.env.COOKIE_SECRET || 'cookie secret'
+}));
 app.use(passport.initialize());
 app.use(passport.session());
 
