@@ -55,6 +55,7 @@
     "pg": "^4.3.0",
     "pg-hstore": "^2.3.2",
     "react": "^0.13.1",
+    "react-autolink-text": "^1.0.2",
     "react-inlinesvg": "^0.4.1",
     "react-tap-event-plugin": "^0.1.7",
     "react-transmit": "^2.5.4",

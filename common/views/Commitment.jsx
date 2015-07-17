@@ -8,6 +8,7 @@ var React = require('react'),
     findAll = require('../utils/findAll');
 
 import {handleRoute} from 'fluxible-router';
+import AutoLinkText from 'react-autolink-text';
 const Spacing = mui.Styles.Spacing;
 
 var ProgressReport = React.createClass({
@@ -71,7 +72,7 @@ var ProgressReport = React.createClass({
         <div className="content">
           <div className="header">{latestFromHistory.brief}</div>
           <div className="description">
-            <a href={latestFromHistory.reference}>佐證連結</a>
+            佐證連結：<AutoLinkText text={latestFromHistory.reference} />
           </div>
           <div className="ui list">
             {ratingElements}
@@ -158,7 +159,8 @@ var Commitment = React.createClass({
         <header>
           <blockquote>{commitment.brief}</blockquote>
           <p>
-            <a href={commitment.reference}>承諾出處：{commitment.reference}</a>
+            承諾出處：
+            <AutoLinkText text={commitment.reference}/>
           </p>
 
           <div>
