@@ -38,7 +38,7 @@ $ cd promisetw
 $ npm install
 ```
 
-Create a PostgreSQL database table called `promisetw` with user `ppt` and empty password. Then run:
+Create a PostgreSQL database table called `promisetw` with user `ppt` and empty password. With PostgreSQL Command Line Tools installed, Run:
 
 ```
 $ createuser ppt
