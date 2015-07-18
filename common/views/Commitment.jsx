@@ -97,7 +97,7 @@ var Commitment = React.createClass({
         oldProgressReports = [],
         progressReports,
         latestProgressReport,
-        commitment;
+        commitment = this.props.commitments && this.props.commitments[0];
 
     if(!commitment){
       return (

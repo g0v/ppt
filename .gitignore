@@ -5,3 +5,4 @@ client/build
 *.log
 tmp/*
 .env
+.jshintrc
