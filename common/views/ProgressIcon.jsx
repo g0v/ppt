@@ -1,5 +1,8 @@
-var React = require('react'),
-    Isvg = require('react-inlinesvg');
+import React from 'react';
+import {IconButton} from 'material-ui';
+import NotyetIcon from 'material-ui/lib/svg-icons/navigation/close';
+import DoingIcon from 'material-ui/lib/svg-icons/action/trending-flat';
+import DoneIcon from 'material-ui/lib/svg-icons/action/done';
 
 var ProgressIcon = React.createClass({
   propTypes: {
@@ -13,13 +16,21 @@ var ProgressIcon = React.createClass({
   },
 
   render: function(){
-    // Cannot use Webpack dynamic require here because it's also used
-    // by server-side.
-    var urlString = `/images/${this.props.progress}-icon.svg`;
-
-    return (
-      <Isvg src={urlString} {...this.props} />
-    )
+    let icon;
+    if(this.props.progress === 'done') {
+      icon = (
+        <DoneIcon {...this.props} style={{fill: 'green'}}></DoneIcon>
+      );
+    }else if(this.props.progress === 'doing') {
+      icon = (
+        <DoingIcon {...this.props} style={{fill: 'yellow'}}></DoingIcon>
+      );
+    }else {
+      icon = (
+        <NotyetIcon {...this.props} style={{fill: 'red'}}></NotyetIcon>
+      );
+    }
+    return icon;
   }
 });
 
