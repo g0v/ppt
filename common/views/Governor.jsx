@@ -1,6 +1,5 @@
 var React = require('react'),
     mui = require('material-ui'),
-    {Tabs, Tab} = mui,
     debug = require('debug')('ppt:governor'),
     Transmit = require('react-transmit'),
     findAll = require('../utils/findAll'),
@@ -79,13 +78,7 @@ var Governor = React.createClass({
             </div>
           </div>
         </section>
-        <Tabs>
-          <Tab label={"目前進展"}>
-            {policyElems}
-          </Tab>
-          <Tab label={"任期間更新"} />
-        </Tabs>
-
+        {policyElems}
       </div>
     );
   }
