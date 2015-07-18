@@ -57,7 +57,7 @@ var ProgressReport = React.createClass({
         <div className="item" key={idx}>
           <img src={rating.User.avatar} className="ui middle aligned avatar image" />
           <div className="content">
-            <a href={rating.User.fbprofile} target="_blank">{rating.User.username}</a>
+            <a href={rating.User.fbprofile} target="_blank">{rating.User.name}</a>
             &nbsp;{contentText}{progressText}{commentText}
           </div>
         </div>

@@ -22,13 +22,13 @@ seed = async function() {
 
   users = await fillTable('User', [
     {
-      'username': 'John Doe',
+      'name': 'John Doe',
       'email': 'johnsonliang7+test@gmail.com',
       'password': '123',
       'avatar': 'http://semantic-ui.com/images/avatar/small/daniel.jpg'
     },
     {
-      'username': 'Doe Johnson',
+      'name': 'Doe Johnson',
       'email': 'johnsonliang7+test@gmail.com',
       'password': '123',
       'avatar': 'http://semantic-ui.com/images/avatar/small/steve.jpg'

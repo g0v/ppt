@@ -26,7 +26,7 @@ seed = async function() {
 
   users = await fillTable('User', [
     {
-      'username': 'Admin',
+      'name': 'Admin',
       // No password and email, cannot login
       'avatar': 'http://semantic-ui.com/images/avatar/small/daniel.jpg'
     }
