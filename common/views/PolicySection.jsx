@@ -88,12 +88,8 @@ class PolicySection extends React.Component {
         );
       return (
         <NavLink routeName='commitment' navParams={{id: commitment.id}} key={commitment.id}>
-          <ListItem
-            leftIcon={<ProgressIcon progress={progress} />}
-            secondaryText={contentAndRate}
-            secondaryTextLines={2}>
-            {<h2 style={styles.h2}>{commitment.brief} </h2>}
-          </ListItem>
+            <ProgressIcon progress={progress} />
+            <h2 style={styles.h2}>{commitment.brief} </h2>
         </NavLink>
       );
       });
