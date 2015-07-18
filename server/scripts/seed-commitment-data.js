@@ -77,14 +77,15 @@ seed = async function() {
     }]))[0];
 
     await fillTable('ProgressReportHistory', [{
-      brief: progressBrief,
+      brief: progressBrief || commitmentContent,
       reference,
-      progressReportId: progressReport.id
+      ProgressReportId: progressReport.id,
+      // First progress report is anonymous
     }]);
 
     await fillTable('ProgressRating', [{
       progress: PROGRESS_MAP[progress],
-      comment: progressComment || commitmentContent,
+      comment: progressComment || '',
       ProgressReportId: progressReport.id,
       UserId: users[0].id
     }]);
