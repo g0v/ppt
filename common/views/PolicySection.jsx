@@ -1,8 +1,10 @@
 import React from 'react';
-import {NavLink} from 'fluxible-router';
+import {navigateAction} from 'fluxible-router';
 import mui, {ListItem, IconButton} from 'material-ui';
-import ExpandMore from './mui-SvgIcons/ExpandMore.jsx';
-import ProgressIcon from './ProgressIcon.jsx';
+import NotyetIcon from 'material-ui/lib/svg-icons/navigation/close';
+import DoingIcon from 'material-ui/lib/svg-icons/action/trending-flat';
+import DoneIcon from 'material-ui/lib/svg-icons/action/done';
+import ExpandMore from 'material-ui/lib/svg-icons/navigation/expand-more';
 import debug from 'debug';
 import {findLatestProgressReport, majority} from '../utils';
 import {PROGRESS_OPTIONS} from '../config/constants';
@@ -35,22 +37,18 @@ class PolicySection extends React.Component {
       React.findDOMNode(this.refs.ul).scrollHeight + 'px' : 0;
   }
 
+  _handleCommitmentTap(commitmentId){
+    this.context.executeAction(navigateAction, {
+      url: '/commitment/' + commitmentId
+    });
+  }
+
   getStyles(){
     return {
-      iconBotton: {
-        height: '30px',
-        width: '30px',
-        position: 'absolute',
-        right: '35px',
-        top: '20px'
-      },
       expandIcon: {
         fill: '#000000',
         height: '30px',
-        width: '30px',
-        position: 'absolute',
-        right: '0',
-        top: '0'
+        width: '30px'
       },
       commitmentWrapper: {
         overflow: 'hidden',
@@ -86,19 +84,34 @@ class PolicySection extends React.Component {
             <p style={{color: Colors.darkBlack}}>{totalRateCount} 人評進度</p>
           </div>
         );
+        //move Progressicon to here.
+        let progressIcon;
+        if(progress === 'done') {
+          progressIcon = (
+            <DoneIcon style={{fill: 'green'}}></DoneIcon>
+          );
+        }else if(progress === 'doing') {
+          progressIcon = (
+            <DoingIcon style={{fill: 'yellow'}}></DoingIcon>
+          );
+        }else {
+          progressIcon = (
+            <NotyetIcon style={{fill: 'red'}}></NotyetIcon>
+          );
+        }
+
       return (
-        <NavLink routeName='commitment' navParams={{id: commitment.id}} key={commitment.id}>
-            <ProgressIcon progress={progress} />
-            <h2 style={styles.h2}>{commitment.brief} </h2>
-        </NavLink>
+          <ListItem
+            leftIcon={progressIcon}
+            secondaryText={contentAndRate}
+            secondaryTextLines={2}
+            onTouchTap = {this._handleCommitmentTap.bind(this, commitment.id)}
+            key={commitment.id}>
+            {<h2 style={styles.h2}> {commitment.brief} </h2>}
+          </ListItem>
       );
       });
     }
-    let expandIcon = (
-      <IconButton style={styles.iconBotton}>
-        <ExpandMore style={styles.expandIcon}/>
-      </IconButton>
-    );
 
     let headerSecondaryText = (
       <p>{Object.keys(policyStats).reduce((sum, key) => {
@@ -110,7 +123,7 @@ class PolicySection extends React.Component {
 
     let policyHeader = (
       <ListItem
-        rightIcon={expandIcon}
+        rightIcon={<ExpandMore style={styles.expandIcon}/>}
         secondaryText={headerSecondaryText}
         onTouchTap={this._handleToggle}>
         {<h1 style={styles.h1}>{this.props.name} </h1>}
@@ -129,6 +142,10 @@ class PolicySection extends React.Component {
     );
   }
 }
+
+PolicySection.contextTypes = {
+  executeAction: React.PropTypes.func.isRequired
+};
 
 PolicySection.propTypes = {
   name: React.PropTypes.string,
