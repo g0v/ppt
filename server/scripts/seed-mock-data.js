@@ -1,8 +1,9 @@
-require('../server/utils/catchUnhandledPromiseRejections');
+require('../../server/utils/catchUnhandledPromiseRejections');
+import fillTable from '../utils/fillTable';
 
 var
 debug = require('debug')('ppt:seed-mock-data'),
-models = require('./models'),
+models = require('../models'),
 seed = async function() {
 
   var
@@ -153,11 +154,6 @@ seed = async function() {
   ]);
 };
 
-function fillTable(tableName, data) {
-  var Model = models[tableName];
-  return Promise.all(
-    data.map(datum => Model.create(datum))
-  );
-}
-
-seed();
+seed().then(() => {
+  console.log('Seed complete!');
+});
