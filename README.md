@@ -41,6 +41,8 @@ $ npm install
 Create a PostgreSQL database table called `promisetw` with user `ppt` and empty password. Then run:
 
 ```
+$ createuser ppt
+$ createdb -O ppt promisetw
 $ npm run seed
 ```
 
