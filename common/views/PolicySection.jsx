@@ -1,11 +1,10 @@
 import React from 'react';
-import {NavLink, navigateAction} from 'fluxible-router';
+import {navigateAction} from 'fluxible-router';
 import mui, {ListItem, IconButton} from 'material-ui';
 import NotyetIcon from 'material-ui/lib/svg-icons/navigation/close';
 import DoingIcon from 'material-ui/lib/svg-icons/action/trending-flat';
 import DoneIcon from 'material-ui/lib/svg-icons/action/done';
 import ExpandMore from 'material-ui/lib/svg-icons/navigation/expand-more';
-import ProgressIcon from './ProgressIcon.jsx';
 import debug from 'debug';
 import {findLatestProgressReport, majority} from '../utils';
 import {PROGRESS_OPTIONS} from '../config/constants';
@@ -39,7 +38,6 @@ class PolicySection extends React.Component {
   }
 
   _handleCommitmentTap(commitmentId){
-    debugPolicySection('commitmentId', commitmentId);
     this.context.executeAction(navigateAction, {
       url: '/commitment/' + commitmentId
     });
