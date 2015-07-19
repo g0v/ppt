@@ -8,6 +8,7 @@ var {Colors, Spacing, Typography} = mui.Styles;
 
 var menuItems = [
   {type: MenuItem.Types.SUBHEADER, text: '地方政府'},
+  { url: {url: '/governor/桃園市政府'}, text: '桃園市政府'},
   { url: {url: '/governor/台中市政府'}, text: '台中市政府'},
   { url: {url: '/governor/台北市政府'}, text: '台北市政府'},
   {type: MenuItem.Types.SUBHEADER, text: '其他'},
