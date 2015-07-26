@@ -4,7 +4,7 @@ import mui, {MenuItem, LeftNav} from 'material-ui';
 import debug from 'debug';
 const debugSideBar = debug('ppt:sidebar');
 
-var {Colors, Spacing, Typography} = mui.Styles;
+var {Colors, Spacing} = mui.Styles;
 
 var menuItems = [
   {type: MenuItem.Types.SUBHEADER, text: '地方政府'},
@@ -30,10 +30,10 @@ class Sidebar extends React.Component {
       cursor: 'pointer',
       //.mui-font-style-headline
       fontSize: '24px',
-      color: Typography.textFullWhite,
+      color: Colors.fullWhite,
       lineHeight: Spacing.desktopKeylineIncrement + 'px',
-      fontWeight: Typography.fontWeightLight,
-      backgroundColor: Colors.cyan500,
+      fontWeight: 300,
+      backgroundColor: '#099',
       paddingLeft: Spacing.desktopGutter,
       paddingTop: '0px',
       marginBottom: '8px'
@@ -76,7 +76,7 @@ class Sidebar extends React.Component {
 }
 
 Sidebar.contextTypes = {
-    executeAction: React.PropTypes.func.isRequired
+  executeAction: React.PropTypes.func.isRequired
 };
 
 module.exports = Sidebar;

@@ -54,13 +54,15 @@ class PolicySection extends React.Component {
         overflow: 'hidden',
         transition: Transitions.easeOut('300ms', 'height'),
         height: 0
-      },
+      }
+      /*
       h1: {
         color: Colors.teal500
       },
       h2: {
         color: Colors.teal500
       }
+      */
     };
   }
 

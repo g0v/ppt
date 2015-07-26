@@ -26,10 +26,10 @@ var webpackCfg = {
         loader: "url-loader?limit=10000"
       },
       {
-        test: /\.jsx$/, loader: "babel-loader"
+        test: /\.jsx$/, loader: "babel-loader?stage=0"
       },
       {
-        test: /common\/.+\.js$/, loader: 'babel-loader'
+        test: /common\/.+\.js$/, loader: 'babel-loader?stage=0'
       },
       {
         test: /client\/js\/.+\.js$/, loader: 'babel-loader', exclude: /node_modules/

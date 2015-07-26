@@ -3,7 +3,8 @@
 
 // Babel takes care of jsx parsing & requiring.
 require('babel/register')({
-  optional: ['es7.asyncFunctions']
+  stage: 0,
+  optional: ['runtime']
 });
 
 require('../server/utils/catchUnhandledPromiseRejections');
