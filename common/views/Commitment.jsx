@@ -17,25 +17,25 @@ var ProgressReport = React.createClass({
     ratings: React.PropTypes.array.isRequired,
     isExpanded: React.PropTypes.bool
   },
-  getDefaultProps: function(){
+  getDefaultProps: function() {
     return {isExpanded: false};
   },
-  render: function(){
+  render: function() {
     var voteCount = {notyet: 0, doing: 0, done: 0},
         maxVote = 0,
         ratingElements = [],
         mostVoteProgress;
 
-    this.props.ratings.forEach(function(rating, idx){
+    this.props.ratings.forEach(function(rating, idx) {
       var contentText, progressText, commentText;
 
       voteCount[rating.progress] += 1;
-      if(maxVote <= voteCount[rating.progress]){
+      if (maxVote <= voteCount[rating.progress]) {
         mostVoteProgress = rating.progress;
         maxVote = voteCount[rating.progress];
       }
 
-      switch(rating.progress){
+      switch (rating.progress){
         case 'doing':
           progressText = (<span style={{color:'#fa0'}}>正在做</span>); break;
         case 'done':
@@ -44,14 +44,13 @@ var ProgressReport = React.createClass({
           progressText = (<span style={{color:'#f00'}}>還沒做</span>); break;
       }
 
-      if(rating.comment){
-        contentText = "認為";
-        commentText = "：" + rating.comment;
-      }else{
-        contentText = "認為承諾";
-        commentText = "。"
+      if (rating.comment) {
+        contentText = '認為';
+        commentText = '：' + rating.comment;
+      }else {
+        contentText = '認為承諾';
+        commentText = '。'
       }
-
 
       ratingElements.unshift(
         <div className="item" key={idx}>
@@ -64,7 +63,7 @@ var ProgressReport = React.createClass({
       )
     });
 
-    var latestFromHistory = this.props.history[this.props.history.length-1];
+    var latestFromHistory = this.props.history[this.props.history.length - 1];
 
     return (
       <div className="item">
@@ -93,14 +92,14 @@ var Commitment = React.createClass({
     };
   },
 
-  render: function(){
+  render: function() {
     var styles = this.getStyles(),
         oldProgressReports = [],
         progressReports,
         latestProgressReport,
         commitment = this.props.commitments && this.props.commitments[0];
 
-    if(!commitment){
+    if (!commitment) {
       return (
         <div style={styles.root}>
           沒有這個承諾喔！
@@ -110,13 +109,13 @@ var Commitment = React.createClass({
 
     progressReports = commitment.ProgressReports;
 
-    if(progressReports && progressReports.length > 0){
+    if (progressReports && progressReports.length > 0) {
       latestProgressReport = progressReports[0];
 
       oldProgressReports = progressReports.slice(1);
     }
 
-    var oldProgressReportElems = oldProgressReports.map(function(report, idx){
+    var oldProgressReportElems = oldProgressReports.map(function(report, idx) {
       return (
         <ProgressReport key={idx}
                         history={report.ProgressReportHistories}
@@ -127,7 +126,7 @@ var Commitment = React.createClass({
 
     var progressReportElems = []
 
-    if(latestProgressReport) {
+    if (latestProgressReport) {
       progressReportElems.push(
         <section className="ui vertical segment" key="latest">
 
@@ -142,7 +141,7 @@ var Commitment = React.createClass({
       )
     }
 
-    if(oldProgressReportElems && oldProgressReportElems.length) {
+    if (oldProgressReportElems && oldProgressReportElems.length) {
       progressReportElems.push(
         <section className="ui vertical segment">
           <h4>進度歷程</h4>
@@ -188,13 +187,13 @@ Commitment = Transmit.createContainer(Commitment, {
               {
                 association: 'ProgressReportHistories',
                 include: [
-                  { association: 'User' }
+                  {association: 'User'}
                 ]
               },
               {
                 association: 'ProgressRatings',
                 include: [
-                  { association: 'User' }
+                  {association: 'User'}
                 ]
               }
             ]
@@ -224,7 +223,7 @@ var CommitmentQuerySetter = React.createClass({
   },
 
   componentDidUpdate(prevProps) {
-    if(prevProps.currentRoute !== this.props.currentRoute){
+    if (prevProps.currentRoute !== this.props.currentRoute) {
       this.refs.Commitment.setQueryParams(this._makeQueryParams());
     }
   }
