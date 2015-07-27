@@ -11,6 +11,14 @@ const {Transitions} = mui.Styles,
       debugPolicySection = debug('ppt:PolicySection');
 
 class PolicySection extends React.Component {
+  static contextTypes = {
+    executeAction: React.PropTypes.func.isRequired
+  };
+
+  static propTypes = {
+    name: React.PropTypes.string,
+    commitments: React.PropTypes.array
+  };
 
   constructor() {
     super();
@@ -119,14 +127,5 @@ class PolicySection extends React.Component {
     );
   }
 }
-
-PolicySection.contextTypes = {
-  executeAction: React.PropTypes.func.isRequired
-};
-
-PolicySection.propTypes = {
-  name: React.PropTypes.string,
-  commitments: React.PropTypes.array
-};
 
 export default PolicySection;
