@@ -9,12 +9,12 @@ import debug from 'debug';
 import {findLatestProgressReport, majority} from '../utils';
 import {PROGRESS_OPTIONS} from '../config/constants';
 
-const {Transitions, Colors} = mui.Styles;
-const debugPolicySection = debug('ppt:PolicySection');
+const {Transitions, Colors} = mui.Styles,
+      debugPolicySection = debug('ppt:PolicySection');
 
 class PolicySection extends React.Component {
 
-  constructor(){
+  constructor() {
     super();
     this.state = {
       open: false
@@ -22,7 +22,7 @@ class PolicySection extends React.Component {
     this._handleToggle = this._handleToggle.bind(this);
   }
 
-  componentDidUpdate(){
+  componentDidUpdate() {
     this._determineHeight();
   }
 
@@ -32,18 +32,18 @@ class PolicySection extends React.Component {
     });
   }
 
-  _determineHeight(){
+  _determineHeight() {
     React.findDOMNode(this.refs.commitmentWrapper).style.height = this.state.open ?
       React.findDOMNode(this.refs.ul).scrollHeight + 'px' : 0;
   }
 
-  _handleCommitmentTap(commitmentId){
+  _handleCommitmentTap(commitmentId) {
     this.context.executeAction(navigateAction, {
       url: '/commitment/' + commitmentId
     });
   }
 
-  getStyles(){
+  getStyles() {
     return {
       expandIcon: {
         fill: '#000000',
@@ -66,17 +66,16 @@ class PolicySection extends React.Component {
     };
   }
 
-  render(){
-    let styles = this.getStyles();
+  render() {
+    let styles = this.getStyles(),
+        policyStats = {};
 
-    let policyStats = {};
-
-    if(this.props.commitments){
+    if (this.props.commitments) {
       var commitmentElems = this.props.commitments.map(commitment => {
         var latestReport = findLatestProgressReport(commitment.ProgressReports),
             totalRateCount = latestReport ? latestReport.ProgressRatings.length : 0,
-            progress = latestReport && majority(latestReport.ProgressRatings.map(rating => rating.progress))
-                       || PROGRESS_OPTIONS[0];
+            progress = latestReport && majority(latestReport.ProgressRatings.map(rating => rating.progress)) ||
+                       PROGRESS_OPTIONS[0];
 
         policyStats[progress] = policyStats[progress] + 1 || 1;
 
@@ -86,13 +85,14 @@ class PolicySection extends React.Component {
             <p style={{color: Colors.darkBlack}}>{totalRateCount} 人評進度</p>
           </div>
         );
+
         //move Progressicon to here.
         let progressIcon;
-        if(progress === 'done') {
+        if (progress === 'done') {
           progressIcon = (
             <DoneIcon style={{fill: 'green'}}></DoneIcon>
           );
-        }else if(progress === 'doing') {
+        }else if (progress === 'doing') {
           progressIcon = (
             <DoingIcon style={{fill: 'yellow'}}></DoingIcon>
           );
@@ -102,16 +102,16 @@ class PolicySection extends React.Component {
           );
         }
 
-      return (
-          <ListItem
-            leftIcon={progressIcon}
-            secondaryText={contentAndRate}
-            secondaryTextLines={2}
-            onTouchTap = {this._handleCommitmentTap.bind(this, commitment.id)}
-            key={commitment.id}>
-            {<h2 style={styles.h2}> {commitment.brief} </h2>}
-          </ListItem>
-      );
+        return (
+            <ListItem
+              leftIcon={progressIcon}
+              secondaryText={contentAndRate}
+              secondaryTextLines={2}
+              onTouchTap = {this._handleCommitmentTap.bind(this, commitment.id)}
+              key={commitment.id}>
+                          {<h2 style={styles.h2}> {commitment.brief} </h2>}
+                      </ListItem>
+        );
       });
     }
 
@@ -119,7 +119,7 @@ class PolicySection extends React.Component {
       <p>{Object.keys(policyStats).reduce((sum, key) => {
         sum += policyStats[key];
         return sum;
-      },0)}項承諾 • {policyStats.notyet || 0} 還沒做 / {policyStats.doing || 0} 正在做 /
+      }, 0)}項承諾 • {policyStats.notyet || 0} 還沒做 / {policyStats.doing || 0} 正在做 /
       &nbsp;{policyStats.done || 0} 已完成</p>
     );
 

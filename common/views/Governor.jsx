@@ -27,7 +27,7 @@ var Governor = React.createClass({
         governorStats = {},
         policyElems;
 
-    if(!governor){
+    if (!governor) {
       let governerName = decodeURIComponent(this.props.currentRoute.get('params').get('name'));
       return (
         <div style={styles.root}>
@@ -37,7 +37,6 @@ var Governor = React.createClass({
         </div>
       )
     }
-
 
     governor.Policies = governor.Policies || [];
 
@@ -52,8 +51,8 @@ var Governor = React.createClass({
     governor.Policies.forEach(policy => {
       policy.Commitments.forEach(commitment => {
         var latestReport = findLatestProgressReport(commitment.ProgressReports),
-            progress = latestReport && majority(latestReport.ProgressRatings.map(rating => rating.progress))
-                       || PROGRESS_OPTIONS[0];
+            progress = latestReport && majority(latestReport.ProgressRatings.map(rating => rating.progress)) ||
+                       PROGRESS_OPTIONS[0];
 
         governorStats[progress] = governorStats[progress] + 1 || 1;
       });
@@ -87,13 +86,13 @@ var Governor = React.createClass({
 Governor = Transmit.createContainer(Governor, {
   queries: {
     governors(queryParams) {
-      debug("queryParams", queryParams);
+      debug('queryParams', queryParams);
       return findAll('Governor', {
         where: {
           name: queryParams.name
         },
         include: [
-          { association: 'Terms' },
+          {association: 'Terms'},
           {
             association: 'Policies',
             include: [
@@ -103,8 +102,8 @@ Governor = Transmit.createContainer(Governor, {
                   {
                     association: 'ProgressReports',
                     include: [
-                      { association: 'ProgressReportHistories' },
-                      { association: 'ProgressRatings' }
+                      {association: 'ProgressReportHistories'},
+                      {association: 'ProgressRatings'}
                     ]
                   }
                 ]
@@ -136,7 +135,7 @@ var GovernorQuerySetter = React.createClass({
   },
 
   componentDidUpdate(prevProps) {
-    if(prevProps.currentRoute !== this.props.currentRoute){
+    if (prevProps.currentRoute !== this.props.currentRoute) {
       this.refs.governor.setQueryParams(this._makeQueryParams());
     }
   }
