@@ -60,6 +60,10 @@ class PolicySection extends React.Component {
         overflow: 'hidden',
         transition: Transitions.easeOut('300ms', 'height'),
         height: 0
+      },
+      totalRateCount: {
+        color: pptColors.lightBlack,
+        fontSize: 14
       }
     };
   }
@@ -78,10 +82,10 @@ class PolicySection extends React.Component {
         policyStats[progress] = policyStats[progress] + 1 || 1;
 
         let contentAndRate = (
-          <div>
-            <h3>{commitment.content}</h3>
-            <p style={{color: pptColors.darkGray}}>{totalRateCount} 人評進度</p>
-          </div>
+          <p>
+            <span>{commitment.content}</span>
+            <p style={styles.totalRateCount}> {totalRateCount} 人評進度</p>
+          </p>
         );
 
         return (
