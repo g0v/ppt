@@ -2,6 +2,7 @@ import React from 'react';
 import {handleRoute} from 'fluxible-router';
 import { progressIconPicker } from '../utils/';
 import { List, ListItem, ListDivider, Avatar } from 'material-ui';
+import MoreVertIcon from 'material-ui/lib/svg-icons/navigation/more-vert';
 import pptColors from '../styles/color';
 
 var ProgressReport = React.createClass({
@@ -85,6 +86,9 @@ var ProgressReport = React.createClass({
                 secondaryTextLines={2}>
         </ListItem>
         {ratingElements}
+        <ListItem leftIcon={<MoreVertIcon />} secondaryText={
+            <p style={{color: pptColors.primaryBlue}}> 我也要評進度 </p>}
+        />
         <ListDivider inset={true} />
       </List>
     )
