@@ -82,18 +82,17 @@ class PolicySection extends React.Component {
             <h3>{commitment.content}</h3>
             <p style={{color: pptColors.darkGray}}>{totalRateCount} 人評進度</p>
           </div>
-        ),
-            progressIcon = progressIconPicker(progress);
+        );
 
         return (
             <ListItem
-              leftIcon={progressIcon}
+              leftIcon={progressIconPicker(progress)}
+              primaryText={commitment.brief}
               secondaryText={contentAndRate}
               secondaryTextLines={2}
               onTouchTap = {this._handleCommitmentTap.bind(this, commitment.id)}
               key={commitment.id}>
-                          {<h2> {commitment.brief} </h2>}
-                      </ListItem>
+            </ListItem>
         );
       });
     }

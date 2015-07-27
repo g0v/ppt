@@ -1,3 +1,3 @@
 export default {
-  appBarHeight: '64px'
+  appBarHeight: 64
 }

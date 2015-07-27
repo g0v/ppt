@@ -1,14 +1,15 @@
 var React = require('react'),
     debug = require('debug')('ppt:promise'),
-    ProgressIcon = require('./ProgressIcon.jsx'),
     Loading = require('./Loading.jsx'),
-    mui = require('material-ui'),
     Fluxible = require('fluxible'),
-    Transmit = require('react-transmit'),
-    findAll = require('../utils/findAll');
+    Transmit = require('react-transmit');
 
 import {handleRoute} from 'fluxible-router';
+import { findAll, progressIconPicker } from '../utils/';
+import mui, { List, ListItem, ListDivider, Avatar } from 'material-ui';
+import ForwardIcon from 'material-ui/lib/svg-icons/navigation/arrow-forward';
 import AutoLinkText from 'react-autolink-text';
+import pptColors from '../styles/color';
 import pptSpacing from '../styles/spacing';
 
 var ProgressReport = React.createClass({
@@ -20,13 +21,22 @@ var ProgressReport = React.createClass({
   getDefaultProps: function() {
     return {isExpanded: false};
   },
+  getStyles() {
+    return {
+      latestFromHistoryBrief: {
+        color: pptColors.darkGray,
+        fontSize: '16px'
+      }
+    }
+  },
   render: function() {
+    let styles = this.getStyles();
     var voteCount = {notyet: 0, doing: 0, done: 0},
         maxVote = 0,
         ratingElements = [],
         mostVoteProgress;
-
-    this.props.ratings.forEach(function(rating, idx) {
+    // need to check if needed expanded, otherwise don't compute
+    this.props.isExpanded && this.props.ratings.forEach(function(rating, idx) {
       var contentText, progressText, commentText;
 
       voteCount[rating.progress] += 1;
@@ -37,11 +47,14 @@ var ProgressReport = React.createClass({
 
       switch (rating.progress){
         case 'doing':
-          progressText = (<span style={{color:'#fa0'}}>正在做</span>); break;
+          progressText = (<span style={{color: pptColors.primaryYellow}}>正在做</span>);
+          break;
         case 'done':
-          progressText = (<span style={{color:'#099'}}>已完成</span>); break;
+          progressText = (<span style={{color: pptColors.primaryBlue}}>已完成</span>);
+          break;
         case 'notyet':
-          progressText = (<span style={{color:'#f00'}}>還沒做</span>); break;
+          progressText = (<span style={{color: pptColors.primaryRed}}>還沒做</span>);
+          break;
       }
 
       if (rating.comment) {
@@ -52,32 +65,36 @@ var ProgressReport = React.createClass({
         commentText = '。'
       }
 
+      let userAvatar = (
+        <Avatar src={rating.User.avatar} />
+      );
       ratingElements.unshift(
-        <div className="item" key={idx}>
-          <img src={rating.User.avatar} className="ui middle aligned avatar image" />
-          <div className="content">
-            <a href={rating.User.fbprofile} target="_blank">{rating.User.name}</a>
+        <ListItem leftAvatar={userAvatar} key={idx} secondaryText=
+          {<div>
+            <p> {rating.User.name} </p>
             &nbsp;{contentText}{progressText}{commentText}
-          </div>
-        </div>
-      )
+          </div>} >
+        </ListItem>
+      );
     });
 
     var latestFromHistory = this.props.history[this.props.history.length - 1];
 
     return (
-      <div className="item">
-        <ProgressIcon progress={mostVoteProgress} className="ui top aligned avatar image" />
-        <div className="content">
-          <div className="header">{latestFromHistory.brief}</div>
-          <div className="description">
-            佐證連結：<AutoLinkText text={latestFromHistory.reference} />
-          </div>
-          <div className="ui list">
-            {ratingElements}
-          </div>
-        </div>
-      </div>
+      <List>
+        <ListItem leftIcon={progressIconPicker(mostVoteProgress)}
+                secondaryText={
+                  <div>
+                    <span style={styles.latestFromHistoryBrief}>
+                      {latestFromHistory.brief}
+                    </span>
+                    <p style={{color: pptColors.primaryBlue}}>佐證連結</p>
+                  </div>}
+                secondaryTextLines={2}>
+        </ListItem>
+        {ratingElements}
+        <ListDivider inset={true} />
+      </List>
     )
   }
 })
@@ -87,7 +104,30 @@ var Commitment = React.createClass({
   getStyles() {
     return {
       root: {
-        paddingTop: pptSpacing.appBarHeight
+        paddingTop: pptSpacing.appBarHeight + 26
+      },
+      h4: {
+        color: pptColors.primaryBlue,
+        margin: 10
+      },
+      brief: {
+        fontSize: 24,
+        color: pptColors.primaryBlue,
+        margin: 10
+      },
+      content: {
+        fontSize: 14,
+        color: pptColors.darkGray,
+        margin: 20
+      },
+      source: {
+        display: 'inline-block',
+        color: pptColors.lightBlack
+      },
+      forwardIcon: {
+        fill: pptColors.lightBlack,
+        marginLeft: 20,
+        marginRight: '5%'
       }
     };
   },
@@ -124,31 +164,24 @@ var Commitment = React.createClass({
       );
     });
 
-    var progressReportElems = []
+    var progressReportElems = [];
 
     if (latestProgressReport) {
       progressReportElems.push(
-        <section className="ui vertical segment" key="latest">
-
-          <h4>最新進展</h4>
-
-          <div className="ui list">
-            <ProgressReport history={latestProgressReport.ProgressReportHistories}
-                            ratings={latestProgressReport.ProgressRatings}
-                            isExpanded={true}/>
-          </div>
+        <section key="latest">
+          <h4 style={styles.h4}>最新進展</h4>
+          <ProgressReport history={latestProgressReport.ProgressReportHistories}
+                          ratings={latestProgressReport.ProgressRatings}
+                          isExpanded={true}/>
         </section>
       )
     }
 
     if (oldProgressReportElems && oldProgressReportElems.length) {
       progressReportElems.push(
-        <section className="ui vertical segment">
-          <h4>進度歷程</h4>
-
-          <section className="ui list">
-            {oldProgressReportElems}
-          </section>
+        <section>
+          <h4 style={styles.h4}>進度歷程</h4>
+          {oldProgressReportElems}
         </section>
       );
     }
@@ -156,17 +189,19 @@ var Commitment = React.createClass({
     return (
       <div style={styles.root}>
         <header>
-          <blockquote>{commitment.brief}</blockquote>
-          <p>
-            承諾出處：
-            <AutoLinkText text={commitment.reference}/>
-          </p>
-
+          <blockquote style={styles.brief}> {commitment.brief} </blockquote>
           <div>
+            <ForwardIcon style={{...styles.source, ...styles.forwardIcon}}/>
+            <p style={styles.source}>
+              承諾出處：
+              <AutoLinkText text={commitment.reference}/>
+            </p>
+          </div>
+          <div style={styles.content}>
             {commitment.content}
           </div>
         </header>
-
+        <ListDivider inset={true} />
         {progressReportElems}
       </div>
     );
