@@ -9,7 +9,7 @@ var React = require('react'),
 
 import {handleRoute} from 'fluxible-router';
 import AutoLinkText from 'react-autolink-text';
-const Spacing = mui.Styles.Spacing;
+import pptSpacing from '../styles/spacing';
 
 var ProgressReport = React.createClass({
   propTypes: {
@@ -87,7 +87,7 @@ var Commitment = React.createClass({
   getStyles() {
     return {
       root: {
-        paddingTop: Spacing.desktopKeylineIncrement
+        paddingTop: pptSpacing.appBarHeight
       }
     };
   },

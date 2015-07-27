@@ -3,7 +3,6 @@ var React = require('react'),
     debug = require('debug')('ppt:governor'),
     Transmit = require('react-transmit'),
     findAll = require('../utils/findAll'),
-    ProgressIcon = require('./ProgressIcon.jsx'),
     Loading = require('./Loading.jsx');
 
 import PolicySection from './PolicySection.jsx';

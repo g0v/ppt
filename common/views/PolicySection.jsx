@@ -1,12 +1,9 @@
 import React from 'react';
 import {navigateAction} from 'fluxible-router';
-import mui, {ListItem, IconButton} from 'material-ui';
-import NotyetIcon from 'material-ui/lib/svg-icons/navigation/close';
-import DoingIcon from 'material-ui/lib/svg-icons/action/trending-flat';
-import DoneIcon from 'material-ui/lib/svg-icons/action/done';
+import mui, {ListItem} from 'material-ui';
 import ExpandMore from 'material-ui/lib/svg-icons/navigation/expand-more';
 import debug from 'debug';
-import {findLatestProgressReport, majority} from '../utils';
+import {findLatestProgressReport, majority, progressIconPicker} from '../utils';
 import {PROGRESS_OPTIONS} from '../config/constants';
 import pptColors from '../styles/color';
 
@@ -77,23 +74,8 @@ class PolicySection extends React.Component {
             <h3>{commitment.content}</h3>
             <p style={{color: pptColors.darkGray}}>{totalRateCount} 人評進度</p>
           </div>
-        );
-
-        //move Progressicon to here.
-        let progressIcon;
-        if (progress === 'done') {
-          progressIcon = (
-            <DoneIcon style={{fill: pptColors.primaryBlue}}></DoneIcon>
-          );
-        }else if (progress === 'doing') {
-          progressIcon = (
-            <DoingIcon style={{fill: pptColors.primaryYellow}}></DoingIcon>
-          );
-        }else {
-          progressIcon = (
-            <NotyetIcon style={{fill: pptColors.primaryRed}}></NotyetIcon>
-          );
-        }
+        ),
+            progressIcon = progressIconPicker(progress);
 
         return (
             <ListItem
