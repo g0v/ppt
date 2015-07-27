@@ -62,10 +62,10 @@ var ProgressReport = React.createClass({
       );
       ratingElements.unshift(
         <ListItem leftAvatar={userAvatar} key={idx} secondaryText=
-          {<div>
-            <p> {rating.User.name} </p>
+          {<p>
+            <span> {rating.User.name} </span>
             &nbsp;{contentText}{progressText}{commentText}
-          </div>} >
+          </p>} >
         </ListItem>
       );
     });
