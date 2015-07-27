@@ -35,11 +35,11 @@ var Commitment = React.createClass({
       },
       source: {
         display: 'inline-block',
-        color: pptColors.lightBlack
+        color: pptColors.lightBlack,
+        marginLeft: 20,
       },
       forwardIcon: {
         fill: pptColors.lightBlack,
-        marginLeft: 20,
         marginRight: '5%'
       }
     };
