@@ -15,7 +15,17 @@ var Governor = React.createClass({
   getStyles() {
     return {
       root: {
-        paddingTop: pptSpacing.appBarHeight
+        paddingTop: pptSpacing.appBarHeight,
+        height: '100%',
+        width: '100%'
+      },
+      section:{
+        backgroundImage: `url('/images/coverphoto.png')`,
+        backgroundRepeat: 'no-repeat',
+        backgroundAttachment: 'fixed',
+        backgroundPosition: 'center',
+        height: '30%',
+        margin: 'auto'
       }
     };
   },
@@ -59,7 +69,7 @@ var Governor = React.createClass({
 
     return (
       <div style={styles.root}>
-        <section>
+        <section style={styles.section}>
           <img src={governor.avatar} />
           <div className="ui three column grid">
             <div className="column">

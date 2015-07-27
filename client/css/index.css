@@ -1,0 +1,26 @@
+a {
+  color: #099;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+html {
+  height: 100%;
+  width: 100%;
+  font-family: 'Roboto', sans-serif;
+}
+
+body {
+  height: 100%;
+  width: 100%;
+  font-size: 13px;
+  line-height: 20px;
+}
+
+#react-root {
+  height: 100%;
+  width: 100%;
+}
