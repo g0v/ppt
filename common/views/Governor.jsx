@@ -8,6 +8,7 @@ var React = require('react'),
 import PolicySection from './PolicySection.jsx';
 import {PROGRESS_OPTIONS} from '../config/constants';
 import {majority, findLatestProgressReport} from '../utils';
+import { Avatar } from 'material-ui';
 import {handleRoute, NavLink} from 'fluxible-router';
 import pptSpacing from '../styles/spacing';
 
@@ -19,13 +20,25 @@ var Governor = React.createClass({
         height: '100%',
         width: '100%'
       },
-      section:{
+      section: {
         backgroundImage: `url('/images/coverphoto.png')`,
         backgroundRepeat: 'no-repeat',
         backgroundAttachment: 'fixed',
         backgroundPosition: 'center',
+        width: '100%',
         height: '30%',
-        margin: 'auto'
+        maxWidth: '720',
+        minHeight: '240',
+        margin: '0px auto 10px',
+        position: 'relative'
+      },
+      avatar: {
+        display: 'block',
+        height: '72',
+        width: '72',
+        position: 'absolute',
+        top: 24,
+        left: '42.5%'
       }
     };
   },
@@ -70,17 +83,17 @@ var Governor = React.createClass({
     return (
       <div style={styles.root}>
         <section style={styles.section}>
-          <img src={governor.avatar} />
-          <div className="ui three column grid">
-            <div className="column">
+          <Avatar style={styles.avatar} src={governor.avatar} />
+          <div>
+            <div>
               <div>{governorStats.notyet || 0}</div>
               <div>還沒做</div>
             </div>
-            <div className="column">
+            <div>
               <div>{governorStats.doing || 0}</div>
               <div>正在做</div>
             </div>
-            <div className="column">
+            <div>
               <div>{governorStats.done || 0}</div>
               <div>已完成</div>
             </div>

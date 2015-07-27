@@ -20,8 +20,8 @@ class PolicySection extends React.Component {
     commitments: React.PropTypes.array
   };
 
-  constructor() {
-    super();
+  constructor(props, context) {
+    super(props, context);
     this.state = {
       open: false
     };
