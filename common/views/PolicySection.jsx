@@ -8,8 +8,9 @@ import ExpandMore from 'material-ui/lib/svg-icons/navigation/expand-more';
 import debug from 'debug';
 import {findLatestProgressReport, majority} from '../utils';
 import {PROGRESS_OPTIONS} from '../config/constants';
+import pptColors from '../styles/color';
 
-const {Transitions, Colors} = mui.Styles,
+const {Transitions} = mui.Styles,
       debugPolicySection = debug('ppt:PolicySection');
 
 class PolicySection extends React.Component {
@@ -46,7 +47,7 @@ class PolicySection extends React.Component {
   getStyles() {
     return {
       expandIcon: {
-        fill: '#000000',
+        fill: pptColors.black,
         height: '30px',
         width: '30px'
       },
@@ -55,14 +56,6 @@ class PolicySection extends React.Component {
         transition: Transitions.easeOut('300ms', 'height'),
         height: 0
       }
-      /*
-      h1: {
-        color: Colors.teal500
-      },
-      h2: {
-        color: Colors.teal500
-      }
-      */
     };
   }
 
@@ -82,7 +75,7 @@ class PolicySection extends React.Component {
         let contentAndRate = (
           <div>
             <h3>{commitment.content}</h3>
-            <p style={{color: Colors.darkBlack}}>{totalRateCount} 人評進度</p>
+            <p style={{color: pptColors.darkGray}}>{totalRateCount} 人評進度</p>
           </div>
         );
 
@@ -90,15 +83,15 @@ class PolicySection extends React.Component {
         let progressIcon;
         if (progress === 'done') {
           progressIcon = (
-            <DoneIcon style={{fill: 'green'}}></DoneIcon>
+            <DoneIcon style={{fill: pptColors.primaryBlue}}></DoneIcon>
           );
         }else if (progress === 'doing') {
           progressIcon = (
-            <DoingIcon style={{fill: 'yellow'}}></DoingIcon>
+            <DoingIcon style={{fill: pptColors.primaryYellow}}></DoingIcon>
           );
         }else {
           progressIcon = (
-            <NotyetIcon style={{fill: 'red'}}></NotyetIcon>
+            <NotyetIcon style={{fill: pptColors.primaryRed}}></NotyetIcon>
           );
         }
 
@@ -109,7 +102,7 @@ class PolicySection extends React.Component {
               secondaryTextLines={2}
               onTouchTap = {this._handleCommitmentTap.bind(this, commitment.id)}
               key={commitment.id}>
-                          {<h2 style={styles.h2}> {commitment.brief} </h2>}
+                          {<h2> {commitment.brief} </h2>}
                       </ListItem>
         );
       });
@@ -128,7 +121,7 @@ class PolicySection extends React.Component {
         rightIcon={<ExpandMore style={styles.expandIcon}/>}
         secondaryText={headerSecondaryText}
         onTouchTap={this._handleToggle}>
-        {<h1 style={styles.h1}>{this.props.name} </h1>}
+        {<h1>{this.props.name} </h1>}
       </ListItem>
     );
 

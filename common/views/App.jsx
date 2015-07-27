@@ -5,13 +5,14 @@ import {connectToStores, provideContext} from 'fluxible/addons';
 import {handleHistory} from 'fluxible-router';
 import mui, {AppBar, AppCanvas} from 'material-ui';
 import {theme} from 'material-ui/lib/theme';
+import pptColors from '../styles/color';
 
 const debug = require('debug')('ppt:App'),
       ThemeManager = new mui.Styles.ThemeManager(),
       pptCustomTheme = {
         getPalette: () => ({
-          primary1Color: 'rgba(0, 0, 0, 0.2)',
-          textColor: '#099'
+          primary1Color: pptColors.lightGray,
+          textColor: pptColors.primaryBlue
         }),
         getComponentThemes: () => ({})
       };
