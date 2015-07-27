@@ -76,12 +76,12 @@ var ProgressReport = React.createClass({
       <List>
         <ListItem leftIcon={progressIconPicker(mostVoteProgress)}
                 secondaryText={
-                  <div>
+                  <p>
                     <span style={styles.latestFromHistoryBrief}>
                       {latestFromHistory.brief}
                     </span>
                     <p style={{color: pptColors.primaryBlue}}>佐證連結</p>
-                  </div>}
+                  </p>}
                 secondaryTextLines={2}>
         </ListItem>
         {ratingElements}
