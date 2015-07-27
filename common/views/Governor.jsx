@@ -10,13 +10,13 @@ import PolicySection from './PolicySection.jsx';
 import {PROGRESS_OPTIONS} from '../config/constants';
 import {majority, findLatestProgressReport} from '../utils';
 import {handleRoute, NavLink} from 'fluxible-router';
-const Spacing = mui.Styles.Spacing;
+import pptSpacing from '../styles/spacing';
 
 var Governor = React.createClass({
   getStyles() {
     return {
       root: {
-        paddingTop: Spacing.desktopKeylineIncrement
+        paddingTop: pptSpacing.appBarHeight
       }
     };
   },
