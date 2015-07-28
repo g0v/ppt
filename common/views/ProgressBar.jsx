@@ -11,12 +11,16 @@ export default class ProgressBar extends React.Component {
   getStyles() {
     return {
       root: {
+        position: 'absolute',
         margin: 'auto',
-        width: 90%,
+        width: '90%',
+        top: 140,
+        left: '5%',
         height: 10
       },
       individual: {
-        display: 'inline-block'
+        display: 'inline-block',
+        height: '100%'
       }
     }
   }
@@ -28,11 +32,11 @@ export default class ProgressBar extends React.Component {
 
     return (
       <div style={styles.root}>
-        <div style={{ color: pptColors.primaryRed, width: notyet,
+        <div style={{ backgroundColor: pptColors.primaryRed, width: notyet,
             ...styles.individual}} />
-        <div style={{ color: pptColors.primaryYellow, width: doing,
+          <div style={{ backgroundColor: pptColors.primaryYellow, width: doing,
             ...styles.individual}} />
-        <div style={{ color: pptColors.primaryBlue, width: done,
+          <div style={{ backgroundColor: pptColors.primaryBlue, width: done,
           ...styles.individual}} />
       </div>
     )

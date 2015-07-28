@@ -4,6 +4,7 @@ export default function getBarWidthPercent(stats) {
     return sum;
   }, 0)
   return Object.keys(stats).reduce((result, key) => {
-    return result[key] = ((stats[key] / statsSum) + '%') || 0;
+    result[key] = ((stats[key] / statsSum) * 100 + '%') || 0;
+    return result;
   }, {});
 }

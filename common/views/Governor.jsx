@@ -6,6 +6,7 @@ var React = require('react'),
     Loading = require('./Loading.jsx');
 
 import PolicySection from './PolicySection.jsx';
+import ProgressBar from './ProgressBar.jsx';
 import {PROGRESS_OPTIONS} from '../config/constants';
 import {majority, findLatestProgressReport} from '../utils';
 import { Avatar } from 'material-ui';
@@ -26,9 +27,8 @@ var Governor = React.createClass({
         backgroundAttachment: 'fixed',
         backgroundPosition: 'center',
         width: '100%',
-        height: '30%',
-        maxWidth: '1024',
-        minHeight: '240',
+        height: '240',
+        maxWidth: '720',
         margin: '0px auto 10px',
         position: 'relative'
       },
@@ -84,6 +84,7 @@ var Governor = React.createClass({
       <div style={styles.root}>
         <section style={styles.section}>
           <Avatar style={styles.avatar} src={governor.avatar} />
+          <ProgressBar stats={governorStats} />
           <div>
             <div>
               <div>{governorStats.notyet || 0}</div>
