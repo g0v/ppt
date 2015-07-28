@@ -22,12 +22,12 @@ var Governor = React.createClass({
       },
       section: {
         backgroundImage: `url('/images/coverphoto.png')`,
-        backgroundRepeat: 'no-repeat',
+        backgroundRepeat: 'x-repeat',
         backgroundAttachment: 'fixed',
         backgroundPosition: 'center',
         width: '100%',
         height: '30%',
-        maxWidth: '720',
+        maxWidth: '1024',
         minHeight: '240',
         margin: '0px auto 10px',
         position: 'relative'
