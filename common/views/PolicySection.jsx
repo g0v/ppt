@@ -1,12 +1,9 @@
 import React from 'react';
 import {navigateAction} from 'fluxible-router';
-import mui, {ListItem, IconButton} from 'material-ui';
-import NotyetIcon from 'material-ui/lib/svg-icons/navigation/close';
-import DoingIcon from 'material-ui/lib/svg-icons/action/trending-flat';
-import DoneIcon from 'material-ui/lib/svg-icons/action/done';
+import mui, {ListItem} from 'material-ui';
 import ExpandMore from 'material-ui/lib/svg-icons/navigation/expand-more';
 import debug from 'debug';
-import {findLatestProgressReport, majority} from '../utils';
+import {findLatestProgressReport, majority, createProgressIcon} from '../utils';
 import {PROGRESS_OPTIONS} from '../config/constants';
 import pptColors from '../styles/color';
 
@@ -14,6 +11,14 @@ const {Transitions} = mui.Styles,
       debugPolicySection = debug('ppt:PolicySection');
 
 class PolicySection extends React.Component {
+  static contextTypes = {
+    executeAction: React.PropTypes.func.isRequired
+  };
+
+  static propTypes = {
+    name: React.PropTypes.string,
+    commitments: React.PropTypes.array
+  };
 
   constructor() {
     super();
@@ -55,6 +60,10 @@ class PolicySection extends React.Component {
         overflow: 'hidden',
         transition: Transitions.easeOut('300ms', 'height'),
         height: 0
+      },
+      totalRateCount: {
+        color: pptColors.lightBlack,
+        fontSize: 14
       }
     };
   }
@@ -73,37 +82,21 @@ class PolicySection extends React.Component {
         policyStats[progress] = policyStats[progress] + 1 || 1;
 
         let contentAndRate = (
-          <div>
-            <h3>{commitment.content}</h3>
-            <p style={{color: pptColors.darkGray}}>{totalRateCount} 人評進度</p>
-          </div>
+          <p>
+            <span>{commitment.content}</span>
+            <p style={styles.totalRateCount}> {totalRateCount} 人評進度</p>
+          </p>
         );
-
-        //move Progressicon to here.
-        let progressIcon;
-        if (progress === 'done') {
-          progressIcon = (
-            <DoneIcon style={{fill: pptColors.primaryBlue}}></DoneIcon>
-          );
-        }else if (progress === 'doing') {
-          progressIcon = (
-            <DoingIcon style={{fill: pptColors.primaryYellow}}></DoingIcon>
-          );
-        }else {
-          progressIcon = (
-            <NotyetIcon style={{fill: pptColors.primaryRed}}></NotyetIcon>
-          );
-        }
 
         return (
             <ListItem
-              leftIcon={progressIcon}
+              leftIcon={createProgressIcon(progress)}
+              primaryText={commitment.brief}
               secondaryText={contentAndRate}
               secondaryTextLines={2}
               onTouchTap = {this._handleCommitmentTap.bind(this, commitment.id)}
               key={commitment.id}>
-                          {<h2> {commitment.brief} </h2>}
-                      </ListItem>
+            </ListItem>
         );
       });
     }
@@ -137,14 +130,5 @@ class PolicySection extends React.Component {
     );
   }
 }
-
-PolicySection.contextTypes = {
-  executeAction: React.PropTypes.func.isRequired
-};
-
-PolicySection.propTypes = {
-  name: React.PropTypes.string,
-  commitments: React.PropTypes.array
-};
 
 export default PolicySection;
