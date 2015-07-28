@@ -1,6 +1,6 @@
 import React from 'react';
 import {handleRoute} from 'fluxible-router';
-import { progressIconPicker } from '../utils/';
+import { createProgressIcon } from '../utils/';
 import { List, ListItem, ListDivider, Avatar } from 'material-ui';
 import MoreVertIcon from 'material-ui/lib/svg-icons/navigation/more-vert';
 import pptColors from '../styles/color';
@@ -75,7 +75,7 @@ var ProgressReport = React.createClass({
 
     return (
       <List>
-        <ListItem leftIcon={progressIconPicker(mostVoteProgress)}
+        <ListItem leftIcon={createProgressIcon(mostVoteProgress)}
                 secondaryText={
                   <p>
                     <span style={styles.latestFromHistoryBrief}>

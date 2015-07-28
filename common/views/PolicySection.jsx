@@ -3,7 +3,7 @@ import {navigateAction} from 'fluxible-router';
 import mui, {ListItem} from 'material-ui';
 import ExpandMore from 'material-ui/lib/svg-icons/navigation/expand-more';
 import debug from 'debug';
-import {findLatestProgressReport, majority, progressIconPicker} from '../utils';
+import {findLatestProgressReport, majority, createProgressIcon} from '../utils';
 import {PROGRESS_OPTIONS} from '../config/constants';
 import pptColors from '../styles/color';
 
@@ -90,7 +90,7 @@ class PolicySection extends React.Component {
 
         return (
             <ListItem
-              leftIcon={progressIconPicker(progress)}
+              leftIcon={createProgressIcon(progress)}
               primaryText={commitment.brief}
               secondaryText={contentAndRate}
               secondaryTextLines={2}
