@@ -24,7 +24,6 @@ var Governor = React.createClass({
       },
       section: {
         backgroundImage: `url('/images/coverphoto.png')`,
-        backgroundRepeat: 'x-repeat',
         backgroundAttachment: 'fixed',
         backgroundPosition: 'center',
         width: '100%',
@@ -61,6 +60,11 @@ var Governor = React.createClass({
         width: '33.3333%',
         textAlign: 'center',
         opacity: 0.56
+      },
+      policySection: {
+        width: '100%',
+        maxWidth: 960,
+        margin: '10px auto'
       }
     };
   },
@@ -122,7 +126,9 @@ var Governor = React.createClass({
             </div>
           </div>
         </section>
-        {policyElems}
+        <div style={styles.policySection}>
+          {policyElems}
+        </div>
       </div>
     );
   }

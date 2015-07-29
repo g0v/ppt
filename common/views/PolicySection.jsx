@@ -1,6 +1,6 @@
 import React from 'react';
 import {navigateAction} from 'fluxible-router';
-import mui, {ListItem, Card} from 'material-ui';
+import mui, {ListItem, Paper} from 'material-ui';
 import CommitmentListItem from './CommitmentListItem.jsx';
 import ExpandMore from 'material-ui/lib/svg-icons/navigation/expand-more';
 import debug from 'debug';
@@ -120,14 +120,14 @@ class PolicySection extends React.Component {
     );
 
     return (
-      <Card>
+      <Paper>
         {policyHeader}
         <div ref="commitmentWrapper" style={styles.commitmentWrapper}>
           <ul ref="ul">
             {commitmentElems}
           </ul>
         </div>
-      </Card>
+      </Paper>
     );
   }
 }

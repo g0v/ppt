@@ -74,7 +74,6 @@ let CommitmentListItem = React.createClass({
       },
 
       innerDiv: {
-        marginLeft:  this.context.muiTheme.component.listItem.nestedLevelDepth,
         paddingLeft: leftIcon ? 72 : 16,
         paddingBottom: singleAvatar ? 20 : 16,
         paddingTop: singleNoAvatar || threeLine ? 16 : 20,
