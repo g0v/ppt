@@ -59,7 +59,7 @@ let CommitmentListItem = React.createClass({
         twoLine = secondaryText && secondaryTextLines === 1,
         threeLine = secondaryText && secondaryTextLines > 1,
 
-        styles = {
+    styles = {
       root: {
         backgroundColor: (this.state.isKeyboardFocused || this.state.hovered) &&
           !this.state.rightIconButtonHovered &&
