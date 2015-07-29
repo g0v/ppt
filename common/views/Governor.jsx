@@ -11,6 +11,7 @@ import {PROGRESS_OPTIONS} from '../config/constants';
 import {majority, findLatestProgressReport} from '../utils';
 import { Avatar } from 'material-ui';
 import {handleRoute, NavLink} from 'fluxible-router';
+import pptColors from '../styles/color';
 import pptSpacing from '../styles/spacing';
 
 var Governor = React.createClass({
@@ -39,6 +40,27 @@ var Governor = React.createClass({
         position: 'absolute',
         top: 24,
         left: '42.5%'
+      },
+      progressBar: {
+        position: 'absolute',
+        margin: 'auto',
+        width: '90%',
+        top: 120,
+        left: '5%',
+      },
+      textSection: {
+        position: 'absolute',
+        width: '90%',
+        height: 65,
+        top: 145,
+        left: '5%'
+      },
+      textBox: {
+        display: 'inline-block',
+        height: '100%',
+        width: '33.3333%',
+        textAlign: 'center',
+        opacity: 0.56
       }
     };
   },
@@ -84,19 +106,19 @@ var Governor = React.createClass({
       <div style={styles.root}>
         <section style={styles.section}>
           <Avatar style={styles.avatar} src={governor.avatar} />
-          <ProgressBar stats={governorStats} />
-          <div>
-            <div>
-              <div>{governorStats.notyet || 0}</div>
-              <div>還沒做</div>
+          <ProgressBar style={styles.progressBar} stats={governorStats} />
+          <div style={styles.textSection}>
+            <div style={{...styles.textBox, color: pptColors.primaryRed}}>
+              <div style={{fontSize: 34, height: '67%'}}>{governorStats.notyet || 0}</div>
+              <div style={{fontSize: 14, height: '33%'}}>還沒做</div>
             </div>
-            <div>
-              <div>{governorStats.doing || 0}</div>
-              <div>正在做</div>
+            <div style={{...styles.textBox, color: pptColors.primaryYellow}}>
+              <div style={{fontSize: 34, height: '67%'}}>{governorStats.doing || 0}</div>
+              <div style={{fontSize: 14, height: '33%'}}>正在做</div>
             </div>
-            <div>
-              <div>{governorStats.done || 0}</div>
-              <div>已完成</div>
+            <div style={{...styles.textBox, color: pptColors.primaryBlue}}>
+              <div style={{fontSize: 34, height: '67%'}}>{governorStats.done || 0}</div>
+              <div style={{fontSize: 14, height: '33%'}}>已完成</div>
             </div>
           </div>
         </section>

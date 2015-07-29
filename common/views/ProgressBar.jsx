@@ -11,11 +11,6 @@ export default class ProgressBar extends React.Component {
   getStyles() {
     return {
       root: {
-        position: 'absolute',
-        margin: 'auto',
-        width: '90%',
-        top: 140,
-        left: '5%',
         height: 10
       },
       individual: {
@@ -31,7 +26,7 @@ export default class ProgressBar extends React.Component {
     const { notyet, doing, done } = getBarWidthPercent(stats);
 
     return (
-      <div style={styles.root}>
+      <div style={{...styles.root, ...this.props.style}}>
         <div style={{ backgroundColor: pptColors.primaryRed, width: notyet,
             ...styles.individual}} />
           <div style={{ backgroundColor: pptColors.primaryYellow, width: doing,
