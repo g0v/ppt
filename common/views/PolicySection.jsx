@@ -60,8 +60,8 @@ class PolicySection extends React.Component {
       },
       progressBar: {
         height: 6.5,
-        maxWidth: 600,
-        margin: '0px 10px 15px'
+        maxWidth: 540,
+        margin: '0px 16px 15px'
       },
       commitmentWrapper: {
         overflow: 'hidden',
