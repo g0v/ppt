@@ -113,16 +113,16 @@ var Governor = React.createClass({
           <ProgressBar style={styles.progressBar} stats={governorStats} />
           <div style={styles.textSection}>
             <div style={{...styles.textBox, color: pptColors.primaryRed}}>
-              <div style={{fontSize: 34, height: '67%'}}>{governorStats.notyet || 0}</div>
-              <div style={{fontSize: 14, height: '33%'}}>還沒做</div>
+              <div style={{fontSize: 34, lineHeight: '45px'}}>{governorStats.notyet || 0}</div>
+              <div style={{fontSize: 14, lineHeight: '21px'}}>還沒做</div>
             </div>
             <div style={{...styles.textBox, color: pptColors.primaryYellow}}>
-              <div style={{fontSize: 34, height: '67%'}}>{governorStats.doing || 0}</div>
-              <div style={{fontSize: 14, height: '33%'}}>正在做</div>
+              <div style={{fontSize: 34, lineHeight: '45px'}}>{governorStats.doing || 0}</div>
+              <div style={{fontSize: 14, lineHeight: '21px'}}>正在做</div>
             </div>
             <div style={{...styles.textBox, color: pptColors.primaryBlue}}>
-              <div style={{fontSize: 34, height: '67%'}}>{governorStats.done || 0}</div>
-              <div style={{fontSize: 14, height: '33%'}}>已完成</div>
+              <div style={{fontSize: 34, lineHeight: '45px'}}>{governorStats.done || 0}</div>
+              <div style={{fontSize: 14, lineHeight: '21px'}}>已完成</div>
             </div>
           </div>
         </section>
