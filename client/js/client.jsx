@@ -1,7 +1,6 @@
 // Trigger CSS compilation & CSS text extraction.
 //
 require('../styl/client.styl');
-require('../css/index.css');
 
 // debug browser support
 //

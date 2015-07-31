@@ -79,7 +79,6 @@
     "nodemon": "^1.2.1",
     "parallelshell": "^1.1.1",
     "socket.io-client": "MrOrz/socket.io-client",
-    "style-loader": "^0.12.3",
     "stylus": "^0.50.0",
     "stylus-loader": "^1.0.0",
     "url-loader": "^0.5.6",

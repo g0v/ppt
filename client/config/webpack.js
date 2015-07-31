@@ -26,10 +26,6 @@ var webpackCfg = {
         loader: "url-loader?limit=10000"
       },
       {
-        test: /\.css$/,
-        loader: 'style!css'
-      },
-      {
         test: /\.jsx$/, loader: "babel-loader?stage=0"
       },
       {
