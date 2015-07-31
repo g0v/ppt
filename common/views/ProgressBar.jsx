@@ -31,10 +31,10 @@ export default class ProgressBar extends React.Component {
     return (
       <div style={ AutoPrefix.all({...styles.root, ...this.props.style}) }>
         <div style={ AutoPrefix.all({ backgroundColor: pptColors.primaryRed, boxFlex: notyet,
-            flex: notyet, ...styles.individual}) } />
-          <div style={ AutoPrefix.all({ backgroundColor: pptColors.primaryYellow, boxFlex: doing,
-            flex: doing, ...styles.individual}) } />
-          <div style={ AutoPrefix.all({ backgroundColor: pptColors.primaryBlue, boxFlex: done,
+          flex: notyet, ...styles.individual}) } />
+        <div style={ AutoPrefix.all({ backgroundColor: pptColors.primaryYellow, boxFlex: doing,
+          flex: doing, ...styles.individual}) } />
+        <div style={ AutoPrefix.all({ backgroundColor: pptColors.primaryBlue, boxFlex: done,
           flex: done, ...styles.individual}) } />
       </div>
     )
