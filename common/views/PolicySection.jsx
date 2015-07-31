@@ -69,7 +69,7 @@ class PolicySection extends React.Component {
         height: 0
       },
       totalRateCount: {
-        color: pptColors.lightBlack,
+        color: pptColors.darkBlack,
         fontSize: 14
       }
     };
