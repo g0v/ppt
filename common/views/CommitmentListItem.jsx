@@ -124,9 +124,9 @@ let CommitmentListItem = React.createClass({
         mergedInnerDivStyles = styles.innerDiv,
 
         mergedPrimaryTextStyles = primaryTextIsAnElement ?
-      this.mergeStyles(styles.primaryText, primaryText.props.style) : null,
+          this.mergeStyles(styles.primaryText, primaryText.props.style) : null,
         mergedSecondaryTextStyles = secondaryTextIsAnElement ?
-      this.mergeStyles(styles.secondaryText, secondaryText.props.style) : null;
+          this.mergeStyles(styles.secondaryText, secondaryText.props.style) : null;
 
     let contentChildren = [];
 
