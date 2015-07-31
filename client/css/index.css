@@ -10,7 +10,9 @@ a:hover {
 html {
   height: 100%;
   width: 100%;
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", Helvetica, Arial, "思源黑體", 'Source Han Sans TC',
+    'Source Han Sans', 'Noto Sans CJK TC', "Kozuka Gothic Pr6N",
+    "Hiragino Kaku Gothic Pro", "微軟正黑體", "Microsoft JhengHei", sans-serif;
 }
 
 body {

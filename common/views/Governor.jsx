@@ -89,9 +89,9 @@ var Governor = React.createClass({
     governor.Policies = governor.Policies || [];
 
     policyElems = governor.Policies.map(policy => (
-        <PolicySection name={policy.name}
-                       commitments={policy.Commitments}
-                       key={policy.id} />
+      <PolicySection name={policy.name}
+                     commitments={policy.Commitments}
+                     key={policy.id} />
     ));
 
     // Gather commitment stats for the governor
