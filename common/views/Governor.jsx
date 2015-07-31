@@ -6,16 +6,65 @@ var React = require('react'),
     Loading = require('./Loading.jsx');
 
 import PolicySection from './PolicySection.jsx';
+import ProgressBar from './ProgressBar.jsx';
 import {PROGRESS_OPTIONS} from '../config/constants';
 import {majority, findLatestProgressReport} from '../utils';
+import { Avatar } from 'material-ui';
 import {handleRoute, NavLink} from 'fluxible-router';
+import pptColors from '../styles/color';
 import pptSpacing from '../styles/spacing';
 
 var Governor = React.createClass({
   getStyles() {
     return {
       root: {
-        paddingTop: pptSpacing.appBarHeight
+        paddingTop: pptSpacing.appBarHeight,
+        height: '100%',
+        width: '100%'
+      },
+      section: {
+        backgroundImage: `url('/images/coverphoto.png')`,
+        backgroundAttachment: 'fixed',
+        backgroundPosition: 'center',
+        width: '100%',
+        height: '240',
+        maxWidth: '720',
+        margin: '0px auto 10px',
+        position: 'relative'
+      },
+      avatar: {
+        display: 'block',
+        height: '72',
+        width: '72',
+        position: 'absolute',
+        top: 24,
+        left: '42.5%'
+      },
+      progressBar: {
+        position: 'absolute',
+        margin: 'auto',
+        width: '90%',
+        top: 120,
+        left: '5%',
+      },
+      textSection: {
+        position: 'absolute',
+        width: '90%',
+        height: 65,
+        top: 145,
+        left: '5%'
+      },
+      textBox: {
+        display: 'inline-block',
+        height: '100%',
+        width: '33.3333%',
+        textAlign: 'center',
+        opacity: 0.56
+      },
+      policySection: {
+        width: '100%',
+        maxWidth: 960,
+        margin: '10px auto'
       }
     };
   },
@@ -59,24 +108,27 @@ var Governor = React.createClass({
 
     return (
       <div style={styles.root}>
-        <section>
-          <img src={governor.avatar} />
-          <div className="ui three column grid">
-            <div className="column">
-              <div>{governorStats.notyet || 0}</div>
-              <div>還沒做</div>
+        <section style={styles.section}>
+          <Avatar style={styles.avatar} src={governor.avatar} />
+          <ProgressBar style={styles.progressBar} stats={governorStats} />
+          <div style={styles.textSection}>
+            <div style={{...styles.textBox, color: pptColors.primaryRed}}>
+              <div style={{fontSize: 34, lineHeight: '45px'}}>{governorStats.notyet || 0}</div>
+              <div style={{fontSize: 14, lineHeight: '21px'}}>還沒做</div>
             </div>
-            <div className="column">
-              <div>{governorStats.doing || 0}</div>
-              <div>正在做</div>
+            <div style={{...styles.textBox, color: pptColors.primaryYellow}}>
+              <div style={{fontSize: 34, lineHeight: '45px'}}>{governorStats.doing || 0}</div>
+              <div style={{fontSize: 14, lineHeight: '21px'}}>正在做</div>
             </div>
-            <div className="column">
-              <div>{governorStats.done || 0}</div>
-              <div>已完成</div>
+            <div style={{...styles.textBox, color: pptColors.primaryBlue}}>
+              <div style={{fontSize: 34, lineHeight: '45px'}}>{governorStats.done || 0}</div>
+              <div style={{fontSize: 14, lineHeight: '21px'}}>已完成</div>
             </div>
           </div>
         </section>
-        {policyElems}
+        <div style={styles.policySection}>
+          {policyElems}
+        </div>
       </div>
     );
   }

@@ -1,6 +1,8 @@
 import React from 'react';
 import {navigateAction} from 'fluxible-router';
-import mui, {ListItem} from 'material-ui';
+import mui, {ListItem, Paper} from 'material-ui';
+import CommitmentListItem from './CommitmentListItem.jsx';
+import ProgressBar from './ProgressBar.jsx';
 import ExpandMore from 'material-ui/lib/svg-icons/navigation/expand-more';
 import debug from 'debug';
 import {findLatestProgressReport, majority, createProgressIcon} from '../utils';
@@ -20,8 +22,8 @@ class PolicySection extends React.Component {
     commitments: React.PropTypes.array
   };
 
-  constructor() {
-    super();
+  constructor(props, context) {
+    super(props, context);
     this.state = {
       open: false
     };
@@ -56,6 +58,11 @@ class PolicySection extends React.Component {
         height: '30px',
         width: '30px'
       },
+      progressBar: {
+        height: 6.5,
+        maxWidth: 540,
+        margin: '0px 16px 10px'
+      },
       commitmentWrapper: {
         overflow: 'hidden',
         transition: Transitions.easeOut('300ms', 'height'),
@@ -89,44 +96,48 @@ class PolicySection extends React.Component {
         );
 
         return (
-            <ListItem
+            <CommitmentListItem
               leftIcon={createProgressIcon(progress)}
               primaryText={commitment.brief}
               secondaryText={contentAndRate}
               secondaryTextLines={2}
               onTouchTap = {this._handleCommitmentTap.bind(this, commitment.id)}
               key={commitment.id}>
-            </ListItem>
+            </CommitmentListItem>
         );
       });
     }
 
     let headerSecondaryText = (
-      <p>{Object.keys(policyStats).reduce((sum, key) => {
-        sum += policyStats[key];
-        return sum;
-      }, 0)}項承諾 • {policyStats.notyet || 0} 還沒做 / {policyStats.doing || 0} 正在做 /
-      &nbsp;{policyStats.done || 0} 已完成</p>
+        <p>{Object.keys(policyStats).reduce((sum, key) => {
+          sum += policyStats[key];
+          return sum;
+        }, 0)}項承諾 • {policyStats.notyet || 0} 還沒做 / {policyStats.doing || 0} 正在做 /
+        &nbsp;{policyStats.done || 0} 已完成
+        </p>
     );
 
     let policyHeader = (
       <ListItem
         rightIcon={<ExpandMore style={styles.expandIcon}/>}
+        primaryText={<p>{this.props.name} </p>}
         secondaryText={headerSecondaryText}
-        onTouchTap={this._handleToggle}>
-        {<h1>{this.props.name} </h1>}
+        onTouchTap={this._handleToggle} >
       </ListItem>
     );
 
     return (
-      <div>
-        {policyHeader}
+      <Paper>
+        <div>
+          {policyHeader}
+          <ProgressBar stats={policyStats} style={styles.progressBar} />
+        </div>
         <div ref="commitmentWrapper" style={styles.commitmentWrapper}>
           <ul ref="ul">
             {commitmentElems}
           </ul>
         </div>
-      </div>
+      </Paper>
     );
   }
 }

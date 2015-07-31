@@ -1,6 +1,7 @@
 // Trigger CSS compilation & CSS text extraction.
 //
 require('../styl/client.styl');
+require('../css/index.css');
 
 // debug browser support
 //
@@ -8,7 +9,7 @@ window.myDebug = require('debug');
 
 var React = require('react'),
     Transmit = require('react-transmit'),
-    injectTapEventPlugin = require("react-tap-event-plugin"),
+    injectTapEventPlugin = require('react-tap-event-plugin'),
     fluxibleApp = require('../../common/fluxibleApp'),
     App = require('../../common/views/App.jsx');
 
