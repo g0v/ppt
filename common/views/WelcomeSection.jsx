@@ -18,7 +18,7 @@ export default class WelcomeSection extends React.Component {
         height: 224,
         width: '100%',
         maxWidth: 960,
-        margin: '8px auto',
+        margin: '8px auto 0',
         transition: Transitions.easeOut('300ms', 'height')
       },
       h1: {

@@ -42,7 +42,7 @@ class Home extends React.Component {
         root: {
           width: '100%',
           maxWidth: 960,
-          margin: '0px auto 8px'
+          margin: '8px auto 0'
         },
         title: {
           fontSize: 24,
