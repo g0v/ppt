@@ -3,7 +3,7 @@ import MetaStore from '../stores/MetaStore.js';
 import Sidebar from './Sidebar.jsx';
 import {connectToStores, provideContext} from 'fluxible/addons';
 import {handleHistory} from 'fluxible-router';
-import mui, {AppBar, AppCanvas} from 'material-ui';
+import mui, {AppBar} from 'material-ui';
 import {theme} from 'material-ui/lib/theme';
 import pptColors from '../styles/color';
 
@@ -23,13 +23,7 @@ class App extends React.Component {
       super(props, context);
       this._onLeftIconButtonTouchTap = this._onLeftIconButtonTouchTap.bind(this);
     }
-    /*
-    getChildContext() {
-      return {
-        muiTheme: ThemeManager.getCurrentTheme()
-      };
-    }
-    */
+
     componentDidUpdate(prevProps) {
       let newProps = this.props;
       if (newProps.MetaStore.pageTitle === prevProps.MetaStore.pageTitle) {
@@ -43,6 +37,16 @@ class App extends React.Component {
       this.refs.sideBar.toggle();
     }
 
+    getStyles() {
+      return {
+        root: {
+          width: '100%',
+          height: '100%',
+          WebkitFontSmoothing: 'antialiased'
+        }
+      };
+    }
+
     render() {
       var Handler = this.props.currentRoute.get('handler');
 
@@ -54,12 +58,14 @@ class App extends React.Component {
       // React-transmit's Transmit.renderToString leverages props to pass
       // queryResults around.
       //
+      let styles = this.getStyles();
       return (
-        <AppCanvas>
-          <AppBar title={'政治承諾追蹤網'} onLeftIconButtonTouchTap={this._onLeftIconButtonTouchTap} />
+        <div style={styles.root}>
+          <AppBar style={{position: 'fixed'}} title={'政治承諾追蹤網'}
+            onLeftIconButtonTouchTap={this._onLeftIconButtonTouchTap} />
           <Sidebar ref="sideBar" />
           <Handler {...this.props}/>
-        </AppCanvas>
+        </div>
       );
     }
 }
