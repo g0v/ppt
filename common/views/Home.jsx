@@ -1,7 +1,8 @@
 import React from 'react';
 import Transmit from 'react-transmit';
-import { Card, CardTitle, CardActions, ListItem, ListDivider } from 'material-ui';
+import { Avatar, Card, CardTitle, CardActions, ListItem, ListDivider } from 'material-ui';
 import DoneIcon from 'material-ui/lib/svg-icons/action/done';
+import MoreVertIcon from 'material-ui/lib/svg-icons/navigation/more-vert';
 import pptColors from '../styles/color';
 import pptSpacing from '../styles/spacing';
 
@@ -65,6 +66,15 @@ var Home = React.createClass({
         },
         divider: {
           backgroundColor: pptColors.faintBlack
+        },
+        content: {
+          fontSize: 15,
+          color: pptColors.primaryBlue
+        },
+        shortReport: {
+          fontSize: 12,
+          color: pptColors.lightBlack,
+          marginTop: 4
         }
       }
     };
@@ -85,34 +95,26 @@ var Home = React.createClass({
           <ListItem primaryText={<h3 style={styles.welcomeSection.h3}>我知道了</h3>}
             leftIcon={<DoneIcon style={styles.welcomeSection.doneIcon}/>} />
         </Card>
-
-        <div>
-          <Card style={styles.recentUpdate.root}>
-            <CardTitle title="近期更新"
-              titleStyle={styles.recentUpdate.title} />
-            <ListDivider style={styles.recentUpdate.divider} />
-          </Card>
-          <h1 style={styles.noMarginTop}>近期更新</h1>
-          <div></div>
-          <div>
-            <div>
-              <img src="http://semantic-ui.com/images/avatar/small/daniel.jpg"/>
-              <div>
-                <div>台中市政府社會局</div>
-                申請生育津貼，單胞胎一萬元，雙胞胎新台幣...
-              </div>
-            </div>
-            <div></div>
-            <div>
-              <img src="http://semantic-ui.com/images/avatar/small/steve.jpg"/>
-              <div>
-                <div>台中市政府社會局</div>
-                申請生育津貼，單胞胎一萬元，雙胞胎新台幣...
-              </div>
-            </div>
-          </div>
-        </div>
-
+        <Card style={styles.recentUpdate.root}>
+          <CardTitle title="近期更新"
+            titleStyle={styles.recentUpdate.title} />
+          <ListDivider style={styles.recentUpdate.divider} />
+          <ListItem leftAvatar={<Avatar src="http://semantic-ui.com/images/avatar/small/daniel.jpg" />}
+            secondaryTextLines={2}
+            secondaryText={
+              <p>
+                <span style={styles.recentUpdate.content}>
+                  航空城捷運線建設綜合規劃報告書已於103年11月25日獲國家發展委員會審議通過，行政院預計 104 年 6 月底前
+                  核定，其未來 4 年施政重點與期程規劃詳如下表 1。 年度 施政重點與期程 104 1、 6月：專案管理技術服務決標。
+                  2、 10月：統包工程招標。 105 1、 4月：統包工程決標及開工。 2、 7月：監造</span>
+                <p style={styles.recentUpdate.shortReport}>桃園市政府
+                  <span style={{color: pptColors.primaryYellow}}>正在做</span> 承諾+1</p>
+              </p>}
+            />
+          <ListItem leftIcon={<MoreVertIcon />} secondaryText={
+              <p style={{color: pptColors.primaryBlue}}>更多更新歷程</p>}
+          />
+        </Card>
         <div>
           <h1 style={styles.noMarginTop}>進度大家評</h1>
           <div></div>
