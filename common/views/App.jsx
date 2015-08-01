@@ -11,7 +11,7 @@ const debug = require('debug')('ppt:App'),
       ThemeManager = new mui.Styles.ThemeManager(),
       pptCustomTheme = {
         getPalette: () => ({
-          primary1Color: pptColors.lightGray,
+          primary1Color: pptColors.minBlack,
           textColor: pptColors.primaryBlue
         }),
         getComponentThemes: () => ({})

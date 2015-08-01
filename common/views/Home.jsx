@@ -44,12 +44,27 @@ var Home = React.createClass({
         },
         divider: {
           marginTop: 11,
-          faintBlack: pptColors.faintBlack
+          height: 2,
+          backgroundColor: pptColors.faintWhite
         },
         doneIcon: {
           width: 24,
           height: 24,
           fill: pptColors.white
+        }
+      },
+      recentUpdate: {
+        root: {
+          width: '100%',
+          maxWidth: 960,
+          margin: '0px auto 8px'
+        },
+        title: {
+          fontSize: 24,
+          color: pptColors.primaryBlue
+        },
+        divider: {
+          backgroundColor: pptColors.faintBlack
         }
       }
     };
@@ -72,6 +87,11 @@ var Home = React.createClass({
         </Card>
 
         <div>
+          <Card style={styles.recentUpdate.root}>
+            <CardTitle title="近期更新"
+              titleStyle={styles.recentUpdate.title} />
+            <ListDivider style={styles.recentUpdate.divider} />
+          </Card>
           <h1 style={styles.noMarginTop}>近期更新</h1>
           <div></div>
           <div>

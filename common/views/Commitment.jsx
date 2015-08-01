@@ -30,7 +30,7 @@ var Commitment = React.createClass({
       },
       content: {
         fontSize: 14,
-        color: pptColors.darkGray,
+        color: pptColors.lightBlack,
         margin: 20
       },
       source: {
