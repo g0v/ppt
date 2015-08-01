@@ -1,8 +1,10 @@
 import React from 'react';
 import Transmit from 'react-transmit';
-import { Avatar, Card, CardTitle, CardActions, ListItem, ListDivider } from 'material-ui';
+import { Avatar, Card, CardTitle, CardText ,CardActions, ListItem, ListDivider,
+  RaisedButton } from 'material-ui';
 import DoneIcon from 'material-ui/lib/svg-icons/action/done';
 import MoreVertIcon from 'material-ui/lib/svg-icons/navigation/more-vert';
+import ForwardIcon from 'material-ui/lib/svg-icons/navigation/arrow-forward';
 import pptColors from '../styles/color';
 import pptSpacing from '../styles/spacing';
 
@@ -76,6 +78,28 @@ var Home = React.createClass({
           color: pptColors.lightBlack,
           marginTop: 4
         }
+      },
+      rate: {
+        quote: {
+          fontSize: 20,
+          color: pptColors.faintBlack
+        },
+        content: {
+          fontSize: 15,
+          color: '#37474f'
+        },
+        source: {
+          display: 'inline-block',
+          fontSize: 15,
+          color: pptColors.lightBlack,
+        },
+        forwardIcon: {
+          width: 15,
+          height: 15,
+          fill: pptColors.black,
+          opacity: 0.53,
+          marginRight: '5%'
+        }
       }
     };
   },
@@ -111,35 +135,44 @@ var Home = React.createClass({
                   <span style={{color: pptColors.primaryYellow}}>正在做</span> 承諾+1</p>
               </p>}
             />
+          <ListDivider style={styles.recentUpdate.divider} />
           <ListItem leftIcon={<MoreVertIcon />} secondaryText={
               <p style={{color: pptColors.primaryBlue}}>更多更新歷程</p>}
           />
         </Card>
-        <div>
-          <h1 style={styles.noMarginTop}>進度大家評</h1>
-          <div></div>
-          <div>
-            <div>
-              台中市政府辦理年滿六十五歲以上老人及身心障礙者乘車補助
-              <h5>你認為胡自強的政見達成率？</h5>
-              <div style={styles.button}>
-                <div>沒有做</div>
-                <div>還在做</div>
-                <div>已完成</div>
-              </div>
+        <Card style={styles.recentUpdate.root}>
+          <CardTitle title="進度大家評"
+            titleStyle={styles.recentUpdate.title} />
+          <ListDivider style={styles.recentUpdate.divider} />
+          <CardText>
+            <span style={styles.rate.quote}>❝</span>
+            <p style={styles.rate.content}>
+              104 年度規劃擴大辦理 65 歲以上特約醫生幫老人裝假牙(原住民 55 歲以上) 其綜合所得稅稅率未達
+              20%家戶之長者補助健保費，每月每人最高可補助 749 元，預計 12 萬人受惠。
+            <span style={{...styles.rate.quote, float: 'right'}}>❞</span>
+            </p>
+            <div style={{margin: '7px 0'}}>
+              <ForwardIcon style={{...styles.rate.source, ...styles.rate.forwardIcon}}/>
+              <a style={{...styles.rate.source, cursor: 'pointer'}} href={""}>
+                佐證資訊出處
+              </a>
             </div>
-            <div></div>
-            <div>
-              胡志強稍微胖了：捷運跳票後派 BRT 上火線，可是模型回不去了
-              <h5>你認為胡自強的政見達成率？</h5>
-              <div style={styles.button}>
-                <div>沒有做</div>
-                <div>還在做</div>
-                <div>已完成</div>
-              </div>
+            <p style={{ fontSize: 15, color: pptColors.primaryBlue }}>看完以上資料，你認為台中市政府的承諾</p>
+            <p style={{ fontSize: 14, color: pptColors.darkBlack, marginTop: 8, fontWeight: 'bold' }}>65 歲以上老人健保免費</p>
+            <div style={{margin: '7px 0'}}>
+            <ForwardIcon style={{...styles.rate.source, ...styles.rate.forwardIcon}}/>
+              <a style={{...styles.rate.source, cursor: 'pointer'}} href={""}>
+                看2014年的詳細承諾
+              </a>
             </div>
-          </div>
-        </div>
+            <p style={{ fontSize: 15, color: pptColors.primaryBlue }}>的達成率是？</p>
+            <CardActions showExpandableButton={true}>
+              <RaisedButton labelColor={pptColors.white} backgroundColor={pptColors.primaryRed} label="沒有做" />
+              <RaisedButton labelColor={pptColors.white} backgroundColor={pptColors.primaryYellow} label="還在做" />
+              <RaisedButton labelColor={pptColors.white} backgroundColor={pptColors.primaryBlue} label="已完成" />
+            </CardActions>
+          </CardText>
+        </Card>
       </div>
     );
   }
