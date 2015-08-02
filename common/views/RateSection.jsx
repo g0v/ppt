@@ -45,15 +45,15 @@ export default class RateSection extends React.Component {
         fill: pptColors.black,
         opacity: 0.53,
         marginRight: '5%'
-      },
-      button: {
-        marginRight: 8
       }
     };
 
     const ratingPage = {
       submitRoot: {
         paddingTop: 10
+      },
+      button: {
+        marginRight: 8
       }
     };
 
@@ -74,6 +74,10 @@ export default class RateSection extends React.Component {
         overflow: 'hidden',
         transition: Transitions.easeOut('300ms', 'height'),
         height: 0
+      },
+      button: {
+        minWidth: 82,
+        marginRight: 8
       }
     };
 
