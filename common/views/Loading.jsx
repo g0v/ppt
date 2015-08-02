@@ -20,7 +20,7 @@ export default class Loading extends React.Component {
     return (
       <div style={styles.root}>
         <div style={{width: '50%', margin: 'auto', textAlign: 'center'}}>
-          <div style={{fontSize: 20, color: pptColors.lightBlack}}>Loading...</div>
+          <div style={{fontSize: 20, color: pptColors.lightBlack}}>Loading</div>
           <CircularProgress  size={2} mode="indeterminate" color={pptColors.primaryBlue}/>
         </div>
       </div>
