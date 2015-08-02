@@ -41,6 +41,7 @@ class PolicySection extends React.Component {
   }
 
   _determineHeight() {
+    // ex scrollHeight: 115, height : 0, so we need add + 'px' to make height with unit
     React.findDOMNode(this.refs.commitmentWrapper).style.height = this.state.open ?
       React.findDOMNode(this.refs.ul).scrollHeight + 'px' : 0;
   }
