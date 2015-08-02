@@ -15,7 +15,7 @@ export default class WelcomeSection extends React.Component {
     return {
       root: {
         backgroundColor: pptColors.primaryBlue,
-        height: 224,
+        height: 232,
         width: '100%',
         maxWidth: 960,
         margin: '8px auto 0',
