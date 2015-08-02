@@ -1,18 +1,16 @@
-var React = require('react'),
-    mui = require('material-ui'),
-    debug = require('debug')('ppt:governor'),
-    Transmit = require('react-transmit'),
-    findAll = require('../utils/findAll'),
-    Loading = require('./Loading.jsx');
-
-import PolicySection from './PolicySection.jsx';
-import ProgressBar from './ProgressBar.jsx';
+import React from 'react';
+import Transmit from 'react-transmit';
 import {PROGRESS_OPTIONS} from '../config/constants';
-import {majority, findLatestProgressReport} from '../utils';
-import { Avatar } from 'material-ui';
+import {majority, findLatestProgressReport, findAll} from '../utils';
+import mui, { Avatar } from 'material-ui';
 import {handleRoute, NavLink} from 'fluxible-router';
+import Loading from './Loading.jsx';
+import ProgressBar from './ProgressBar.jsx';
+import PolicySection from './PolicySection.jsx';
 import pptColors from '../styles/color';
 import pptSpacing from '../styles/spacing';
+
+const debug = require('debug')('ppt:governor');
 
 var Governor = React.createClass({
   getStyles() {
