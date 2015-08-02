@@ -121,7 +121,8 @@ class PolicySection extends React.Component {
     );
 
     let policyHeader = (
-      <CommitmentListItem rightIcon={<ExpandMore style={styles.expandIcon} />}
+      <CommitmentListItem rightIcon={ this.state.open ? <ExpandLess style={styles.expandIcon} /> :
+          <ExpandMore style={styles.expandIcon} />}
         primaryText={<p>{this.props.name} </p>}
         secondaryText={headerSecondaryText}
         onTouchTap={this._handleToggle} >
