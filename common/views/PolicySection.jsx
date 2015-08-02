@@ -1,9 +1,10 @@
 import React from 'react';
 import {navigateAction} from 'fluxible-router';
-import mui, {ListItem, Paper} from 'material-ui';
+import mui, {Paper} from 'material-ui';
 import CommitmentListItem from './CommitmentListItem.jsx';
 import ProgressBar from './ProgressBar.jsx';
 import ExpandMore from 'material-ui/lib/svg-icons/navigation/expand-more';
+import ExpandLess from 'material-ui/lib/svg-icons/navigation/expand-less';
 import debug from 'debug';
 import {findLatestProgressReport, majority, createProgressIcon} from '../utils';
 import {PROGRESS_OPTIONS} from '../config/constants';
@@ -41,8 +42,9 @@ class PolicySection extends React.Component {
   }
 
   _determineHeight() {
-    React.findDOMNode(this.refs.commitmentWrapper).style.height = this.state.open ?
-      React.findDOMNode(this.refs.ul).scrollHeight + 'px' : 0;
+    let wrapper = React.findDOMNode(this.refs.commitmentWrapper)
+    wrapper.style.height = this.state.open ? React.findDOMNode(this.refs.ul).scrollHeight + 'px' : 0;
+    wrapper.style.opacity = 1;
   }
 
   _handleCommitmentTap(commitmentId) {
@@ -65,8 +67,9 @@ class PolicySection extends React.Component {
       },
       commitmentWrapper: {
         overflow: 'hidden',
-        transition: Transitions.easeOut('300ms', 'height'),
-        height: 0
+        transition: Transitions.easeOut('500ms', 'opacity'),
+        height: 0,
+        opacity: 0
       },
       totalRateCount: {
         color: pptColors.lightBlack,
@@ -118,12 +121,11 @@ class PolicySection extends React.Component {
     );
 
     let policyHeader = (
-      <ListItem
-        rightIcon={<ExpandMore style={styles.expandIcon}/>}
+      <CommitmentListItem rightIcon={<ExpandMore style={styles.expandIcon} />}
         primaryText={<p>{this.props.name} </p>}
         secondaryText={headerSecondaryText}
         onTouchTap={this._handleToggle} >
-      </ListItem>
+      </CommitmentListItem>
     );
 
     return (
