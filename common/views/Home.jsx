@@ -35,9 +35,10 @@ class Home extends React.Component {
   getStyles() {
     return {
       root: {
-        width: '100%',
         height: '100%',
-        paddingTop: pptSpacing.appBarHeight
+        paddingTop: pptSpacing.appBarHeight,
+        paddingLeft: 8,
+        paddingRight: 8
       },
       recentUpdateRoot: {
         width: '100%',

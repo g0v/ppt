@@ -20,7 +20,8 @@ var Governor = React.createClass({
       root: {
         paddingTop: pptSpacing.appBarHeight,
         height: '100%',
-        width: '100%'
+        paddingLeft: 8,
+        paddingRight: 8
       },
       section: {
         backgroundImage: `url('/images/coverphoto.png')`,
