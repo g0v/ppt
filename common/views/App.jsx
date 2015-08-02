@@ -14,7 +14,11 @@ const debug = require('debug')('ppt:App'),
           primary1Color: pptColors.minBlack,
           textColor: pptColors.primaryBlue
         }),
-        getComponentThemes: () => ({})
+        getComponentThemes: () => ({
+          textField: {
+            focusColor: pptColors.primaryBlue
+          }
+        })
       };
 
 @theme(pptCustomTheme)
