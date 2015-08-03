@@ -30,16 +30,16 @@ var Commitment = React.createClass({
       },
       content: {
         fontSize: 14,
-        color: pptColors.darkGray,
+        color: pptColors.lightBlack,
         margin: 20
       },
       source: {
         display: 'inline-block',
-        color: pptColors.lightBlack,
+        color: pptColors.darkBlack,
         marginLeft: 20,
       },
       forwardIcon: {
-        fill: pptColors.lightBlack,
+        fill: pptColors.darkBlack,
         marginRight: '5%'
       }
     };

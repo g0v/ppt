@@ -42,6 +42,7 @@ class PolicySection extends React.Component {
   }
 
   _determineHeight() {
+    // ex scrollHeight: 115, height : 0, so we need add + 'px' to make height with unit
     let wrapper = React.findDOMNode(this.refs.commitmentWrapper)
     wrapper.style.height = this.state.open ? React.findDOMNode(this.refs.ul).scrollHeight + 'px' : 0;
     wrapper.style.opacity = 1;
@@ -72,7 +73,7 @@ class PolicySection extends React.Component {
         opacity: 0
       },
       totalRateCount: {
-        color: pptColors.lightBlack,
+        color: pptColors.darkBlack,
         fontSize: 14
       }
     };

@@ -10,7 +10,7 @@ import PolicySection from './PolicySection.jsx';
 import pptColors from '../styles/color';
 import pptSpacing from '../styles/spacing';
 
-const debug = require('debug')('ppt:governor');
+const { AutoPrefix } = mui.Styles;
 
 var Governor = React.createClass({
   getStyles() {
@@ -60,9 +60,11 @@ var Governor = React.createClass({
         opacity: 0.56
       },
       policySection: {
+        padding: '0px 8px',
         width: '100%',
         maxWidth: 960,
-        margin: '10px auto'
+        margin: '10px auto',
+        boxSizing: 'border-box'
       }
     };
   },
@@ -124,7 +126,7 @@ var Governor = React.createClass({
             </div>
           </div>
         </section>
-        <div style={styles.policySection}>
+        <div style={AutoPrefix.all(styles.policySection)}>
           {policyElems}
         </div>
       </div>

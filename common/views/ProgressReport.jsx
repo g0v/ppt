@@ -17,7 +17,7 @@ var ProgressReport = React.createClass({
   getStyles() {
     return {
       latestFromHistoryBrief: {
-        color: pptColors.darkGray,
+        color: pptColors.lightBlack,
         fontSize: '16px'
       }
     }
