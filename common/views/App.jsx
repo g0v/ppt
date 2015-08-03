@@ -2,8 +2,9 @@ import React from 'react';
 import MetaStore from '../stores/MetaStore.js';
 import Sidebar from './Sidebar.jsx';
 import {connectToStores, provideContext} from 'fluxible/addons';
-import {handleHistory} from 'fluxible-router';
-import mui, {AppBar} from 'material-ui';
+import {handleHistory, navigateAction} from 'fluxible-router';
+import mui, { AppBar, IconButton } from 'material-ui';
+import AddIcon from 'material-ui/lib/svg-icons/content/add';
 import {theme} from 'material-ui/lib/theme';
 import pptColors from '../styles/color';
 
@@ -25,7 +26,6 @@ const debug = require('debug')('ppt:App'),
 class App extends React.Component {
     constructor(props, context) {
       super(props, context);
-      this._onLeftIconButtonTouchTap = this._onLeftIconButtonTouchTap.bind(this);
     }
 
     componentDidUpdate(prevProps) {
@@ -36,9 +36,13 @@ class App extends React.Component {
       document.title = newProps.MetaStore.pageTitle;
     }
 
-    _onLeftIconButtonTouchTap() {
-      debug('toggle calling');
+    onNavaTouchTap() {
       this.refs.sideBar.toggle();
+    }
+
+    onAddTouchTap() {
+      debug('add called');
+      this.context.executeAction(navigateAction, {url: '/add'});
     }
 
     getStyles() {
@@ -66,7 +70,13 @@ class App extends React.Component {
       return (
         <div style={styles.root}>
           <AppBar style={{position: 'fixed'}} title={'政治承諾追蹤網'}
-            onLeftIconButtonTouchTap={this._onLeftIconButtonTouchTap} />
+            iconElementRight={
+              <IconButton tooltip="新增承諾進度" tooltipPosition="bottom-left"
+                 touch={true}>
+                <AddIcon />
+                </IconButton>}
+            onLeftIconButtonTouchTap={::this.onNavaTouchTap}
+            onRightIconButtonTouchTap={::this.onAddTouchTap} />
           <Sidebar ref="sideBar" />
           <Handler {...this.props}/>
         </div>
