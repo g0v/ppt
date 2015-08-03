@@ -24,6 +24,12 @@ const debug = require('debug')('ppt:App'),
 
 @theme(pptCustomTheme)
 class App extends React.Component {
+
+  static contextTypes = {
+    getStore: React.PropTypes.func,
+    executeAction: React.PropTypes.func.isRequired
+  };
+
     constructor(props, context) {
       super(props, context);
     }
@@ -66,17 +72,18 @@ class App extends React.Component {
       // React-transmit's Transmit.renderToString leverages props to pass
       // queryResults around.
       //
-      let styles = this.getStyles();
+      const styles = this.getStyles();
+      const addIconButton = (
+        <IconButton tooltip="新增承諾進度" tooltipPosition="bottom-left"
+          touch={true} onTouchTap={::this.onAddTouchTap}>
+          <AddIcon />
+        </IconButton>
+      );
       return (
         <div style={styles.root}>
           <AppBar style={{position: 'fixed'}} title={'政治承諾追蹤網'}
-            iconElementRight={
-              <IconButton tooltip="新增承諾進度" tooltipPosition="bottom-left"
-                 touch={true}>
-                <AddIcon />
-                </IconButton>}
-            onLeftIconButtonTouchTap={::this.onNavaTouchTap}
-            onRightIconButtonTouchTap={::this.onAddTouchTap} />
+            iconElementRight={addIconButton}
+            onLeftIconButtonTouchTap={::this.onNavaTouchTap} />
           <Sidebar ref="sideBar" />
           <Handler {...this.props}/>
         </div>
@@ -84,15 +91,6 @@ class App extends React.Component {
     }
 }
 
-App.contextTypes = {
-  getStore: React.PropTypes.func,
-  executeAction: React.PropTypes.func
-};
-/*
-App.childContextTypes = {
-  muiTheme: React.PropTypes.object.isRequired
-};
-*/
 App = connectToStores(App, [MetaStore], function(stores, props) {
   return {
     MetaStore: stores.MetaStore.getState()
