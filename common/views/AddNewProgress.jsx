@@ -35,8 +35,14 @@ class AddNewProgress extends React.Component {
         padding: '0 15px',
         boxSizing: 'border-box'
       },
+      middleSection: {
+        width: '100%',
+        marginTop: 24,
+        position: 'relative'
+      },
       notFullWidth: {
-        marginTop: 24
+        display: 'inline-block',
+        width: '50%'
       }
     };
   }
@@ -83,14 +89,15 @@ class AddNewProgress extends React.Component {
             inputStyle={{color: pptColors.black}}
             value={this.state.brief}
             onChange={::this.handleTextInput('brief')} />
-          <div>
+          <div style={styles.middleSection}>
             <DatePicker
-              style={styles.notFullWidth}
+              textFieldStyle={{width: '80%'}}
+              style={{...styles.notFullWidth}}
               hintText="新進度發生時間"
               showYearSelector={true}
               onChange={::this.handleDateChange} />
             <SelectField
-              style={styles.notFullWidth}
+              style={{...styles.notFullWidth, position: 'absolute'}}
               value={this.state.selectedGovernor}
               onChange={::this.handleTextInput('selectedGovernor')}
               hintText='請選擇執政者'
