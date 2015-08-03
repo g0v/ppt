@@ -1,6 +1,6 @@
 import React from 'react';
 import Transmit from 'react-transmit';
-import { Avatar, Card, CardTitle, CardActions, ListItem, ListDivider,
+import mui, { Avatar, Card, CardTitle, CardActions, ListItem, ListDivider,
   RaisedButton } from 'material-ui';
 import MoreVertIcon from 'material-ui/lib/svg-icons/navigation/more-vert';
 import ForwardIcon from 'material-ui/lib/svg-icons/navigation/arrow-forward';
@@ -8,6 +8,8 @@ import WelcomeSection from './WelcomeSection.jsx';
 import RateSection from './RateSection.jsx';
 import pptColors from '../styles/color';
 import pptSpacing from '../styles/spacing';
+
+const { AutoPrefix } = mui.Styles;
 
 class Home extends React.Component {
 
@@ -36,9 +38,11 @@ class Home extends React.Component {
     return {
       root: {
         height: '100%',
+        width: '100%',
         paddingTop: pptSpacing.appBarHeight,
         paddingLeft: 8,
-        paddingRight: 8
+        paddingRight: 8,
+        boxSizing: 'border-box'
       },
       recentUpdateRoot: {
         width: '100%',
@@ -75,7 +79,7 @@ class Home extends React.Component {
     const styles = this.getStyles();
 
     return (
-      <div style={styles.root}>
+      <div style={AutoPrefix.all(styles.root)}>
         {this.state.wasVisited ? null : <WelcomeSection ref="welcomeSection"
           onKnownTouchTap={::this.onKnownTouchTap}/>}
         <Card style={styles.recentUpdateRoot}>
