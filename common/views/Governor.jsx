@@ -10,6 +10,7 @@ import PolicySection from './PolicySection.jsx';
 import pptColors from '../styles/color';
 import pptSpacing from '../styles/spacing';
 
+const debug = require('debug')('ppt:Governor');
 const { AutoPrefix } = mui.Styles;
 
 var Governor = React.createClass({
