@@ -56,6 +56,9 @@ class PolicySection extends React.Component {
 
   getStyles() {
     return {
+      root: {
+        marginBottom: 8
+      },
       expandIcon: {
         fill: pptColors.black,
         height: '30px',
@@ -131,7 +134,7 @@ class PolicySection extends React.Component {
     );
 
     return (
-      <Paper>
+      <Paper style={styles.root}>
         <div>
           {policyHeader}
           <ProgressBar stats={policyStats} style={styles.progressBar} />
