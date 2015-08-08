@@ -2,6 +2,7 @@ export default {
   primaryBlue: '#099',
   primaryYellow: '#fa0',
   primaryRed: '#f00',
+  background: '#eeeeee',
 
   faintBlack:   'rgba(0, 0, 0, 0.12)',
   minBlack: 'rgba(0, 0, 0, 0.24)',
