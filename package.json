@@ -27,7 +27,10 @@
     "// database-related": "Database related commands",
     "migrate": "sequelize db:migrate",
     "seed": "sequelize db:migrate:undo:all && npm run migrate && babel-node --debug --stage 1 -- ./server/scripts/seed-mock-data.js",
-    "seed:commitment": "sequelize db:migrate:undo:all && npm run migrate && babel-node --debug --stage 1 -- ./server/scripts/seed-commitment-data.js"
+    "seed:commitment": "sequelize db:migrate:undo:all && npm run migrate && babel-node --debug --stage 1 -- ./server/scripts/seed-commitment-data.js",
+    "// test": "test-related command",
+    "test": "NODE_ENV=test `npm bin`/mocha --compilers js:babel/register --recursive",
+    "test:watch": "NODE_ENV=test `npm bin`/mocha --compilers js:babel/register --recursive --watch"
   },
   "config": {
     "webpackDevServerPort": 5000,
