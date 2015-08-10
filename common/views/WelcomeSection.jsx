@@ -64,7 +64,7 @@ export default class WelcomeSection extends React.Component {
         <h4 style={styles.h4}>貼上新聞連結，更新施政進度</h4>
         <h5 style={styles.h5}>進度開放編輯，只要附上訊息出處，就能更新施政進度</h5>
         <ListDivider style={styles.divider}/>
-        <ListItem primaryText={<h3 style={styles.h3}>我知道了</h3>}
+        <ListItem ref="knownTarget" primaryText={<h3 style={styles.h3}>我知道了</h3>}
           leftIcon={<DoneIcon style={styles.doneIcon}/>} onTouchTap={this.props.onKnownTouchTap}/>
       </Card>
     );
