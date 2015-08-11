@@ -1,10 +1,14 @@
-import React, { addons } from 'react';
+import React, { addons } from 'react/addons';
+// import injectTapEventPlugin from 'react-tap-event-plugin';
 import { expect } from 'chai';
+// import sinon from 'sinon';
 import WelcomeSection from '../common/views/WelcomeSection.jsx';
-
+// import jsdom from './utils/jsdom';
 const { TestUtils } = addons;
 
 describe('WelcomeSection', () => {
+  // jsdom();
+
   it('should render the text we want', () => {
     const shallowRenderer = TestUtils.createRenderer();
     const renderTexts = (()=> {
@@ -20,5 +24,17 @@ describe('WelcomeSection', () => {
     expect(textArray).to.deep.equal(['一起來監督施政吧', '查詢政府首長施政進度',
       '從左側選單挑選要看的縣市長', '貼上新聞連結，更新施政進度',
       '進度開放編輯，只要附上訊息出處，就能更新施政進度']);
+
   });
+  /* Can't find what's wrong with renderIntoDocument even setting a fake dom using jsdom
+     might need to pay attention if this will cause a potential error to our code.
+     Even it's a trivial test.
+  it('should call onKnownTouchTap after touchTaped', () => {
+    injectTapEventPlugin();
+    const touchTapSpy = sinon.spy();
+    const welcome = TestUtils.renderIntoDocument(<WelcomeSection onKnownTouchTap={touchTapSpy} />);
+    TestUtils.Simulate.touchTap(welcome.refs.knownTarget);
+    expect(touchTapSpy.calledOnce).to.be.true;
+  });
+  */
 });
