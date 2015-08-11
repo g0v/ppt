@@ -4,6 +4,7 @@ import { expect } from 'chai';
 // import sinon from 'sinon';
 import WelcomeSection from '../common/views/WelcomeSection.jsx';
 // import jsdom from './utils/jsdom';
+
 const { TestUtils } = addons;
 
 describe('WelcomeSection', () => {
