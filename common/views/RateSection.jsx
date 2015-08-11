@@ -23,7 +23,8 @@ export default class RateSection extends React.Component {
   }
 
   componentDidUpdate() {
-    this.determineHeight(this.refs.submitSection, this.refs.wrapper);
+    this.determineHeight(React.findDOMNode(this.refs.submitSection), React.findDOMNode(
+      this.refs.wrapper), this.state.shouldSubmitOpen);
   }
 
   getStyles(home = false) {
@@ -127,11 +128,10 @@ export default class RateSection extends React.Component {
     );
   }
 
-  determineHeight(reHeight, target) {
-    if (reHeight && target) {
+  determineHeight(reHeight, target, shouldOpen) {
+    if (reHeight && target && shouldOpen) {
     // ex scrollHeight: 115, height : 0, so we need add + 'px' to make height with unit
-      React.findDOMNode(reHeight).style.height = this.state.shouldSubmitOpen ?
-        React.findDOMNode(target).scrollHeight + 'px' : 0;
+      reHeight.style.height = shouldOpen ? target.scrollHeight + 'px' : 0;
     }
   }
 
