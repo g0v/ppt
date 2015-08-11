@@ -10,7 +10,7 @@ const debug = require('debug')('ppt:RateSection');
 export default class RateSection extends React.Component {
 
   static propTypes = {
-    home: React.PropTypes.bool
+    home: React.PropTypes.bool,
   }
 
   constructor(props, context) {
@@ -18,18 +18,12 @@ export default class RateSection extends React.Component {
     this.state = {
       reason: '',
       selectedIndex: 0,
-      shouldSubmitOpen: false
+      shouldSubmitOpen: false,
     };
   }
 
   componentDidUpdate() {
     this.determineSubmitHeight();
-  }
-
-  determineSubmitHeight() {
-    // ex scrollHeight: 115, height : 0, so we need add + 'px' to make height with unit
-    React.findDOMNode(this.refs.submitSection).style.height = this.state.shouldSubmitOpen ?
-      React.findDOMNode(this.refs.wrapper).scrollHeight + 'px' : 0;
   }
 
   getStyles(home = false) {
@@ -44,64 +38,44 @@ export default class RateSection extends React.Component {
         height: 15,
         fill: pptColors.black,
         opacity: 0.53,
-        marginRight: '5%'
-      }
+        marginRight: '5%',
+      },
     };
 
     const ratingPage = {
       submitRoot: {
-        paddingTop: 10
+        paddingTop: 10,
       },
       button: {
-        marginRight: 8
-      }
+        marginRight: 8,
+      },
     };
 
     const homeRatingSection = {
       quote: {
         fontSize: 20,
-        color: pptColors.faintBlack
+        color: pptColors.faintBlack,
       },
       content: {
         fontSize: 15,
-        color: '#37474f'
+        color: '#37474f',
       },
       buttonRoot: {
-        margin: '8px 0 10px'
+        margin: '8px 0 10px',
       },
       submitRoot: {
         paddingTop: 10,
         overflow: 'hidden',
         transition: Transitions.easeOut('300ms', 'height'),
-        height: 0
+        height: 0,
       },
       button: {
         minWidth: 82,
-        marginRight: 8
-      }
+        marginRight: 8,
+      },
     };
 
-    return home ? {...common, ...homeRatingSection} : {...common, ...ratingPage}
-  }
-
-  handleProgressTouchTap(key) {
-    return () => {
-      this.setState({
-        selectedIndex: key,
-        shouldSubmitOpen: true
-      });
-    }
-  }
-
-  handleReasonChange(e) {
-    this.setState({
-      reason: e.target.value.trim()
-    });
-  }
-
-  handleSubmit(){
-    const progress = ['notyet', 'doing', 'done'];
-    debug(this.state)
+    return home ? {...common, ...homeRatingSection} : {...common, ...ratingPage};
   }
 
   render() {
@@ -138,18 +112,44 @@ export default class RateSection extends React.Component {
            <ProgressButton progressIndex={3} selectedIndex={selectedIndex} style={styles.button}
              backgroundColor={pptColors.primaryBlue} label="已完成" handleTouchTap={::this.handleProgressTouchTap}/>
         </div>
-        <div ref='submitSection' style={styles.submitRoot}>
-          <div ref='wrapper'>
+        <div ref="submitSection" style={styles.submitRoot}>
+          <div ref="wrapper">
             <p style={{ fontSize: 12, color: pptColors.lightBlack}}>認為此政見「已完成」的原因</p>
             <TextField hintText="（非必要）" inputStyle={{color: pptColors.black}} onChange={::this.handleReasonChange} />
             <div style={{marginTop: 12}}>
               <p style={{display: 'inline-block', marginRight: 20, fontSize: 12, color: pptColors.lightBlack}}>「送出達成率」需要您登入</p>
-              <RaisedButton onTouchTap={::this.handleSubmit} style={{display:'inline-block'}}
+              <RaisedButton onTouchTap={::this.handleSubmit} style={{display: 'inline-block'}}
                 labelColor={pptColors.white} backgroundColor={pptColors.primaryBlue} label="送出達成率" />
             </div>
           </div>
         </div>
       </section>
     );
+  }
+
+  determineSubmitHeight() {
+    // ex scrollHeight: 115, height : 0, so we need add + 'px' to make height with unit
+    React.findDOMNode(this.refs.submitSection).style.height = this.state.shouldSubmitOpen ?
+      React.findDOMNode(this.refs.wrapper).scrollHeight + 'px' : 0;
+  }
+
+  handleProgressTouchTap(key) {
+    return () => {
+      this.setState({
+        selectedIndex: key,
+        shouldSubmitOpen: true,
+      });
+    };
+  }
+
+  handleReasonChange(e) {
+    this.setState({
+      reason: e.target.value.trim(),
+    });
+  }
+
+  handleSubmit() {
+    // const progress = ['notyet', 'doing', 'done'];
+    debug(this.state);
   }
 }
