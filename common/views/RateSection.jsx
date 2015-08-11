@@ -5,7 +5,7 @@ import ProgressButton from './ProgressButton.jsx';
 import pptColors from '../styles/color';
 
 const { Transitions } = mui.Styles;
-const debug = require('debug')('ppt:RateSection');
+// const debug = require('debug')('ppt:RateSection');
 
 export default class RateSection extends React.Component {
 
@@ -151,7 +151,8 @@ export default class RateSection extends React.Component {
   }
 
   handleSubmit() {
-    // const progress = ['notyet', 'doing', 'done'];
-    debug(this.state);
+    const progress = ['notyet', 'doing', 'done'];
+    const { reason, selectedIndex } = this.state;
+    return { reason, progress: progress[selectedIndex - 1] };
   }
 }
