@@ -8,7 +8,7 @@ const { Transitions } = mui.Styles;
 export default class WelcomeSection extends React.Component {
 
   static propTypes = {
-    onKnownTouchTap: React.PropTypes.func
+    onKnownTouchTap: React.PropTypes.func,
   }
 
   getStyles() {
@@ -19,39 +19,39 @@ export default class WelcomeSection extends React.Component {
         width: '100%',
         maxWidth: 960,
         margin: '8px auto 0',
-        transition: Transitions.easeOut('300ms', 'height')
+        transition: Transitions.easeOut('300ms', 'height'),
       },
       h1: {
         marginTop: 22,
         marginLeft: 17,
         fontSize: 24,
-        color: pptColors.darkWhite
+        color: pptColors.darkWhite,
       },
       h3: {
         fontSize: 15,
-        color: pptColors.darkWhite
+        color: pptColors.darkWhite,
       },
       h4: {
         marginTop: 7,
         marginLeft: 17,
         fontSize: 15,
-        color: pptColors.darkWhite
+        color: pptColors.darkWhite,
       },
       h5: {
         marginLeft: 17,
         fontSize: 12,
-        color: pptColors.lightWhite
+        color: pptColors.lightWhite,
       },
       divider: {
         marginTop: 11,
         height: 2,
-        backgroundColor: pptColors.faintWhite
+        backgroundColor: pptColors.faintWhite,
       },
       doneIcon: {
         width: 24,
         height: 24,
-        fill: pptColors.white
-      }
+        fill: pptColors.white,
+      },
     };
   }
   render() {
@@ -68,5 +68,5 @@ export default class WelcomeSection extends React.Component {
           leftIcon={<DoneIcon style={styles.doneIcon}/>} onTouchTap={this.props.onKnownTouchTap}/>
       </Card>
     );
-}
+  }
 }
