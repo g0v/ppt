@@ -1,8 +1,8 @@
 import React, { addons } from 'react/addons';
 // import injectTapEventPlugin from 'react-tap-event-plugin';
 import { expect } from 'chai';
-// import sinon from 'sinon';
-import WelcomeSection from '../common/views/WelcomeSection.jsx';
+import sinon from 'sinon';
+import WelcomeSection from '../../../common/views/WelcomeSection.jsx';
 // import jsdom from './utils/jsdom';
 
 const { TestUtils } = addons;
@@ -38,4 +38,16 @@ describe('WelcomeSection', () => {
     expect(touchTapSpy.calledOnce).to.be.true;
   });
   */
+  it('should call onKnownTouchTap after onTouchTap is called', () => {
+    const touchTapSpy = sinon.spy();
+    const shallowRenderer = TestUtils.createRenderer();
+    const getKnownTarget = () => {
+      shallowRenderer.render(<WelcomeSection onKnownTouchTap={touchTapSpy} />);
+      const length = shallowRenderer.getRenderOutput().props.children.length;
+      return shallowRenderer.getRenderOutput().props.children[length - 1];
+    };
+    getKnownTarget().props.onTouchTap();
+    expect(touchTapSpy.calledOnce).to.be.true;
+  });
+
 });
