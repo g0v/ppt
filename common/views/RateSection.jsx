@@ -23,7 +23,7 @@ export default class RateSection extends React.Component {
   }
 
   componentDidUpdate() {
-    this.determineSubmitHeight();
+    this.determineHeight(this.refs.submitSection, this.refs.wrapper);
   }
 
   getStyles(home = false) {
@@ -127,10 +127,12 @@ export default class RateSection extends React.Component {
     );
   }
 
-  determineSubmitHeight() {
+  determineHeight(reHeight, target) {
+    if (reHeight && target) {
     // ex scrollHeight: 115, height : 0, so we need add + 'px' to make height with unit
-    React.findDOMNode(this.refs.submitSection).style.height = this.state.shouldSubmitOpen ?
-      React.findDOMNode(this.refs.wrapper).scrollHeight + 'px' : 0;
+      React.findDOMNode(reHeight).style.height = this.state.shouldSubmitOpen ?
+        React.findDOMNode(target).scrollHeight + 'px' : 0;
+    }
   }
 
   handleProgressTouchTap(key) {
