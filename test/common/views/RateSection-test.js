@@ -82,12 +82,13 @@ describe('RateSection', () => {
         props.children[2].props.children[1];
     };
     it('handleReasonChange should change state reason', () => {
-      // dirty!
-      getInstance(shallowRenderer).setState({
-        reason: 'not so bad!',
-        selectedIndex: 3,
-      });
-      const submitResult = createSubmitButton().props.onTouchTap();
+      const testCase = {
+        state: {
+          reason: 'not so bad!',
+          selectedIndex: 3,
+        }
+      };
+      const submitResult = RateSection.prototype.handleSubmit.bind(testCase)();
       expect(submitResult).to.deep.equal({
         reason: 'not so bad!',
         progress: 'done',
