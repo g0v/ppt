@@ -26,7 +26,7 @@ describe('RateSection', () => {
       expect(notyet.props.progressIndex).to.equal(1);
     });
 
-    it('should change backgroundColor and selectedIndex when button touchTaped', () => {
+    it('should change backgroundColor and selectedIndex when button is touchTapped', () => {
       require('../../utils/document.js');
       const notyet = createNotyetButton();
       notyet.props.handleTouchTap(notyet.props.progressIndex)();
@@ -35,7 +35,7 @@ describe('RateSection', () => {
       expect(notyetRerendered.props.backgroundColor).to.equal(pptColors.primaryRed);
     });
 
-    it('should change backgroundColor and selectedIndex when button touchTaped', () => {
+    it('should change backgroundColor and selectedIndex when button is touchTapped', () => {
       require('../../utils/document.js');
       const notyet = createNotyetButton();
       notyet.props.handleTouchTap(notyet.props.progressIndex)();
