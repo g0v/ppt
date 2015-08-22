@@ -1,8 +1,8 @@
-import React from 'react';
+import React, {PropTypes} from 'react';
 import { connect } from 'react-redux';
 import {fetchData} from '../actions/';
 import {PROGRESS_OPTIONS} from '../config/constants';
-import {majority, findLatestProgressReport, findAll} from '../utils';
+import {majority, findLatestProgressReport} from '../utils';
 import mui, { Avatar } from 'material-ui';
 import Loading from './Loading.jsx';
 import ProgressBar from './ProgressBar.jsx';
@@ -10,8 +10,40 @@ import PolicySection from './PolicySection.jsx';
 import pptColors from '../styles/color';
 import pptSpacing from '../styles/spacing';
 
-const debug = require('debug')('ppt:Governor');
+// const debug = require('debug')('ppt:Governor');
 const { AutoPrefix } = mui.Styles;
+
+@createEnterTransitionHook(store => (state/* , transition */) => {
+  const { entities } = store.getState();
+  const { params: { name } } = state;
+  if (!entities.governors[name]) {
+    return store.dispatch(fetchData('Governor', {
+      where: {
+        name: name,
+      },
+      include: [
+        {association: 'Terms'},
+        {
+          association: 'Policies',
+          include: [
+            {
+              association: 'Commitments',
+              include: [
+                {
+                  association: 'ProgressReports',
+                  include: [
+                    {association: 'ProgressReportHistories'},
+                    {association: 'ProgressRatings'},
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    }));
+  }
+})
 
 class Governor extends React.Component {
   getStyles() {
@@ -29,7 +61,7 @@ class Governor extends React.Component {
         height: '240',
         maxWidth: '720',
         margin: '0px auto 10px',
-        position: 'relative'
+        position: 'relative',
       },
       avatar: {
         display: 'block',
@@ -37,7 +69,7 @@ class Governor extends React.Component {
         width: '72',
         position: 'absolute',
         top: 24,
-        left: '42.5%'
+        left: '42.5%',
       },
       progressBar: {
         position: 'absolute',
@@ -51,57 +83,57 @@ class Governor extends React.Component {
         width: '90%',
         height: 65,
         top: 145,
-        left: '5%'
+        left: '5%',
       },
       textBox: {
         display: 'inline-block',
         height: '100%',
         width: '33.3333%',
         textAlign: 'center',
-        opacity: 0.56
+        opacity: 0.56,
       },
       policySection: {
         padding: '0px 8px',
         width: '100%',
         maxWidth: 960,
         margin: '10px auto',
-        boxSizing: 'border-box'
-      }
+        boxSizing: 'border-box',
+      },
     };
   }
 
-  render () {
-    var styles = this.getStyles(),
-        governor = this.props.governors[0],
-        governorStats = {},
-        policyElems;
+  render() {
+    const {governors, policies, commitments, progressReports, progressRatings,
+      isLoading, errorMessage, name} = this.props;
+    const styles = this.getStyles();
+    const governor = governors[0];
+    let governorStats = {};
 
-    if (!governor) {
-      let governerName = decodeURIComponent(this.props.currentRoute.get('params').get('name'));
+    if (isLoading || errorMessage || !governor) {
       return (
         <div style={styles.root}>
-          <section>
-            找不到執政者「{governerName}」 :(
-          </section>
+          { isLoading ? <Loading /> :
+            errorMessage ? errorMessage : (
+            <section>
+              找不到執政者「{name}」 :(
+            </section>)}
         </div>
-      )
+      );
     }
-
-    governor.Policies = governor.Policies || [];
-
-    policyElems = governor.Policies.map(policy => (
-      <PolicySection name={policy.name}
-                     commitments={policy.Commitments}
-                     key={policy.id} />
+    const policyElems = governor.policies && governor.policies.map(policyID => (
+      <PolicySection name={policies[policyID].name}
+                     commitments={policies[policyID].commitments.map(id => commitments[id])}
+                     key={policyID} />
     ));
 
     // Gather commitment stats for the governor
-    //
-    governor.Policies.forEach(policy => {
-      policy.Commitments.forEach(commitment => {
-        var latestReport = findLatestProgressReport(commitment.ProgressReports),
-            progress = latestReport && majority(latestReport.ProgressRatings.map(rating => rating.progress)) ||
-                       PROGRESS_OPTIONS[0];
+    // TODO: port this part to state
+    governor.policies && governor.policies.forEach(policyID => {
+      policies[policyID].commitments.forEach(commitmentID => {
+        const latestReport = findLatestProgressReport(commitments[commitmentID].
+          progressReports.map(id => progressReports[id]));
+        const progress = latestReport && majority(latestReport.progressRatings.
+          map(id => progressRatings[id].progress)) || PROGRESS_OPTIONS[0];
 
         governorStats[progress] = governorStats[progress] + 1 || 1;
       });
@@ -135,62 +167,19 @@ class Governor extends React.Component {
   }
 }
 
-Governor, {
-  queries: {
-    governors(queryParams) {
-      debug('queryParams', queryParams);
-      return findAll('Governor', {
-        where: {
-          name: queryParams.name
-        },
-        include: [
-          {association: 'Terms'},
-          {
-            association: 'Policies',
-            include: [
-              {
-                association: 'Commitments',
-                include: [
-                  {
-                    association: 'ProgressReports',
-                    include: [
-                      {association: 'ProgressReportHistories'},
-                      {association: 'ProgressRatings'}
-                    ]
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      });
-    }
-  }
-});
+Governor.propTypes = {
+  governors: PropTypes.arrayOf(PropTypes.object),
+  name: PropTypes.string,
+};
 
-// Setup React-transmit via props
-//
-var GovernorQuerySetter = React.createClass({
-  _makeQueryParams () {
-    return {
-      name: this.props.currentRoute.get('params').get('name')
-    }
-  },
+function mapStateToProps(state, ownProps) {
+  const { name } = ownProps.params;
+  return {
+    name,
+    ...state,
+  };
+}
 
-  render() {
-    return (
-      <Governor queryParams={this._makeQueryParams()} emptyView={<Loading />}
-        {...this.props}
-        ref="governor"
-      />
-    );
-  },
-
-  componentDidUpdate(prevProps) {
-    if (prevProps.currentRoute !== this.props.currentRoute) {
-      this.refs.governor.setQueryParams(this._makeQueryParams());
-    }
-  }
-})
-
-export default
+export default connect(
+  mapStateToProps,
+)(Governor);

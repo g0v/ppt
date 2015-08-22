@@ -3,10 +3,10 @@ import { Schema, arrayOf } from 'normalizr';
 const governor = new Schema('governors', {idAttribute: name});
 const term = new Schema('terms');
 const policy = new Schema('policies');
-const progressreport = new Schema('progressreports');
 const commitment = new Schema('commitments');
-const progressreporthistory = new Schema('progressreporthistorys');
-const progressrating = new Schema('progressratings');
+const progressReport = new Schema('progressReports');
+const progressReportHistory = new Schema('progressReportHistories');
+const progressRating = new Schema('progressRatings');
 const user = new Schema('users');
 
 governor.define({
@@ -19,19 +19,19 @@ policy.define({
 });
 
 commitment.define({
-  ProgressReports: arrayOf(progressreport),
+  ProgressReports: arrayOf(progressReport),
 });
 
-progressreport.define({
-  ProgressReportHistories: arrayOf(progressreporthistory),
-  ProgressRatings: arrayOf(progressrating),
+progressReport.define({
+  ProgressReportHistories: arrayOf(progressReportHistory),
+  ProgressRatings: arrayOf(progressRating),
 });
 
-progressreporthistory.define({
+progressReportHistory.define({
   Users: arrayOf(user),
 });
 
-progressrating.define({
+progressRating.define({
   Users: arrayOf(user),
 });
 
@@ -44,12 +44,12 @@ export default {
   POLICY_ARRAY: arrayOf(policy),
   COMMITMENT: commitment,
   COMMITMENT_ARRAY: arrayOf(commitment),
-  PROGRESSREPORT: progressreport,
-  PROGRESSREPORT_ARRAY: arrayOf(progressreport),
-  PROGRESSREPORTHISTORY: progressreporthistory,
-  PROGRESSREPORTHISTORY_ARRAY: arrayOf(progressreporthistory),
-  PROGRESSRATING: progressrating,
-  PROGRESSRATING_ARRAY: arrayOf(progressrating),
+  PROGRESSREPORT: progressReport,
+  PROGRESSREPORT_ARRAY: arrayOf(progressReport),
+  PROGRESSREPORTHISTORY: progressReportHistory,
+  PROGRESSREPORTHISTORY_ARRAY: arrayOf(progressReportHistory),
+  PROGRESSRATING: progressRating,
+  PROGRESSRATING_ARRAY: arrayOf(progressRating),
   USER: user,
   USER_ARRAY: arrayOf(user),
 };
