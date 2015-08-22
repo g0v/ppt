@@ -44,6 +44,7 @@ var webpackCfg = {
     new webpack.DefinePlugin({
       'process.env': {
         IS_BROWSER: JSON.stringify(true),
+        __DEV__: JSON.stringify(process.env.NODE_ENV !== 'production')
       }
     })
   ],

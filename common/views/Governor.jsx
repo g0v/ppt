@@ -1,9 +1,9 @@
 import React from 'react';
-import Transmit from 'react-transmit';
+import { connect } from 'react-redux';
+import {fetchData} from '../actions/';
 import {PROGRESS_OPTIONS} from '../config/constants';
 import {majority, findLatestProgressReport, findAll} from '../utils';
 import mui, { Avatar } from 'material-ui';
-import {handleRoute, NavLink} from 'fluxible-router';
 import Loading from './Loading.jsx';
 import ProgressBar from './ProgressBar.jsx';
 import PolicySection from './PolicySection.jsx';
@@ -13,13 +13,13 @@ import pptSpacing from '../styles/spacing';
 const debug = require('debug')('ppt:Governor');
 const { AutoPrefix } = mui.Styles;
 
-var Governor = React.createClass({
+class Governor extends React.Component {
   getStyles() {
     return {
       root: {
         paddingTop: pptSpacing.appBarHeight,
         height: '100%',
-        width: '100%'
+        width: '100%',
       },
       section: {
         backgroundImage: `url('/images/coverphoto.png')`,
@@ -68,7 +68,7 @@ var Governor = React.createClass({
         boxSizing: 'border-box'
       }
     };
-  },
+  }
 
   render () {
     var styles = this.getStyles(),
@@ -133,9 +133,9 @@ var Governor = React.createClass({
       </div>
     );
   }
-});
+}
 
-Governor = Transmit.createContainer(Governor, {
+Governor, {
   queries: {
     governors(queryParams) {
       debug('queryParams', queryParams);
@@ -193,4 +193,4 @@ var GovernorQuerySetter = React.createClass({
   }
 })
 
-module.exports = handleRoute(GovernorQuerySetter);
+export default
