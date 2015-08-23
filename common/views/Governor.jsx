@@ -1,8 +1,6 @@
 import React, {PropTypes} from 'react';
 import { connect } from 'react-redux';
 import {fetchData} from '../actions/';
-import {PROGRESS_OPTIONS} from '../config/constants';
-import {majority, findLatestProgressReport} from '../utils';
 import mui, { Avatar } from 'material-ui';
 import Loading from './Loading.jsx';
 import ProgressBar from './ProgressBar.jsx';
@@ -46,6 +44,15 @@ const { AutoPrefix } = mui.Styles;
 })
 
 class Governor extends React.Component {
+
+  static propTypes = {
+    name: PropTypes.string,
+    governor: PropTypes.object,
+    governorStats: PropTypes.object,
+    isLoading: PropTypes.bool,
+    errorMessage: PropTypes.string,
+  }
+
   getStyles() {
     return {
       root: {
@@ -104,10 +111,7 @@ class Governor extends React.Component {
 
   render() {
     const styles = this.getStyles();
-    const {governors, policies, commitments, progressReports, progressRatings,
-      isLoading, errorMessage, name} = this.props;
-    const governor = governors[0];
-    let governorStats = {};
+    const {governor, governorStats, isLoading, errorMessage, name} = this.props;
 
     if (isLoading || errorMessage || !governor) {
       return (
@@ -120,24 +124,9 @@ class Governor extends React.Component {
         </div>
       );
     }
-    const policyElems = governor.policies && governor.policies.map(policyID => (
-      <PolicySection name={policies[policyID].name}
-                     commitments={policies[policyID].commitments.map(id => commitments[id])}
-                     key={policyID} />
+    const policyElems = governor.Policies && governor.Policies.map(policyID => (
+      <PolicySection policyID={policyID} key={policyID} />
     ));
-
-    // Gather commitment stats for the governor
-    // TODO: port this part to state
-    governor.policies && governor.policies.forEach(policyID => {
-      policies[policyID].commitments.forEach(commitmentID => {
-        const latestReport = findLatestProgressReport(commitments[commitmentID].
-          progressReports.map(id => progressReports[id]));
-        const progress = latestReport && majority(latestReport.progressRatings.
-          map(id => progressRatings[id].progress)) || PROGRESS_OPTIONS[0];
-
-        governorStats[progress] = governorStats[progress] + 1 || 1;
-      });
-    });
 
     return (
       <div style={styles.root}>
@@ -167,15 +156,12 @@ class Governor extends React.Component {
   }
 }
 
-Governor.propTypes = {
-  name: PropTypes.string,
-};
-
 function mapStateToProps(state, ownProps) {
   const { name } = ownProps.params;
   return {
     name,
-    ...state,
+    governor: state.governors[name],
+    governorStats: state.governors[name].governorStats,
   };
 }
 

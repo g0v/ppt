@@ -1,122 +1,94 @@
-import React from 'react';
-import {navigateAction} from 'fluxible-router';
+import React, {PropTypes} from 'react';
 import mui, {Paper} from 'material-ui';
 import CommitmentListItem from './CommitmentListItem.jsx';
 import ProgressBar from './ProgressBar.jsx';
 import ExpandMore from 'material-ui/lib/svg-icons/navigation/expand-more';
 import ExpandLess from 'material-ui/lib/svg-icons/navigation/expand-less';
-import debug from 'debug';
-import {findLatestProgressReport, majority, createProgressIcon} from '../utils';
-import {PROGRESS_OPTIONS} from '../config/constants';
+import {createProgressIcon} from '../utils';
 import pptColors from '../styles/color';
 
-const {Transitions} = mui.Styles,
-      debugPolicySection = debug('ppt:PolicySection');
+const {Transitions} = mui.Styles;
+// const debugPolicySection = require('debug')('ppt:PolicySection');
 
 class PolicySection extends React.Component {
-  static contextTypes = {
-    executeAction: React.PropTypes.func.isRequired
-  };
 
   static propTypes = {
-    name: React.PropTypes.string,
-    commitments: React.PropTypes.array
-  };
+    policy: PropTypes.object,
+    policyStats: PropTypes.object,
+    commitments: PropTypes.object,
+  }
+
+  static contextTypes = {
+    router: PropTypes.object.isRequired,
+  }
 
   constructor(props, context) {
     super(props, context);
     this.state = {
-      open: false
+      open: false,
     };
-    this._handleToggle = this._handleToggle.bind(this);
   }
 
   componentDidUpdate() {
-    this._determineHeight();
-  }
-
-  _handleToggle() {
-    this.setState({
-      open: !(this.state.open)
-    });
-  }
-
-  _determineHeight() {
-    // ex scrollHeight: 115, height : 0, so we need add + 'px' to make height with unit
-    let wrapper = React.findDOMNode(this.refs.commitmentWrapper)
-    wrapper.style.height = this.state.open ? React.findDOMNode(this.refs.ul).scrollHeight + 'px' : 0;
-    wrapper.style.opacity = 1;
-  }
-
-  _handleCommitmentTap(commitmentId) {
-    this.context.executeAction(navigateAction, {
-      url: '/commitment/' + commitmentId
-    });
+    this.determineHeight();
   }
 
   getStyles() {
     return {
       root: {
-        marginBottom: 8
+        marginBottom: 8,
       },
       expandIcon: {
         fill: pptColors.black,
         height: '30px',
-        width: '30px'
+        width: '30px',
       },
       progressBar: {
         height: 6.5,
         maxWidth: 540,
-        margin: '0px 16px 10px'
+        margin: '0px 16px 10px',
       },
       commitmentWrapper: {
         overflow: 'hidden',
         transition: Transitions.easeOut('500ms', 'opacity'),
         height: 0,
-        opacity: 0
+        opacity: 0,
       },
       totalRateCount: {
         color: pptColors.darkBlack,
-        fontSize: 14
-      }
+        fontSize: 14,
+      },
     };
   }
 
   render() {
-    let styles = this.getStyles(),
-        policyStats = {};
+    const styles = this.getStyles();
+    const {policy, policyStats, commitments} = this.props;
 
-    if (this.props.commitments) {
-      var commitmentElems = this.props.commitments.map(commitment => {
-        var latestReport = findLatestProgressReport(commitment.ProgressReports),
-            totalRateCount = latestReport ? latestReport.ProgressRatings.length : 0,
-            progress = latestReport && majority(latestReport.ProgressRatings.map(rating => rating.progress)) ||
-                       PROGRESS_OPTIONS[0];
+    const commitmentElems = policy.Commiments && policy.Commiments.map(commimentID => {
+      const commitment = commitments[commimentID];
+      const {latestRateCount, majorityProgress} = commiment;
+      const contentAndRate = (
+        <p>
+        <span>{commitment.content}</span>
+        <p style={styles.totalRateCount}> {latestRateCount} 人評進度</p>
+        </p>
+      );
 
-        policyStats[progress] = policyStats[progress] + 1 || 1;
+      return (
+        <CommitmentListItem
+          leftIcon={createProgressIcon(majorityProgress)}
+          primaryText={commitment.brief}
+          secondaryText={contentAndRate}
+          secondaryTextLines={2}
+          onTouchTap = {this.handleCommitmentTap.bind(this, commimentID)}
+          key={commimentID} />
+      );
+    });
 
-        let contentAndRate = (
-          <p>
-            <span>{commitment.content}</span>
-            <p style={styles.totalRateCount}> {totalRateCount} 人評進度</p>
-          </p>
-        );
-
-        return (
-            <CommitmentListItem
-              leftIcon={createProgressIcon(progress)}
-              primaryText={commitment.brief}
-              secondaryText={contentAndRate}
-              secondaryTextLines={2}
-              onTouchTap = {this._handleCommitmentTap.bind(this, commitment.id)}
-              key={commitment.id}>
-            </CommitmentListItem>
-        );
-      });
-    }
-
-    let headerSecondaryText = (
-        <p>{Object.keys(policyStats).reduce((sum, key) => {
+    const headerSecondaryText = (
+        <p>{Object.keys(policyStats).reduce((x, key) => {
+          let sum = x;
           sum += policyStats[key];
           return sum;
         }, 0)}項承諾 • {policyStats.notyet || 0} 還沒做 / {policyStats.doing || 0} 正在做 /
@@ -124,13 +96,12 @@ class PolicySection extends React.Component {
         </p>
     );
 
-    let policyHeader = (
+    const policyHeader = (
       <CommitmentListItem rightIcon={ this.state.open ? <ExpandLess style={styles.expandIcon} /> :
           <ExpandMore style={styles.expandIcon} />}
-        primaryText={<p>{this.props.name} </p>}
+        primaryText={<p>{policy.name} </p>}
         secondaryText={headerSecondaryText}
-        onTouchTap={this._handleToggle} >
-      </CommitmentListItem>
+        onTouchTap={::this.handleToggle} />
     );
 
     return (
@@ -147,6 +118,36 @@ class PolicySection extends React.Component {
       </Paper>
     );
   }
+
+  handleToggle() {
+    this.setState({
+      open: !(this.state.open),
+    });
+  }
+
+  determineHeight() {
+    // ex scrollHeight: 115, height : 0, so we need add + 'px' to make height with unit
+    const wrapper = React.findDOMNode(this.refs.commitmentWrapper);
+    wrapper.style.height = this.state.open ? React.findDOMNode(this.refs.ul).scrollHeight + 'px' : 0;
+    wrapper.style.opacity = 1;
+  }
+
+  handleCommitmentTap(commitmentId) {
+    const { router } = this.context;
+    router.transitionTo('/commitment/' + commitmentId);
+  }
 }
 
-export default PolicySection;
+function mapStateToProps(state, ownProps) {
+  const {policyID} = ownProps;
+  const { policies, commitments } = state;
+  return {
+    policy: policies[policyID],
+    policyStats: policies[policyID].policyStats,
+    commitments,
+  };
+}
+
+export default connect(
+  mapStateToProps,
+)(PolicySection);

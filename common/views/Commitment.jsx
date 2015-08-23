@@ -43,6 +43,14 @@ import ProgressReport from './ProgressReport.jsx';
 })
 class Commitment extends React.Component {
 
+  static propTypes = {
+    commitment: PropTypes.object,
+    latestReportID: PropTypes.number,
+    oldReportsID: PropTypes.arrayOf(PropTypes.number),
+    isLoading: PropTypes.bool,
+    errorMessage: PropTypes.string,
+  }
+
   getStyles() {
     return {
       root: {
@@ -76,14 +84,7 @@ class Commitment extends React.Component {
 
   render() {
     const styles = this.getStyles();
-    const { commitments, progressReports, progressReportHistories, progressRatings,
-      isLoading, errorMessage } = this.props;
-    const commitment = commitments && commitments[0];
-
-    const reports = commitment.progressReports && commitment.progressReports.
-      map(reportID => progressReports[reportID]);
-    let oldProgressReports;
-    let latestProgressReport;
+    const { commitment, latestReportID, oldReportsID, isLoading, errorMessage } = this.props;
 
     if (isLoading || errorMessage || !commitment) {
       return (
@@ -95,33 +96,18 @@ class Commitment extends React.Component {
       );
     }
 
-    if (reports && reports.length > 0) {
-      // slice reports into two parts
-      latestProgressReport = reports[0];
-
-      oldProgressReports = reports.slice(1);
-    }
-
-    const oldProgressReportElems = oldProgressReports.map((report, idx)=> {
+    const oldProgressReportElems = oldReportsID.map((reportID)=> {
       return (
-        <ProgressReport key={idx} history={report.progressReportHistories.map(historyID =>
-          progressReportHistories[historyID])}
-          ratings={report.progressRatings.map(ratingID =>
-          progressRatings[ratingID])}
-          isExpanded={false}/>
+        <ProgressReport key={reportID} reportID={reportID} isExpanded={false}/>
       );
     });
-    let progressReportElems = [];
+    const progressReportElems = [];
 
-    if (latestProgressReport) {
+    if (latestReportID) {
       progressReportElems.push(
         <section key="latest">
           <h4 style={styles.h4}>最新進展</h4>
-          <ProgressReport history={latestProgressReport.progressReportHistories.map(historyID =>
-            progressReportHistories[historyID])}
-            ratings={latestProgressReport.progressRatings.map(ratingID =>
-            progressRatings[ratingID])}
-            isExpanded={true}/>
+          <ProgressReport reportID={latestReportID} isExpanded={true}/>
         </section>
       );
     }
@@ -157,15 +143,14 @@ class Commitment extends React.Component {
   }
 }
 
-Commitment.propTypes = {
-  id: PropTypes.string,
-};
-
 function mapStateToProps(state, ownProps) {
   const { id } = ownProps.params;
+  const { commitments } = state;
+  const reports = commiments[id].ProgressReports;
   return {
-    id,
-    ...state,
+    commitment: commitments[id],
+    latestReportID: reports && reports[0],
+    oldReportsID: reports && reports.length > 1 && reports.slice(1),
   };
 }
 

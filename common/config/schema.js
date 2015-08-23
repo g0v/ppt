@@ -28,11 +28,16 @@ progressReport.define({
 });
 
 progressReportHistory.define({
-  Users: arrayOf(user),
+  User: user,
 });
 
 progressRating.define({
-  Users: arrayOf(user),
+  User: user,
+});
+
+user.define({
+  ProgressReportHistories: arrayOf(progressReportHistory),
+  ProgressRatings: arrayOf(progressRating),
 });
 
 export default {
