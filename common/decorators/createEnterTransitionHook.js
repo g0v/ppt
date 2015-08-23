@@ -1,5 +1,7 @@
 import React from 'react';
 
+// const debug = require('debug')('ppt:createEnterTransitionHook');
+
 export default function createEnterTransitionHook(
   transitionHookCreator
 ): (DecoratedComponent: React.Component) => React.Component {

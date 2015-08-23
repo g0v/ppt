@@ -64,7 +64,6 @@
     "react-router": "^1.0.0-beta3",
     "react-tap-event-plugin": "^0.1.7",
     "redux": "^1.0.1",
-    "redux-logger": "^1.0.3",
     "sequelize": "^3.1.1",
     "sequelize-cli": "^1.7.0",
     "serialize-javascript": "^1.0.0",

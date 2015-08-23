@@ -14,8 +14,8 @@ class ProgressReport extends React.Component {
     users: PropTypes.object,
   }
 
-  getDefaultProps() {
-    return {isExpanded: false};
+  static defaultProps = {
+    isExpanded: false,
   }
 
   getStyles() {
@@ -67,7 +67,7 @@ class ProgressReport extends React.Component {
         commentText = '。';
       }
       const user = users[rating.User];
-      ratingElements.unshift(
+      user && ratingElements.unshift(
         <ListItem leftAvatar={<Avatar src={user.avatar} />} key={idx} secondaryText=
           {<p>
             <span> {user.name} </span>
@@ -101,7 +101,7 @@ class ProgressReport extends React.Component {
 
 function mapStateToProps(state, ownProps) {
   const { reportID, isExpanded } = ownProps;
-  const { progressReports, progressRatings, progressReportHistories, users } = state;
+  const { progressReports, progressRatings, progressReportHistories, users } = state.entities;
   const report = progressReports[reportID];
   return {
     isExpanded,

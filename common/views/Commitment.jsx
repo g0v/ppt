@@ -10,12 +10,12 @@ import pptSpacing from '../styles/spacing';
 import Loading from './Loading.jsx';
 import ProgressReport from './ProgressReport.jsx';
 
-// const debug = require('debug')('ppt:commiment');
+const debug = require('debug')('ppt:commiment');
 
 function mapStateToProps(state, ownProps) {
   const { id } = ownProps.params;
-  const { commitments } = state;
-  const reports = commiments[id].ProgressReports;
+  const { commitments } = state.entities;
+  const reports = commitments[id].ProgressReports;
   return {
     commitment: commitments[id],
     latestReportID: reports && reports[0],
@@ -26,31 +26,32 @@ function mapStateToProps(state, ownProps) {
 @createEnterTransitionHook(store => (state/* , transition */) => {
   const { entities } = store.getState();
   const { params: { id } } = state;
-  if (!entities.commitments[id]) {
-    return store.dispatch(fetchData('Commitment', {
-      where: {
-        id: id,
+  const dataAction = fetchData('Commitment', {
+    where: {
+      id: id,
+    },
+    include: [
+      {
+        association: 'ProgressReports',
+        include: [
+          {
+            association: 'ProgressReportHistories',
+            include: [
+              {association: 'User'},
+            ],
+          },
+          {
+            association: 'ProgressRatings',
+            include: [
+              {association: 'User'},
+            ],
+          },
+        ],
       },
-      include: [
-        {
-          association: 'ProgressReports',
-          include: [
-            {
-              association: 'ProgressReportHistories',
-              include: [
-                {association: 'User'},
-              ],
-            },
-            {
-              association: 'ProgressRatings',
-              include: [
-                {association: 'User'},
-              ],
-            },
-          ],
-        },
-      ],
-    }));
+    ],
+  });
+  if (!entities.commitments[id]) {
+    return Promise.resolve(store.dispatch(dataAction));
   }
 })
 
@@ -110,7 +111,7 @@ export default class Commitment extends React.Component {
       );
     }
 
-    const oldProgressReportElems = oldReportsID.map((reportID)=> {
+    const oldProgressReportElems = oldReportsID && oldReportsID.map((reportID)=> {
       return (
         <ProgressReport key={reportID} reportID={reportID} isExpanded={false}/>
       );

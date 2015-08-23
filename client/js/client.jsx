@@ -13,7 +13,7 @@ import {Provider} from 'react-redux';
 import AppRouter from '../../common/views/AppRouter.jsx';
 import {history} from 'react-router/lib/BrowserHistory';
 import injectTapEventPlugin from 'react-tap-event-plugin';
-import configureStore from '../../common/redux/configureStore';
+import configureStore from '../../common/store/configureStore';
 
 // Needed for onTouchTap
 // Can go away when react 1.0 release

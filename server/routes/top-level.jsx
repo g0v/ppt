@@ -7,7 +7,7 @@ import {Provider} from 'react-redux';
 import Router from 'react-router';
 import Location from 'react-router/lib/Location';
 import thenify from 'thenify';
-import configureStore from '../../common/redux/configureStore';
+import configureStore from '../../common/store/configureStore';
 import AppRouter from '../../common/views/AppRouter.jsx';
 
 const runRouter = thenify(Router.run);

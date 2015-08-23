@@ -1,5 +1,5 @@
 import merge from 'lodash/object/merge';
-import { FETCH_DATA_REQUEST } from '../actions';
+import { FETCH_DATA_REQUEST, FETCH_DATA_SUCCESS, FETCH_DATA_FAILURE } from '../actions';
 import {PROGRESS_OPTIONS} from '../config/constants';
 import {majority, findLatestProgressReport} from '../utils';
 /**
@@ -54,7 +54,7 @@ function entities(state = entitiesState, action) {
       governors: {}, policies: {}, commitments: {},
     });
 
-    return merge(allStats, state, action.response.entities);
+    return merge({isLoading: false}, allStats, state, action.response.entities);
   }
 
   return state;
@@ -76,6 +76,8 @@ function isLoading(state = false, action) {
   const { type } = action;
   if (type === FETCH_DATA_REQUEST) {
     return true;
+  } else if (type === FETCH_DATA_SUCCESS) {
+    return false;
   }
   return state;
 }

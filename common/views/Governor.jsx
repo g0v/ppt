@@ -9,7 +9,7 @@ import PolicySection from './PolicySection.jsx';
 import pptColors from '../styles/color';
 import pptSpacing from '../styles/spacing';
 
-const debug = require('debug')('ppt:Governor');
+// const debug = require('debug')('ppt:Governor');
 const { AutoPrefix } = mui.Styles;
 
 function mapStateToProps(state, ownProps) {
@@ -25,32 +25,33 @@ function mapStateToProps(state, ownProps) {
 @createEnterTransitionHook(store => (state/* , transition */) => {
   const { entities } = store.getState();
   const { params: { name } } = state;
-  if (!entities.governors[name]) {
-    debug(store.dispatch(fetchData('Governor', {
-      where: {
-        name: name,
+  const dataAction = fetchData('Governor', {
+    where: {
+      name: name,
+    },
+    include: [
+      {association: 'Terms'},
+      {
+        association: 'Policies',
+        include: [
+          {
+            association: 'Commitments',
+            include: [
+              {
+                association: 'ProgressReports',
+                include: [
+                  {association: 'ProgressReportHistories'},
+                  {association: 'ProgressRatings'},
+                ],
+              },
+            ],
+          },
+        ],
       },
-      include: [
-        {association: 'Terms'},
-        {
-          association: 'Policies',
-          include: [
-            {
-              association: 'Commitments',
-              include: [
-                {
-                  association: 'ProgressReports',
-                  include: [
-                    {association: 'ProgressReportHistories'},
-                    {association: 'ProgressRatings'},
-                  ],
-                },
-              ],
-            },
-          ],
-        },
-      ],
-    })));
+    ],
+  });
+  if (!entities.governors[name]) {
+    return Promise.resolve(store.dispatch(dataAction));
   }
 })
 
@@ -144,18 +145,18 @@ export default class Governor extends React.Component {
       <div style={styles.root}>
         <section style={styles.section}>
           <Avatar style={styles.avatar} src={governor.avatar} />
-          <ProgressBar style={styles.progressBar} stats={governorStats} />
+          <ProgressBar style={styles.progressBar} stats={governorStats || {}} />
           <div style={styles.textSection}>
             <div style={{...styles.textBox, color: pptColors.primaryRed}}>
-              <div style={{fontSize: 34, lineHeight: '45px'}}>{governorStats.notyet || 0}</div>
+              <div style={{fontSize: 34, lineHeight: '45px'}}>{governorStats && governorStats.notyet || 0}</div>
               <div style={{fontSize: 14, lineHeight: '21px'}}>還沒做</div>
             </div>
             <div style={{...styles.textBox, color: pptColors.primaryYellow}}>
-              <div style={{fontSize: 34, lineHeight: '45px'}}>{governorStats.doing || 0}</div>
+              <div style={{fontSize: 34, lineHeight: '45px'}}>{governorStats && governorStats.doing || 0}</div>
               <div style={{fontSize: 14, lineHeight: '21px'}}>正在做</div>
             </div>
             <div style={{...styles.textBox, color: pptColors.primaryBlue}}>
-              <div style={{fontSize: 34, lineHeight: '45px'}}>{governorStats.done || 0}</div>
+              <div style={{fontSize: 34, lineHeight: '45px'}}>{governorStats && governorStats.done || 0}</div>
               <div style={{fontSize: 14, lineHeight: '21px'}}>已完成</div>
             </div>
           </div>

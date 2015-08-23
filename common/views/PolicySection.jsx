@@ -9,7 +9,7 @@ import {createProgressIcon} from '../utils';
 import pptColors from '../styles/color';
 
 const {Transitions} = mui.Styles;
-// const debugPolicySection = require('debug')('ppt:PolicySection');
+const debug = require('debug')('ppt:PolicySection');
 
 class PolicySection extends React.Component {
 
@@ -65,10 +65,9 @@ class PolicySection extends React.Component {
   render() {
     const styles = this.getStyles();
     const {policy, policyStats, commitments} = this.props;
-
-    const commitmentElems = policy.Commiments && policy.Commiments.map(commimentID => {
+    const commitmentElems = policy.Commitments && policy.Commitments.map(commimentID => {
       const commitment = commitments[commimentID];
-      const {latestRateCount, majorityProgress} = commiment;
+      const {latestRateCount, majorityProgress} = commitment;
       const contentAndRate = (
         <p>
         <span>{commitment.content}</span>
@@ -87,7 +86,7 @@ class PolicySection extends React.Component {
       );
     });
 
-    const headerSecondaryText = (
+    const headerSecondaryText = policyStats && (
         <p>{Object.keys(policyStats).reduce((x, key) => {
           let sum = x;
           sum += policyStats[key];
@@ -109,7 +108,7 @@ class PolicySection extends React.Component {
       <Paper style={styles.root}>
         <div>
           {policyHeader}
-          <ProgressBar stats={policyStats} style={styles.progressBar} />
+          <ProgressBar stats={policyStats || {}} style={styles.progressBar} />
         </div>
         <div ref="commitmentWrapper" style={styles.commitmentWrapper}>
           <ul ref="ul">
@@ -134,6 +133,7 @@ class PolicySection extends React.Component {
   }
 
   handleCommitmentTap(commitmentId) {
+    debug('handleCommitmentTap called');
     const { router } = this.context;
     router.transitionTo('/commitment/' + commitmentId);
   }
@@ -141,7 +141,7 @@ class PolicySection extends React.Component {
 
 function mapStateToProps(state, ownProps) {
   const {policyID} = ownProps;
-  const { policies, commitments } = state;
+  const { policies, commitments } = state.entities;
   return {
     policy: policies[policyID],
     policyStats: policies[policyID].policyStats,
