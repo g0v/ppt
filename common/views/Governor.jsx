@@ -9,15 +9,16 @@ import PolicySection from './PolicySection.jsx';
 import pptColors from '../styles/color';
 import pptSpacing from '../styles/spacing';
 
-// const debug = require('debug')('ppt:Governor');
+const debug = require('debug')('ppt:Governor');
 const { AutoPrefix } = mui.Styles;
 
 function mapStateToProps(state, ownProps) {
   const { name } = ownProps.params;
+  const governor = state.entities.governors[name];
   return {
     name,
-    governor: state.governors[name],
-    governorStats: state.governors[name].governorStats,
+    governor: governor,
+    governorStats: governor && governor.governorStats,
   };
 }
 
@@ -25,7 +26,7 @@ function mapStateToProps(state, ownProps) {
   const { entities } = store.getState();
   const { params: { name } } = state;
   if (!entities.governors[name]) {
-    return store.dispatch(fetchData('Governor', {
+    debug(store.dispatch(fetchData('Governor', {
       where: {
         name: name,
       },
@@ -49,7 +50,7 @@ function mapStateToProps(state, ownProps) {
           ],
         },
       ],
-    }));
+    })));
   }
 })
 

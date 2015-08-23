@@ -10,7 +10,7 @@ window.myDebug = require('debug');
 
 import React from 'react';
 import {Provider} from 'react-redux';
-import {Router} from 'react-router';
+import AppRouter from '../../common/views/AppRouter.jsx';
 import {history} from 'react-router/lib/BrowserHistory';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import configureStore from '../../common/redux/configureStore';
@@ -26,6 +26,6 @@ const childrenRoutes = require('../../common/routes')(store);
 
 React.render((
   <Provider store={store}>
-    {() => <Router history={history} children={childrenRoutes}/>}
+    {() => <AppRouter history={history} children={childrenRoutes}/>}
   </Provider>
-), document.getElementById('root'));
+), document.getElementById('react-root'));

@@ -8,6 +8,7 @@ import Router from 'react-router';
 import Location from 'react-router/lib/Location';
 import thenify from 'thenify';
 import configureStore from '../../common/redux/configureStore';
+import AppRouter from '../../common/views/AppRouter.jsx';
 
 const runRouter = thenify(Router.run);
 const debug = require('debug')('ppt:topLevel');
@@ -42,12 +43,13 @@ router.get('*', (req, res, next) => {
       }
       const markup = React.renderToString(
         <Provider store={store}>
-          {() => <Router {...routerState}/>}
+          {() => <AppRouter {...routerState}/>}
         </Provider>
       );
 
       const dehydratedState = serialize(store.getState());
       const html = `<div id="react-root">${markup}</div>`;
+
       res.render('index', {
         meta, html, dehydratedState, hash: HASH,
       });
