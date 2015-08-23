@@ -1,9 +1,6 @@
 import React from 'react';
-import Transmit from 'react-transmit';
-import mui, { Avatar, Card, CardTitle, CardActions, ListItem, ListDivider,
-  RaisedButton } from 'material-ui';
+import mui, { Avatar, Card, CardTitle, ListItem, ListDivider } from 'material-ui';
 import MoreVertIcon from 'material-ui/lib/svg-icons/navigation/more-vert';
-import ForwardIcon from 'material-ui/lib/svg-icons/navigation/arrow-forward';
 import WelcomeSection from './WelcomeSection.jsx';
 import RateSection from './RateSection.jsx';
 import pptColors from '../styles/color';
@@ -16,21 +13,21 @@ class Home extends React.Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
-      wasVisited: true
+      wasVisited: true,
     };
   }
 
   componentDidMount() {
     if (!(window.localStorage.getItem('wasVisited'))) {
-      window.localStorage.setItem('wasVisited', false)
+      window.localStorage.setItem('wasVisited', false);
       this.setState({
-        wasVisited: false
+        wasVisited: false,
       });
     }
   }
 
   onKnownTouchTap() {
-    window.localStorage.setItem('wasVisited', true)
+    window.localStorage.setItem('wasVisited', true);
     React.findDOMNode(this.refs.welcomeSection).style.height = 0;
   }
 
@@ -42,36 +39,36 @@ class Home extends React.Component {
         paddingTop: pptSpacing.appBarHeight,
         paddingLeft: 8,
         paddingRight: 8,
-        boxSizing: 'border-box'
+        boxSizing: 'border-box',
       },
       recentUpdateRoot: {
         width: '100%',
         maxWidth: 960,
-        margin: '8px auto 0'
+        margin: '8px auto 0',
       },
       title: {
         fontSize: 24,
-        color: pptColors.primaryBlue
+        color: pptColors.primaryBlue,
       },
       divider: {
-        backgroundColor: pptColors.faintBlack
+        backgroundColor: pptColors.faintBlack,
       },
       content: {
         fontSize: 15,
-        color: pptColors.primaryBlue
+        color: pptColors.primaryBlue,
       },
       shortReport: {
         fontSize: 12,
         color: pptColors.lightBlack,
-        marginTop: 4
+        marginTop: 4,
       },
       moreVert: {
         top: 6,
-        left: 8
+        left: 8,
       },
       rateRoot: {
-        padding: 16
-      }
+        padding: 16,
+      },
     };
   }
 
@@ -116,4 +113,4 @@ class Home extends React.Component {
   }
 }
 
-module.exports = Transmit.createContainer(Home, {});
+export default Home;
