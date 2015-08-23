@@ -103,9 +103,9 @@ class Governor extends React.Component {
   }
 
   render() {
+    const styles = this.getStyles();
     const {governors, policies, commitments, progressReports, progressRatings,
       isLoading, errorMessage, name} = this.props;
-    const styles = this.getStyles();
     const governor = governors[0];
     let governorStats = {};
 
@@ -168,7 +168,6 @@ class Governor extends React.Component {
 }
 
 Governor.propTypes = {
-  governors: PropTypes.arrayOf(PropTypes.object),
   name: PropTypes.string,
 };
 

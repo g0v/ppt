@@ -1,37 +1,66 @@
-var React = require('react'),
-    debug = require('debug')('ppt:commiment'),
-    Loading = require('./Loading.jsx'),
-    Transmit = require('react-transmit');
-
-import {handleRoute} from 'fluxible-router';
-import { findAll } from '../utils/';
+import React, {PropTypes} from 'react';
+import { connect } from 'react-redux';
+import {fetchData} from '../actions/';
 import { ListDivider } from 'material-ui';
 import ForwardIcon from 'material-ui/lib/svg-icons/navigation/arrow-forward';
 import AutoLinkText from 'react-autolink-text';
 import pptColors from '../styles/color';
 import pptSpacing from '../styles/spacing';
-import ProgressReport from './ProgressReport.jsx'
+import Loading from './Loading.jsx';
+import ProgressReport from './ProgressReport.jsx';
 
-var Commitment = React.createClass({
+// const debug = require('debug')('ppt:commiment');
+
+@createEnterTransitionHook(store => (state/* , transition */) => {
+  const { entities } = store.getState();
+  const { params: { id } } = state;
+  if (!entities.commitments[id]) {
+    return store.dispatch(fetchData('Commitment', {
+      where: {
+        id: id,
+      },
+      include: [
+        {
+          association: 'ProgressReports',
+          include: [
+            {
+              association: 'ProgressReportHistories',
+              include: [
+                {association: 'User'},
+              ],
+            },
+            {
+              association: 'ProgressRatings',
+              include: [
+                {association: 'User'},
+              ],
+            },
+          ],
+        },
+      ],
+    }));
+  }
+})
+class Commitment extends React.Component {
 
   getStyles() {
     return {
       root: {
-        paddingTop: pptSpacing.appBarHeight + 26
+        paddingTop: pptSpacing.appBarHeight + 26,
       },
       h4: {
         color: pptColors.primaryBlue,
-        margin: 10
+        margin: 10,
       },
       brief: {
         fontSize: 24,
         color: pptColors.primaryBlue,
-        margin: 10
+        margin: 10,
       },
       content: {
         fontSize: 14,
         color: pptColors.lightBlack,
-        margin: 20
+        margin: 20,
       },
       source: {
         display: 'inline-block',
@@ -40,53 +69,61 @@ var Commitment = React.createClass({
       },
       forwardIcon: {
         fill: pptColors.darkBlack,
-        marginRight: '5%'
-      }
+        marginRight: '5%',
+      },
     };
-  },
+  }
 
-  render: function() {
-    var styles = this.getStyles(),
-        oldProgressReports = [],
-        progressReports,
-        latestProgressReport,
-        commitment = this.props.commitments && this.props.commitments[0];
+  render() {
+    const styles = this.getStyles();
+    const { commitments, progressReports, progressReportHistories, progressRatings,
+      isLoading, errorMessage } = this.props;
+    const commitment = commitments && commitments[0];
 
-    if (!commitment) {
+    const reports = commitment.progressReports && commitment.progressReports.
+      map(reportID => progressReports[reportID]);
+    let oldProgressReports;
+    let latestProgressReport;
+
+    if (isLoading || errorMessage || !commitment) {
       return (
         <div style={styles.root}>
-          沒有這個承諾喔！
+          { isLoading ? <Loading /> :
+            errorMessage ? errorMessage :
+            '沒有這個承諾喔！'}
         </div>
-      )
-    }
-
-    progressReports = commitment.ProgressReports;
-
-    if (progressReports && progressReports.length > 0) {
-      latestProgressReport = progressReports[0];
-
-      oldProgressReports = progressReports.slice(1);
-    }
-
-    var oldProgressReportElems = oldProgressReports.map(function(report, idx) {
-      return (
-        <ProgressReport key={idx}
-                        history={report.ProgressReportHistories}
-                        ratings={report.ProgressRatings}
-                        isExpanded={false}/>
       );
-    }),
-        progressReportElems = [];
+    }
+
+    if (reports && reports.length > 0) {
+      // slice reports into two parts
+      latestProgressReport = reports[0];
+
+      oldProgressReports = reports.slice(1);
+    }
+
+    const oldProgressReportElems = oldProgressReports.map((report, idx)=> {
+      return (
+        <ProgressReport key={idx} history={report.progressReportHistories.map(historyID =>
+          progressReportHistories[historyID])}
+          ratings={report.progressRatings.map(ratingID =>
+          progressRatings[ratingID])}
+          isExpanded={false}/>
+      );
+    });
+    let progressReportElems = [];
 
     if (latestProgressReport) {
       progressReportElems.push(
         <section key="latest">
           <h4 style={styles.h4}>最新進展</h4>
-          <ProgressReport history={latestProgressReport.ProgressReportHistories}
-                          ratings={latestProgressReport.ProgressRatings}
-                          isExpanded={true}/>
+          <ProgressReport history={latestProgressReport.progressReportHistories.map(historyID =>
+            progressReportHistories[historyID])}
+            ratings={latestProgressReport.progressRatings.map(ratingID =>
+            progressRatings[ratingID])}
+            isExpanded={true}/>
         </section>
-      )
+      );
     }
 
     if (oldProgressReportElems && oldProgressReportElems.length) {
@@ -118,62 +155,20 @@ var Commitment = React.createClass({
       </div>
     );
   }
-});
+}
 
-Commitment = Transmit.createContainer(Commitment, {
-  queries: {
-    commitments(queryParams) {
-      return findAll('Commitment', {
-        where: {
-          id: queryParams.id
-        },
-        include: [
-          {
-            association: 'ProgressReports',
-            include: [
-              {
-                association: 'ProgressReportHistories',
-                include: [
-                  {association: 'User'}
-                ]
-              },
-              {
-                association: 'ProgressRatings',
-                include: [
-                  {association: 'User'}
-                ]
-              }
-            ]
-          }
-        ]
-      });
-    }
-  }
-});
+Commitment.propTypes = {
+  id: PropTypes.string,
+};
 
-// Setup React-transmit via props
-//
-var CommitmentQuerySetter = React.createClass({
-  _makeQueryParams () {
-    return {
-      id: this.props.currentRoute.get('params').get('id')
-    }
-  },
+function mapStateToProps(state, ownProps) {
+  const { id } = ownProps.params;
+  return {
+    id,
+    ...state,
+  };
+}
 
-  render () {
-    return (
-      <Commitment queryParams={this._makeQueryParams()}
-        emptyView={<Loading />} ref="Commitment"
-        {...this.props}
-      />
-    );
-  },
-
-  componentDidUpdate(prevProps) {
-    if (prevProps.currentRoute !== this.props.currentRoute) {
-      this.refs.Commitment.setQueryParams(this._makeQueryParams());
-    }
-  }
-});
-
-module.exports = handleRoute(CommitmentQuerySetter);
+export default connect(
+  mapStateToProps,
+)(Commitment);
