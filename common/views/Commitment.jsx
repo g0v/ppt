@@ -1,5 +1,6 @@
 import React, {PropTypes} from 'react';
 import { connect } from 'react-redux';
+import createEnterTransitionHook from '../decorators/createEnterTransitionHook';
 import {fetchData} from '../actions/';
 import { ListDivider } from 'material-ui';
 import ForwardIcon from 'material-ui/lib/svg-icons/navigation/arrow-forward';
@@ -10,6 +11,17 @@ import Loading from './Loading.jsx';
 import ProgressReport from './ProgressReport.jsx';
 
 // const debug = require('debug')('ppt:commiment');
+
+function mapStateToProps(state, ownProps) {
+  const { id } = ownProps.params;
+  const { commitments } = state;
+  const reports = commiments[id].ProgressReports;
+  return {
+    commitment: commitments[id],
+    latestReportID: reports && reports[0],
+    oldReportsID: reports && reports.length > 1 && reports.slice(1),
+  };
+}
 
 @createEnterTransitionHook(store => (state/* , transition */) => {
   const { entities } = store.getState();
@@ -41,7 +53,9 @@ import ProgressReport from './ProgressReport.jsx';
     }));
   }
 })
-class Commitment extends React.Component {
+
+@connect(mapStateToProps)
+export default class Commitment extends React.Component {
 
   static propTypes = {
     commitment: PropTypes.object,
@@ -142,18 +156,3 @@ class Commitment extends React.Component {
     );
   }
 }
-
-function mapStateToProps(state, ownProps) {
-  const { id } = ownProps.params;
-  const { commitments } = state;
-  const reports = commiments[id].ProgressReports;
-  return {
-    commitment: commitments[id],
-    latestReportID: reports && reports[0],
-    oldReportsID: reports && reports.length > 1 && reports.slice(1),
-  };
-}
-
-export default connect(
-  mapStateToProps,
-)(Commitment);

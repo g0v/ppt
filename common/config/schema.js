@@ -1,6 +1,6 @@
 import { Schema, arrayOf } from 'normalizr';
 
-const governor = new Schema('governors', {idAttribute: name});
+const governor = new Schema('governors', {idAttribute: 'name'});
 const term = new Schema('terms');
 const policy = new Schema('policies');
 const commitment = new Schema('commitments');

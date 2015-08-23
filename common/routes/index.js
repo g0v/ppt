@@ -28,7 +28,7 @@ export default function routes(store) {
         path: '/commitment/:id',
       },
       {
-        onEnter: AddNewProgress.onEnterCreator(store),
+        // onEnter: AddNewProgress.onEnterCreator(store),
         component: AddNewProgress,
         path: '/add',
       },

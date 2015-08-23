@@ -1,70 +1,65 @@
-var express = require('express'),
-    debug = require('debug')('ppt:topLevel'),
-    router = express.Router(),
-    serialize = require('serialize-javascript'),
-    React = require('react'),
-    Transmit = require('react-transmit'),
-    fluxibleApp = require('../../common/fluxibleApp'),
-    App = require('../../common/views/App.jsx');
+import express from 'express';
+const router = express.Router();
 
-import {navigateAction} from 'fluxible-router';
+import serialize from 'serialize-javascript';
+import React from 'react';
+import {Provider} from 'react-redux';
+import Router from 'react-router';
+import Location from 'react-router/lib/Location';
+import thenify from 'thenify';
+import configureStore from '../../common/redux/configureStore';
 
-var HASH;
-if(process.env.NODE_ENV !== 'production') {
+const runRouter = thenify(Router.run);
+const debug = require('debug')('ppt:topLevel');
+
+let HASH;
+if (process.env.NODE_ENV !== 'production') {
   HASH = 'client';
 } else {
   HASH = require('../../tmp/webpack-stats.json').hash;
 }
 
-router.get('*', async function(req, res, next) {
-  var context = fluxibleApp.createContext(),
-      componentContext = context.getComponentContext(),
-      app, meta;
+router.get('*', (req, res, next) => {
+  // const initialState = {
+    // title: '政治承諾追蹤網',
+  // };
+  const store = configureStore();
+  const routes = require('../../common/routes')(store);
+  const location = new Location(req.path, req.query);
+  const meta = { pageTitle: '政治承諾追蹤網' };
 
   debug('Middleware catched route', req.url);
 
-  // Populate fluxible-router stores
-  // Ref: https://github.com/yahoo/fluxible-router/blob/master/docs/quick-start.md#call-the-navigate-action
-  //
   try {
-    await context.executeAction(navigateAction, {
-      url: req.url
+    runRouter(routes, location).then(([routerState, transition]) => {
+      if (transition.isCancelled) {
+        if (transition.redirectInfo) {
+          const pathname = transition.redirectInfo.pathname;
+          res.redirect(pathname);
+        } else {
+          throw new Error(transition.abortReason);
+        }
+      }
+      const markup = React.renderToString(
+        <Provider store={store}>
+          {() => <Router {...routerState}/>}
+        </Provider>
+      );
+
+      const dehydratedState = serialize(store.getState());
+      const html = `<div id="react-root">${markup}</div>`;
+      res.render('index', {
+        meta, html, dehydratedState, hash: HASH,
+      });
     });
   } catch (err) {
-    if(err.statusCode && err.statusCode === 404){
+    if (err.statusCode && err.statusCode === 404) {
       next();
     } else {
       next(err);
     }
     return;
   }
-
-  meta = componentContext.getStore('MetaStore').getState();
-  debug('Meta store', meta);
-
-  // Note: although fluxibleContext has "createElement()" method that generates
-  // <App /> and injects context for us, but Transmit.renderToString requires a
-  // React *class*, not a React *element*. Thus fluxibleContext.createElement()
-  // can't be used here.
-  //
-  var {reactString, reactData} = await Transmit.renderToString(App, {context: componentContext}),
-
-      // Transmit.injectIntoMarkup: serializes reactData and add <script> tag.
-      //
-      html = Transmit.injectIntoMarkup(`<div id="react-root">${reactString}</div>`, reactData),
-
-      // serialize-javascript is the serialization technique used in
-      // express-state. Instead of polluting express app with express-state, we
-      // use serialize-javascript directly, which is much more concise and
-      // trackable.
-      //
-      fluxibleDataStr = serialize(fluxibleApp.dehydrate(context));
-
-  // renders index.jade
-  //
-  res.render('index', {
-    meta, html, fluxibleDataStr, hash: HASH
-  });
 });
 
 module.exports = router;

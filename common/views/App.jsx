@@ -1,11 +1,12 @@
 import React, {PropTypes} from 'react';
 import Sidebar from './Sidebar.jsx';
-import { AppBar, IconButton } from 'material-ui';
+import mui, { AppBar, IconButton } from 'material-ui';
 import AddIcon from 'material-ui/lib/svg-icons/content/add';
 import {theme} from 'material-ui/lib/theme';
 import pptColors from '../styles/color';
 
 // const debug = require('debug')('ppt:App');
+const ThemeManager = new mui.Styles.ThemeManager();
 const pptCustomTheme = {
   getPalette: () => ({
     primary1Color: pptColors.minBlack,

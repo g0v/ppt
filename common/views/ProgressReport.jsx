@@ -1,4 +1,5 @@
 import React, {PropTypes} from 'react';
+import { connect } from 'react-redux';
 import { createProgressIcon } from '../utils/';
 import { List, ListItem, ListDivider, Avatar } from 'material-ui';
 import MoreVertIcon from 'material-ui/lib/svg-icons/navigation/more-vert';

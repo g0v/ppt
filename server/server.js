@@ -2,10 +2,8 @@
 //
 
 // Babel takes care of jsx parsing & requiring.
-require('babel/register')({
-  stage: 0,
-  optional: ['runtime']
-});
+require('babel-core/polyfill'); // will include runtime
+require('babel-core/register');
 
 require('../server/utils/catchUnhandledPromiseRejections');
 
@@ -51,6 +49,13 @@ app.use('/auth', require('./routes/auth'));
 // Top-level endpoints and catch-all route
 //
 app.use(require('./routes/top-level.jsx'));
+
+// Catch server error
+app.use(function(err, req, res) {
+  console.error('Error on request %s %s', req.method, req.url);
+  console.error(err.stack);
+  res.status(500).send('Server error');
+});
 
 //
 // Starts listening for requests

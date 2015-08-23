@@ -1,4 +1,5 @@
-import React, {PropTypes} from 'react';
+import React, { PropTypes } from 'react';
+import { connect } from 'react-redux';
 import mui, {Paper} from 'material-ui';
 import CommitmentListItem from './CommitmentListItem.jsx';
 import ProgressBar from './ProgressBar.jsx';

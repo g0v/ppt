@@ -1,6 +1,7 @@
 import React, {PropTypes} from 'react';
 import { connect } from 'react-redux';
-import {fetchData} from '../actions/';
+import createEnterTransitionHook from '../decorators/createEnterTransitionHook';
+import {fetchData} from '../actions';
 import mui, { Avatar } from 'material-ui';
 import Loading from './Loading.jsx';
 import ProgressBar from './ProgressBar.jsx';
@@ -10,6 +11,15 @@ import pptSpacing from '../styles/spacing';
 
 // const debug = require('debug')('ppt:Governor');
 const { AutoPrefix } = mui.Styles;
+
+function mapStateToProps(state, ownProps) {
+  const { name } = ownProps.params;
+  return {
+    name,
+    governor: state.governors[name],
+    governorStats: state.governors[name].governorStats,
+  };
+}
 
 @createEnterTransitionHook(store => (state/* , transition */) => {
   const { entities } = store.getState();
@@ -43,7 +53,8 @@ const { AutoPrefix } = mui.Styles;
   }
 })
 
-class Governor extends React.Component {
+@connect(mapStateToProps)
+export default class Governor extends React.Component {
 
   static propTypes = {
     name: PropTypes.string,
@@ -155,16 +166,3 @@ class Governor extends React.Component {
     );
   }
 }
-
-function mapStateToProps(state, ownProps) {
-  const { name } = ownProps.params;
-  return {
-    name,
-    governor: state.governors[name],
-    governorStats: state.governors[name].governorStats,
-  };
-}
-
-export default connect(
-  mapStateToProps,
-)(Governor);
