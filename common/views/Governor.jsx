@@ -16,6 +16,7 @@ function mapStateToProps(state, ownProps) {
   const { name } = ownProps.params;
   const governor = state.entities.governors[name];
   const governorStats = state.stats.governors[name];
+  debug('state.isLoading', state.isLoading);
   return {
     name,
     governor,
@@ -53,7 +54,7 @@ function mapStateToProps(state, ownProps) {
   });
   if (!entities.governors[name]) {
     debug('dispatch Governor dataAction');
-    return Promise.resolve(store.dispatch(dataAction()));
+    return store.dispatch(dataAction);
   }
 })
 
@@ -128,17 +129,32 @@ export default class Governor extends React.Component {
     const styles = this.getStyles();
     const {governor, governorStats, isLoading, errorMessage, name} = this.props;
 
-    if (isLoading || errorMessage || !governor) {
+    if (isLoading) {
       return (
         <div style={styles.root}>
-          { isLoading ? <Loading /> :
-            errorMessage ? errorMessage : (
-            <section>
-              找不到執政者「{name}」 :(
-            </section>)}
+          <section>
+            <Loading />
+          </section>
+        </div>
+      );
+    } else if (errorMessage) {
+      return (
+        <div style={styles.root}>
+          <section>
+            {errorMessage}
+          </section>
+        </div>
+      );
+    } else if (!governor) {
+      return (
+        <div style={styles.root}>
+          <section>
+            找不到執政者「{name}」 :(
+          </section>)
         </div>
       );
     }
+
     const policyElems = governor.Policies && governor.Policies.map(policyID => (
       <PolicySection policyID={policyID} key={policyID} />
     ));

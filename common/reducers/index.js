@@ -3,7 +3,7 @@ import { FETCH_DATA_REQUEST, FETCH_DATA_SUCCESS, FETCH_DATA_FAILURE } from '../a
 import {PROGRESS_OPTIONS} from '../config/constants';
 import {majority, findLatestProgressReport} from '../utils';
 
-// const debug = require('debug')('ppt:reducers');
+const debug = require('debug')('ppt:reducers');
 /**
  * Updates an entity cache in response to any action with response.entities.
  */
@@ -69,22 +69,24 @@ function stats(state = { governors: {}, policies: {}, commitments: {} }, action)
 **/
 
 function errorMessage(state = null, action) {
-  const { error } = action;
-  if (error) {
-    return action.error;
+  const { error, type } = action;
+  if (type === FETCH_DATA_FAILURE && error) {
+    debug('yes, there is error!');
+    return error;
   }
-
   return state;
 }
 
 function isLoading(state = false, action) {
   const { type } = action;
-  if (type === FETCH_DATA_REQUEST) {
+  switch (type) {
+  case FETCH_DATA_REQUEST:
     return true;
-  } else if (type === FETCH_DATA_SUCCESS) {
+  case FETCH_DATA_SUCCESS:
     return false;
+  default:
+    return state;
   }
-  return state;
 }
 
 export default {

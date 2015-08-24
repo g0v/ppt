@@ -1,12 +1,12 @@
 import { createStore, applyMiddleware, combineReducers } from 'redux';
-import promiseThunkMiddleware from '../middlewares/promiseThunkMiddleware';
+import thunkMiddleware from 'redux-thunk';
 import loggerMiddleware from '../middlewares/loggerMiddleware';
 import reducers from '../reducers';
 
 const reducer = combineReducers(reducers);
 
 const createStoreWithMiddleware = applyMiddleware(
-  promiseThunkMiddleware,
+  thunkMiddleware,
   loggerMiddleware,
 )(createStore);
 

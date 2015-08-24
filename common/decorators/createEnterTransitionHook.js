@@ -1,6 +1,6 @@
 import React from 'react';
 
-// const debug = require('debug')('ppt:createEnterTransitionHook');
+const debug = require('debug')('ppt:createEnterTransitionHook');
 
 export default function createEnterTransitionHook(
   transitionHookCreator
@@ -16,7 +16,14 @@ export default function createEnterTransitionHook(
       const hook = transitionHookCreator(store);
       return (state, transition, callback) => {
         const promise = hook(state, transition) || Promise.resolve(true);
-        promise.then(() => callback(), callback);
+        promise.then(() => {
+          debug('react router about to callback');
+          callback();
+        }, (error) => {
+          debug('react router about to handle error');
+          callback(error);
+        }
+        );
       };
     }
 
