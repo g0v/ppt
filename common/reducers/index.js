@@ -2,6 +2,8 @@ import merge from 'lodash/object/merge';
 import { FETCH_DATA_REQUEST, FETCH_DATA_SUCCESS, FETCH_DATA_FAILURE } from '../actions';
 import {PROGRESS_OPTIONS} from '../config/constants';
 import {majority, findLatestProgressReport} from '../utils';
+
+// const debug = require('debug')('ppt:reducers');
 /**
  * Updates an entity cache in response to any action with response.entities.
  */
@@ -18,13 +20,22 @@ const entitiesState = {
 
 function entities(state = entitiesState, action) {
   if (action.response && action.response.entities) {
+    return merge({}, state, action.response.entities);
+  }
 
-    // Gather progress stats for all relevant governors then policies and commitments stats
-    const { governors, policies, commitments, progressReports, progressRatings } = state;
+  return state;
+}
 
-    const allStats = Object.keys(state.governors).reduce((preStats, name) => {
+function stats(state = { governors: {}, policies: {}, commitments: {} }, action) {
+
+  if (action.response && action.response.entities) {
+// Gather progress stats for all relevant governors then policies and commitments stats
+    const { governors, policies, commitments, progressReports, progressRatings } =
+      action.response.entities;
+
+    const allStats = governors && Object.keys(governors).reduce((preStats, name) => {
       const governorStats = {};
-      governors[name].policies && governors[name].Policies.map(policyID => {
+      governors[name].Policies && governors[name].Policies.map(policyID => {
         const policyStats = {};
         policies[policyID].Commitments.map(commitmentID => {
           const latestReport = findLatestProgressReport(commitments[commitmentID].
@@ -41,20 +52,13 @@ function entities(state = entitiesState, action) {
           policyStats[progress] = policyStats[progress] + 1 || 1;
           governorStats[progress] = governorStats[progress] + 1 || 1;
         });
-        preStats.policies[policyID] = {
-          policyStats: policyStats,
-        };
+        preStats.policies[policyID] = policyStats;
       });
-
-      preStats.governors[name] = {
-        governorStats: governorStats,
-      };
+      preStats.governors[name] = governorStats;
       return preStats;
-    }, {
-      governors: {}, policies: {}, commitments: {},
-    });
+    }, state);
 
-    return merge({isLoading: false}, allStats, state, action.response.entities);
+    return allStats || state;
   }
 
   return state;
@@ -62,7 +66,8 @@ function entities(state = entitiesState, action) {
 
 /**
  * Updates error message to notify about the failed fetches.
- */
+**/
+
 function errorMessage(state = null, action) {
   const { error } = action;
   if (error) {
@@ -84,6 +89,7 @@ function isLoading(state = false, action) {
 
 export default {
   entities,
+  stats,
   errorMessage,
   isLoading,
 };

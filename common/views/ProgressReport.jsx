@@ -5,6 +5,8 @@ import { List, ListItem, ListDivider, Avatar } from 'material-ui';
 import MoreVertIcon from 'material-ui/lib/svg-icons/navigation/more-vert';
 import pptColors from '../styles/color';
 
+// const debug = require('debug')('ppt:ProgressReport');
+
 class ProgressReport extends React.Component {
 
   static propTypes =  {
@@ -67,6 +69,7 @@ class ProgressReport extends React.Component {
         commentText = '。';
       }
       const user = users[rating.User];
+
       user && ratingElements.unshift(
         <ListItem leftAvatar={<Avatar src={user.avatar} />} key={idx} secondaryText=
           {<p>
@@ -77,7 +80,6 @@ class ProgressReport extends React.Component {
     });
 
     const latestFromHistory = history[history.length - 1];
-
     return (
       <List>
         <ListItem leftIcon={createProgressIcon(mostVoteProgress)}
@@ -103,6 +105,7 @@ function mapStateToProps(state, ownProps) {
   const { reportID, isExpanded } = ownProps;
   const { progressReports, progressRatings, progressReportHistories, users } = state.entities;
   const report = progressReports[reportID];
+
   return {
     isExpanded,
     ratings: report.ProgressRatings.map(ratingID => progressRatings[ratingID]),

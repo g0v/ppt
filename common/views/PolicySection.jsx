@@ -9,13 +9,14 @@ import {createProgressIcon} from '../utils';
 import pptColors from '../styles/color';
 
 const {Transitions} = mui.Styles;
-const debug = require('debug')('ppt:PolicySection');
+// const debug = require('debug')('ppt:PolicySection');
 
 class PolicySection extends React.Component {
 
   static propTypes = {
     policy: PropTypes.object,
     policyStats: PropTypes.object,
+    allCommitmentStats: PropTypes.object,
     commitments: PropTypes.object,
   }
 
@@ -64,10 +65,11 @@ class PolicySection extends React.Component {
 
   render() {
     const styles = this.getStyles();
-    const {policy, policyStats, commitments} = this.props;
+    const {policy, policyStats, commitments, allCommitmentStats} = this.props;
+
     const commitmentElems = policy.Commitments && policy.Commitments.map(commimentID => {
       const commitment = commitments[commimentID];
-      const {latestRateCount, majorityProgress} = commitment;
+      const {latestRateCount, majorityProgress} = allCommitmentStats[commimentID];
       const contentAndRate = (
         <p>
         <span>{commitment.content}</span>
@@ -133,7 +135,6 @@ class PolicySection extends React.Component {
   }
 
   handleCommitmentTap(commitmentId) {
-    debug('handleCommitmentTap called');
     const { router } = this.context;
     router.transitionTo('/commitment/' + commitmentId);
   }
@@ -144,7 +145,8 @@ function mapStateToProps(state, ownProps) {
   const { policies, commitments } = state.entities;
   return {
     policy: policies[policyID],
-    policyStats: policies[policyID].policyStats,
+    policyStats: state.stats.policies[policyID],
+    allCommitmentStats: state.stats.commitments,
     commitments,
   };
 }

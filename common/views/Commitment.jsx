@@ -10,7 +10,7 @@ import pptSpacing from '../styles/spacing';
 import Loading from './Loading.jsx';
 import ProgressReport from './ProgressReport.jsx';
 
-const debug = require('debug')('ppt:commiment');
+// const debug = require('debug')('ppt:commiment');
 
 function mapStateToProps(state, ownProps) {
   const { id } = ownProps.params;
@@ -50,7 +50,9 @@ function mapStateToProps(state, ownProps) {
       },
     ],
   });
-  if (!entities.commitments[id]) {
+
+  if (!entities.commitments[id] || !Object.keys(entities.users).length) {
+    // need to fetch user data if there is state:users is empoty
     return Promise.resolve(store.dispatch(dataAction));
   }
 })
