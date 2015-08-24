@@ -56,7 +56,7 @@ function mapStateToProps(state, ownProps) {
   const commitment = commitments[id];
   if (!commitment) {
     debug('dispatch Commitment dataAction because commiment not in state');
-    return Promise.resolve(store.dispatch(dataAction()));
+    return store.dispatch(dataAction);
   }
 
   const allRatings = commitment.ProgressReports.map(reportID =>
@@ -69,7 +69,7 @@ function mapStateToProps(state, ownProps) {
   if (!allRatingUsersExist) {
     // need to fetch user data if relevant user(s) data doesn't exist
     debug('dispatch Commitment dataAction because no relevant users int state');
-    return Promise.resolve(store.dispatch(dataAction()));
+    return store.dispatch(dataAction);
   }
 })
 

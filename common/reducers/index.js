@@ -84,6 +84,8 @@ function isLoading(state = false, action) {
     return true;
   case FETCH_DATA_SUCCESS:
     return false;
+  case FETCH_DATA_FAILURE:
+    return false;
   default:
     return state;
   }

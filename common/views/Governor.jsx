@@ -16,7 +16,6 @@ function mapStateToProps(state, ownProps) {
   const { name } = ownProps.params;
   const governor = state.entities.governors[name];
   const governorStats = state.stats.governors[name];
-  debug('state.isLoading', state.isLoading);
   return {
     name,
     governor,
