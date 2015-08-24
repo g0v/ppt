@@ -86,7 +86,7 @@ class ProgressReport extends React.Component {
                 secondaryText={
                   <p>
                     <span style={styles.latestFromHistoryBrief}>
-                      {latestFromHistory.brief}
+                      {latestFromHistory.brief || latestFromHistory.br}
                     </span>
                     <p style={{color: pptColors.primaryBlue}}>佐證連結</p>
                   </p>}

@@ -9,8 +9,9 @@ import pptColors from '../styles/color';
 import pptSpacing from '../styles/spacing';
 import Loading from './Loading.jsx';
 import ProgressReport from './ProgressReport.jsx';
+import flatten from 'lodash/array/flatten';
 
-// const debug = require('debug')('ppt:commiment');
+const debug = require('debug')('ppt:commiment');
 
 function mapStateToProps(state, ownProps) {
   const { id } = ownProps.params;
@@ -51,8 +52,19 @@ function mapStateToProps(state, ownProps) {
     ],
   });
 
-  if (!entities.commitments[id] || !Object.keys(entities.users).length) {
-    // need to fetch user data if there is state:users is empoty
+  const {commitments, progressReports, progressRatings, users} = entities;
+  const commitment = commitments[id];
+
+  const allRatings = commitment.ProgressReports.map(reportID =>
+    progressReports[reportID].ProgressRatings);
+
+  const allRatingUsers = flatten(allRatings).map(ratingID =>
+    progressRatings[ratingID].User);
+
+  const allRatingUsersExist = allRatingUsers.every(userID => users[userID]);
+  if (!commitment || !allRatingUsersExist) {
+    // need to fetch user data if relevant user(s) data doesn't exist
+    debug('dispatch commiment dataAction');
     return Promise.resolve(store.dispatch(dataAction));
   }
 })

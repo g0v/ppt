@@ -11,10 +11,10 @@ const entitiesState = {
   governors: {},
   terms: {},
   policies: {},
-  progressreports: {},
   commitments: {},
-  progressreporthistorys: {},
-  progressratings: {},
+  progressReports: {},
+  progressReportHistories: {},
+  progressRatings: {},
   users: {},
 };
 
