@@ -28,7 +28,7 @@ class App extends React.Component {
   }
 
   onAddTouchTap() {
-    this.context.executeAction(navigateAction, {url: '/add'});
+    this.context.router.transitionTo('/add');
   }
 
   getStyles() {
