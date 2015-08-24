@@ -20,6 +20,8 @@ function mapStateToProps(state, ownProps) {
     name,
     governor,
     governorStats,
+    isLoading: state.isLoading,
+    errorMessage: state.errorMessage,
   };
 }
 
@@ -28,7 +30,7 @@ function mapStateToProps(state, ownProps) {
   const { params: { name } } = state;
   const dataAction = fetchDataCreator('Governor', {
     where: {
-      name: name,
+      name: encodeURI(name),
     },
     include: [
       {association: 'Terms'},
@@ -127,29 +129,16 @@ export default class Governor extends React.Component {
   render() {
     const styles = this.getStyles();
     const {governor, governorStats, isLoading, errorMessage, name} = this.props;
+    debug('isLoading', isLoading);
 
-    if (isLoading) {
+    if (isLoading || errorMessage || !governor) {
       return (
         <div style={styles.root}>
           <section>
-            <Loading />
+            { isLoading ? <Loading /> :
+              errorMessage ? errorMessage :
+              '沒有這個承諾喔！'}
           </section>
-        </div>
-      );
-    } else if (errorMessage) {
-      return (
-        <div style={styles.root}>
-          <section>
-            {errorMessage}
-          </section>
-        </div>
-      );
-    } else if (!governor) {
-      return (
-        <div style={styles.root}>
-          <section>
-            找不到執政者「{name}」 :(
-          </section>)
         </div>
       );
     }

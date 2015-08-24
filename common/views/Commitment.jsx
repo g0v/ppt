@@ -21,6 +21,8 @@ function mapStateToProps(state, ownProps) {
     commitment: commitments[id],
     latestReportID: reports && reports[0],
     oldReportsID: reports && reports.length > 1 && reports.slice(1),
+    isLoading: state.isLoading,
+    errorMessage: state.errorMessage,
   };
 }
 
