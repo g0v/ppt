@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react';
 import { connect } from 'react-redux';
 import createEnterTransitionHook from '../decorators/createEnterTransitionHook';
-import {fetchData} from '../actions/';
+import {fetchDataCreator} from '../actions/';
 import { ListDivider } from 'material-ui';
 import ForwardIcon from 'material-ui/lib/svg-icons/navigation/arrow-forward';
 import AutoLinkText from 'react-autolink-text';
@@ -27,7 +27,7 @@ function mapStateToProps(state, ownProps) {
 @createEnterTransitionHook(store => (state/* , transition */) => {
   const { entities } = store.getState();
   const { params: { id } } = state;
-  const dataAction = fetchData('Commitment', {
+  const dataAction = fetchDataCreator('Commitment', {
     where: {
       id: id,
     },
@@ -54,6 +54,10 @@ function mapStateToProps(state, ownProps) {
 
   const {commitments, progressReports, progressRatings, users} = entities;
   const commitment = commitments[id];
+  if (!commitment) {
+    debug('dispatch Commitment dataAction because commiment not in state');
+    return Promise.resolve(store.dispatch(dataAction()));
+  }
 
   const allRatings = commitment.ProgressReports.map(reportID =>
     progressReports[reportID].ProgressRatings);
@@ -62,10 +66,10 @@ function mapStateToProps(state, ownProps) {
     progressRatings[ratingID].User);
 
   const allRatingUsersExist = allRatingUsers.every(userID => users[userID]);
-  if (!commitment || !allRatingUsersExist) {
+  if (!allRatingUsersExist) {
     // need to fetch user data if relevant user(s) data doesn't exist
-    debug('dispatch commiment dataAction');
-    return Promise.resolve(store.dispatch(dataAction));
+    debug('dispatch Commitment dataAction because no relevant users int state');
+    return Promise.resolve(store.dispatch(dataAction()));
   }
 })
 

@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react';
 import { connect } from 'react-redux';
 import createEnterTransitionHook from '../decorators/createEnterTransitionHook';
-import {fetchData} from '../actions';
+import {fetchDataCreator} from '../actions';
 import mui, { Avatar } from 'material-ui';
 import Loading from './Loading.jsx';
 import ProgressBar from './ProgressBar.jsx';
@@ -9,7 +9,7 @@ import PolicySection from './PolicySection.jsx';
 import pptColors from '../styles/color';
 import pptSpacing from '../styles/spacing';
 
-// const debug = require('debug')('ppt:Governor');
+const debug = require('debug')('ppt:Governor');
 const { AutoPrefix } = mui.Styles;
 
 function mapStateToProps(state, ownProps) {
@@ -26,7 +26,7 @@ function mapStateToProps(state, ownProps) {
 @createEnterTransitionHook(store => (state/* , transition */) => {
   const { entities } = store.getState();
   const { params: { name } } = state;
-  const dataAction = fetchData('Governor', {
+  const dataAction = fetchDataCreator('Governor', {
     where: {
       name: name,
     },
@@ -52,7 +52,8 @@ function mapStateToProps(state, ownProps) {
     ],
   });
   if (!entities.governors[name]) {
-    return Promise.resolve(store.dispatch(dataAction));
+    debug('dispatch Governor dataAction');
+    return Promise.resolve(store.dispatch(dataAction()));
   }
 })
 
