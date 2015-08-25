@@ -7,6 +7,10 @@ html(lang="zh-TW")
     meta(name="webpack-hash" content=hash)
     link(rel="shortcut icon" href="/favicon.png")
     title= meta.pageTitle
+    meta(property="og:title" content=meta.pageTitle)
+    meta(property="og:site_name" content="")
+    meta(property="og:type" content="website")
+    meta(property="og:url" content="")
     if meta.ogImage
       meta(property="og:image" content=meta.ogImage)
     link(href="/build/" + hash + ".css" rel="stylesheet")
@@ -20,5 +24,5 @@ html(lang="zh-TW")
   body
     != html
     script.
-      var __dehydrated = !{fluxibleDataStr};
+      var __dehydrated = !{dehydratedState};
     script(src="/build/" + hash + ".js")

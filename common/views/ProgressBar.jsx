@@ -14,7 +14,7 @@ export default class ProgressBar extends React.Component {
   getStyles() {
     return {
       root: {
-        display: '-webkit-box; display: -webkit-flex; display: flex; display: -ms-flexbox;',
+        display: '-webkit-box; display: -webkit-flex; display: flex; display: -ms-flexbox',
         height: 10
       },
       individual: {

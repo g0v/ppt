@@ -26,10 +26,10 @@ var webpackCfg = {
         loader: "url-loader?limit=10000"
       },
       {
-        test: /\.jsx$/, loader: "babel-loader?stage=0"
+        test: /\.jsx$/, loader: "babel-loader"
       },
       {
-        test: /common\/.+\.js$/, loader: 'babel-loader?stage=0'
+        test: /common\/.+\.js$/, loader: 'babel-loader'
       },
       {
         test: /client\/js\/.+\.js$/, loader: 'babel-loader', exclude: /node_modules/
@@ -43,7 +43,7 @@ var webpackCfg = {
     new ExtractText( isProduction ? "[hash].css" : "client.css" ),
     new webpack.DefinePlugin({
       'process.env': {
-        IS_BROWSER: JSON.stringify(true),
+        IS_BROWSER: JSON.stringify(true)
       }
     })
   ],

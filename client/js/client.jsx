@@ -1,3 +1,5 @@
+require('babel-core/polyfill');
+
 // Trigger CSS compilation & CSS text extraction.
 //
 require('../styl/client.styl');
@@ -6,11 +8,12 @@ require('../styl/client.styl');
 //
 window.myDebug = require('debug');
 
-var React = require('react'),
-    Transmit = require('react-transmit'),
-    injectTapEventPlugin = require('react-tap-event-plugin'),
-    fluxibleApp = require('../../common/fluxibleApp'),
-    App = require('../../common/views/App.jsx');
+import React from 'react';
+import {Provider} from 'react-redux';
+import AppRouter from '../../common/views/AppRouter.jsx';
+import {history} from 'react-router/lib/BrowserHistory';
+import injectTapEventPlugin from 'react-tap-event-plugin';
+import configureStore from '../../common/store/configureStore';
 
 // Needed for onTouchTap
 // Can go away when react 1.0 release
@@ -18,18 +21,11 @@ var React = require('react'),
 // https://github.com/zilverline/react-tap-event-plugin
 //
 injectTapEventPlugin();
+const store = configureStore(window.__dehydrated);
+const childrenRoutes = require('../../common/routes')(store);
 
-fluxibleApp.rehydrate(window.__dehydrated, (err, context) => {
-  if (err) {
-    throw err;
-  }
-
-  // Note: although fluxibleContext has "createElement()" method that generates
-  // <App /> and injects context for us, but Transmit.renderToString requires a
-  // React *class*, not a React *element*. Thus fluxibleContext.createElement()
-  // can't be used here.
-  //
-  Transmit.render(App, {
-    context: context.getComponentContext()
-  }, document.getElementById('react-root'));
-});
+React.render((
+  <Provider store={store}>
+    {() => <AppRouter history={history} children={childrenRoutes}/>}
+  </Provider>
+), document.getElementById('react-root'));

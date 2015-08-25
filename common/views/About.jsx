@@ -1,28 +1,25 @@
-var React = require('react'),
-    mui = require('material-ui'),
-    Transmit = require('react-transmit');
+import React from 'react';
+import pptSpacing from '../styles/spacing';
 
-const Spacing = mui.Styles.Spacing;
-
-var About = React.createClass({
+class About extends React.Component {
   getStyles() {
     return {
       root: {
-        paddingTop: Spacing.desktopKeylineIncrement
-      }
+        paddingTop: pptSpacing.appBarHeight,
+      },
     };
-  },
+  }
 
-  render: function(){
+  render() {
     const styles = this.getStyles();
 
     return (
-      <div className="full height main container" style={styles.root}>
+      <div style={styles.root}>
         <h1>關於政治承諾追蹤網</h1>
         <p>Hello world!</p>
       </div>
     );
   }
-});
+}
 
-module.exports = Transmit.createContainer(About, {});
+export default About;

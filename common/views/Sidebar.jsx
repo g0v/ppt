@@ -1,22 +1,26 @@
-import React from 'react';
-import {navigateAction, NavLink} from 'fluxible-router';
+import React, { PropTypes } from 'react';
 import mui, {MenuItem, LeftNav} from 'material-ui';
-import debug from 'debug';
-const debugSideBar = debug('ppt:sidebar');
 
-var {Colors, Spacing} = mui.Styles;
+// const debug = require('debug')('ppt:sidebar');
 
-var menuItems = [
-  {type: MenuItem.Types.SUBHEADER, text: '地方政府'},
-  { url: {url: '/governor/桃園市政府'}, text: '桃園市政府'},
-  { url: {url: '/governor/台中市政府'}, text: '台中市政府'},
-  { url: {url: '/governor/台北市政府'}, text: '台北市政府'},
-  {type: MenuItem.Types.SUBHEADER, text: '其他'},
-  { url: {url: '/about'}, text: '關於政治承諾追蹤網' },
-  { url: {url: '/'}, text: '回到首頁' }
+const {Colors, Spacing} = mui.Styles;
+
+const menuItems = [
+  { type: MenuItem.Types.SUBHEADER, text: '地方政府'},
+  { route: '/governor/桃園市政府', text: '桃園市政府'},
+  { route: '/governor/台中市政府', text: '台中市政府'},
+  { route: '/governor/台北市政府', text: '台北市政府'},
+  { type: MenuItem.Types.SUBHEADER, text: '其他'},
+  { route: '/add', text: '新增承諾報告' },
+  { route: '/about', text: '關於政治承諾追蹤網' },
+  { route: '/', text: '回到首頁' },
 ];
 
 class Sidebar extends React.Component {
+
+  static contextTypes = {
+    router: PropTypes.object.isRequired,
+  }
 
   constructor(props, context) {
     super(props, context);
@@ -27,7 +31,6 @@ class Sidebar extends React.Component {
     // copied from mui docs, we don't need their variables
     return {
       cursor: 'pointer',
-      //.mui-font-style-headline
       fontSize: '24px',
       color: Colors.fullWhite,
       lineHeight: Spacing.desktopKeylineIncrement + 'px',
@@ -35,25 +38,12 @@ class Sidebar extends React.Component {
       backgroundColor: '#099',
       paddingLeft: Spacing.desktopGutter,
       paddingTop: '0px',
-      marginBottom: '8px'
+      marginBottom: '8px',
     };
   }
 
-  toggle() {
-    this.refs.leftNav.toggle();
-  }
-
-  _onLeftNavChange(e, key, payload) {
-    this.context.executeAction(navigateAction, payload.url);
-  }
-
-  _onHeaderClick() {
-    this.context.executeAction(navigateAction, {url: '/'});
-    this.refs.leftNav.close();
-  }
-
-  render(){
-    var header = (
+  render() {
+    const header = (
       <div style={this.getStyles()} onTouchTap={::this._onHeaderClick}>
         政治承諾追蹤網
       </div>
@@ -70,10 +60,19 @@ class Sidebar extends React.Component {
         style={{zDepth: 1}}/>
     );
   }
+
+  toggle() {
+    this.refs.leftNav.toggle();
+  }
+
+  _onLeftNavChange(e, key, payload) {
+    this.context.router.transitionTo(payload.route);
+  }
+
+  _onHeaderClick() {
+    this.context.router.transitionTo('/');
+    this.refs.leftNav.close();
+  }
 }
 
-Sidebar.contextTypes = {
-  executeAction: React.PropTypes.func.isRequired
-};
-
-module.exports = Sidebar;
+export default Sidebar;

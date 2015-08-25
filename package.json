@@ -37,7 +37,7 @@
     "apiServerPort": 9527
   },
   "dependencies": {
-    "babel": "^5.4.7",
+    "babel-core": "^5.8.14",
     "babel-eslint": "^4.0.5",
     "babel-loader": "^5.1.3",
     "babel-runtime": "^5.8.5",
@@ -47,13 +47,13 @@
     "debug": "^2.1.3",
     "express": "^4.12.3",
     "express-flash": "0.0.2",
-    "fluxible": "^0.4.10",
-    "fluxible-router": "^0.1.7",
     "isomorphic-fetch": "^2.0.2",
     "jade": "^1.10.0",
+    "lodash": "^3.10.1",
     "material-ui": "MrOrz/material-ui#update-datepicker",
     "morgan": "^1.5.3",
     "newrelic": "^1.19.2",
+    "normalizr": "^0.1.3",
     "object-assign": "^2.0.0",
     "passport": "^0.2.2",
     "passport-facebook": "^2.0.0",
@@ -63,14 +63,17 @@
     "pg-hstore": "^2.3.2",
     "react": "^0.13.1",
     "react-autolink-text": "^1.0.2",
-    "react-inlinesvg": "^0.4.1",
+    "react-redux": "^0.9.0",
+    "react-router": "^1.0.0-beta3",
     "react-tap-event-plugin": "^0.1.7",
-    "react-transmit": "^2.5.4",
+    "redux": "^1.0.1",
+    "redux-thunk": "^0.1.0",
     "sequelize": "^3.1.1",
     "sequelize-cli": "^1.7.0",
     "serialize-javascript": "^1.0.0",
     "serve-favicon": "^2.0.1",
-    "shelljs": "^0.4.0"
+    "shelljs": "^0.4.0",
+    "thenify": "^3.1.0"
   },
   "devDependencies": {
     "chai": "^3.2.0",
@@ -98,6 +101,7 @@
     "webpack-dev-server": "^1.8.2"
   },
   "engines": {
-    "node": "0.10.x"
+    "node": "0.10.x",
+    "npm": "2.1.x"
   }
 }

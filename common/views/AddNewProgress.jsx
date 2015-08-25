@@ -1,6 +1,4 @@
 import React from 'react';
-import Transmit from 'react-transmit';
-import {handleRoute} from 'fluxible-router';
 import mui, { RaisedButton, DatePicker, TextField, SelectField } from 'material-ui';
 import pptColors from '../styles/color';
 import pptSpacing from '../styles/spacing';
@@ -17,7 +15,7 @@ class AddNewProgress extends React.Component {
       brief: '',
       date: undefined,
       selectedGovernor: undefined,
-      relatedCommitment: undefined
+      relatedCommitment: undefined,
     };
   }
 
@@ -26,43 +24,25 @@ class AddNewProgress extends React.Component {
       root: {
         paddingTop: pptSpacing.appBarHeight,
         height: '100%',
-        width: '100%'
+        width: '100%',
       },
       section: {
         width: '100%',
         maxWidth: 960,
         margin: 'auto',
         padding: '0 15px',
-        boxSizing: 'border-box'
+        boxSizing: 'border-box',
       },
       middleSection: {
         width: '100%',
         marginTop: 24,
-        position: 'relative'
+        position: 'relative',
       },
       notFullWidth: {
         display: 'inline-block',
-        width: '50%'
-      }
+        width: '50%',
+      },
     };
-  }
-
-  handleTextInput(stateAttr) {
-    return (e) => {
-      this.setState({
-        [stateAttr]: e.target.value
-      });
-    };
-  }
-
-  handleDateChange(nill, selectedDate) {
-    this.setState({
-      date: selectedDate
-    });
-  }
-
-  handleSubmit() {
-    debug(this.state);
   }
 
   render() {
@@ -70,21 +50,21 @@ class AddNewProgress extends React.Component {
     const governorMenu = [
       { payload: '1', text: '桃園市政府' },
       { payload: '2', text: '台中市政府' },
-      { payload: '3', text: '台北市政府' }
+      { payload: '3', text: '台北市政府' },
     ];
     return (
       <div style={styles.root}>
         <section style={AutoPrefix.all(styles.section)}>
           <TextField
-            hintText='請貼上政府公告或新聞的 URL'
-            floatingLabelText='資訊出處'
+            hintText="請貼上政府公告或新聞的 URL"
+            floatingLabelText="資訊出處"
             fullWidth={true}
             inputStyle={{color: pptColors.black}}
             value={this.state.source}
             onChange={::this.handleTextInput('source')} />
           <TextField
-            hintText='請大概節錄出處文章的相關文字'
-            floatingLabelText='資訊摘要'
+            hintText="請大概節錄出處文章的相關文字"
+            floatingLabelText="資訊摘要"
             fullWidth={true}
             inputStyle={{color: pptColors.black}}
             value={this.state.brief}
@@ -100,12 +80,12 @@ class AddNewProgress extends React.Component {
               style={{...styles.notFullWidth, position: 'absolute'}}
               value={this.state.selectedGovernor}
               onChange={::this.handleTextInput('selectedGovernor')}
-              hintText='請選擇執政者'
+              hintText="請選擇執政者"
               menuItems={governorMenu} />
           </div>
           <TextField
-            hintText='請先選擇執政者'
-            floatingLabelText='相關承諾'
+            hintText="請先選擇執政者"
+            floatingLabelText="相關承諾"
             fullWidth={true}
             inputStyle={{color: pptColors.black}}
             value={this.state.relatedCommitment}
@@ -121,6 +101,24 @@ class AddNewProgress extends React.Component {
       </div>
     );
   }
+
+  handleTextInput(stateAttr) {
+    return (e) => {
+      this.setState({
+        [stateAttr]: e.target.value,
+      });
+    };
+  }
+
+  handleDateChange(nill, selectedDate) {
+    this.setState({
+      date: selectedDate,
+    });
+  }
+
+  handleSubmit() {
+    debug(this.state);
+  }
 }
 
-export default handleRoute(Transmit.createContainer(AddNewProgress, {}))
+export default AddNewProgress;
