@@ -64,7 +64,7 @@
     "react": "^0.13.1",
     "react-autolink-text": "^1.0.2",
     "react-redux": "^0.9.0",
-    "react-router": "^1.0.0-beta3",
+    "react-router": "1.0.0-beta3",
     "react-tap-event-plugin": "^0.1.7",
     "redux": "^1.0.1",
     "redux-thunk": "^0.1.0",
