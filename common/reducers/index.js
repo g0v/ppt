@@ -2,6 +2,7 @@ import merge from 'lodash/object/merge';
 import { FETCH_DATA_REQUEST, FETCH_DATA_SUCCESS, FETCH_DATA_FAILURE } from '../actions';
 import {PROGRESS_OPTIONS} from '../config/constants';
 import {majority, findLatestProgressReport} from '../utils';
+import { combineReducers } from 'redux';
 
 const debug = require('debug')('ppt:reducers');
 /**
@@ -91,9 +92,9 @@ function isLoading(state = false, action) {
   }
 }
 
-export default {
+export default combineReducers({
   entities,
   stats,
   errorMessage,
   isLoading,
-};
+});
