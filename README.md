@@ -136,3 +136,14 @@ If you would like to inspect the compiled website without pushing to Heroku, you
 $ npm run build # Generates hashed assets inside client/build
 $ NODE_ENV=production foreman start  # Start server in production mode
 ```
+
+TODO
+----
+
+- [ ] let user login
+- [ ] let report rating work (and api/endpoint)
+- [ ] let add/edit report work (and api/endpoint)
+- [ ] add Redux [authMiddleware](https://github.com/transedward/redux-auth)
+- [ ] let AppBar change according to route
+- [ ] try to make login and any post request in 1 rtt
+- [ ] let homepage de-hardcoded 
